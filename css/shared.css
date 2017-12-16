@@ -8,14 +8,20 @@ html, body {
 
 .main-page {
   height: 93.5%;
+  width: 100%;
+  display: inline-block;
 }
 
 .navbar {
   height: 6.5%;
+  width: 100%;
 }
 
 @media screen and (max-width: 749px) {
     .desktop-only {
       display: none;
+    }
+    .main-panel {
+      width: 100%;
     }
 }
