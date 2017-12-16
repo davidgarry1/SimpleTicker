@@ -1,3 +1,7 @@
+.feed a{
+  color: inherit;
+}
+
 .article {
   border: 1px solid grey;
   padding: 2px;

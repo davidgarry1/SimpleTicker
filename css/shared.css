@@ -5,3 +5,11 @@ html, body {
   color: black;
   font-family: 'Roboto Condensed', sans-serif;
 }
+
+.main-page {
+  height: 93.5%;
+}
+
+.navbar {
+  height: 6.5%;
+}
