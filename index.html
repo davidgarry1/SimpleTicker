@@ -1,7 +1,7 @@
 <html>
   <head>
     <title>Simple Ticker</title>
-    <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300|Montserrat:800" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
     <meta charset="utf-8">
     <meta http-equiv="content-type" content="text/html;charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -12,16 +12,16 @@
     <meta name="application-name" content="Simple Ticker for Cryptocurrency">
     <meta name="theme-color" content="#000000">
     <meta name="author" content="Simple Ticker for Cryptocurrency">
-    <link rel="canonical" href="http://davidgarry1.github.io/SimpleTicker">
-    <link rel="shortcut icon" href="http://davidgarry1.github.io/SimpleTicker/img/logo.png" />
-    <link rel="apple-touch-icon" href="http://davidgarry1.github.io/SimpleTicker/img/logo.png" sizes="180x180">
-    <link rel="icon" type="image/png" href="http://davidgarry1.github.io/SimpleTicker/img/logo.png" sizes="32x32">
-    <link rel="icon" type="image/png" href="http://davidgarry1.github.io/SimpleTicker/img/logo.png" sizes="16x16">
-    <meta property="og:image" content="http://davidgarry1.github.io/SimpleTicker/img/logo.png">
-    <link rel="mask-icon" href="http://davidgarry1.github.io/SimpleTicker/img/logo.png" color="#000000">
+    <link rel="canonical" href="https://davidgarry1.github.io/SimpleTicker">
+    <link rel="shortcut icon" href="https://davidgarry1.github.io/SimpleTicker/img/logo.png" />
+    <link rel="apple-touch-icon" href="https://davidgarry1.github.io/SimpleTicker/img/logo.png" sizes="180x180">
+    <link rel="icon" type="image/png" href="https://davidgarry1.github.io/SimpleTicker/img/logo.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://davidgarry1.github.io/SimpleTicker/img/logo.png" sizes="16x16">
+    <meta property="og:image" content="https://davidgarry1.github.io/SimpleTicker/img/logo.png">
+    <link rel="mask-icon" href="https://davidgarry1.github.io/SimpleTicker/img/logo.png" color="#000000">
     <meta property="og:site_name" content="Simple Ticker">
     <meta property="og:locale" content="en_US">
-    <meta property="og:url" content="http://davidgarry1.github.io/SimpleTicker">
+    <meta property="og:url" content="https://davidgarry1.github.io/SimpleTicker">
     <meta property="og:title" content="Simple Ticker for Cryptocurrency">
     <meta property="og:description" content="Simple Ticker for Cryptocurrency">
     <meta property="og:type" content="website">
@@ -34,50 +34,59 @@
     <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
-    <link rel="stylesheet" type="text/css" href="css/main.css" />
+    <link rel="stylesheet" type="text/css" href="css/shared.css" />
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+
 
   </head>
   <body>
-
-    <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+    <!-- NAV -->
+    <nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse">
       <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <a class="navbar-brand" href="#">Navbar</a>
+      <a class="navbar-brand" href="#">SimpleTicker</a>
       <div class="collapse navbar-collapse" id="navbarNavDropdown">
-        <ul class="navbar-nav">
+        <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
             <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Features</a>
+            <a class="nav-link" href="#">About</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Pricing</a>
+            <a class="nav-link" href="#">Contact</a>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Dropdown link
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              FAQ
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-              <a class="dropdown-item" href="#">Action</a>
-              <a class="dropdown-item" href="#">Another action</a>
-              <a class="dropdown-item" href="#">Something else here</a>
+              <a class="dropdown-item" href="#">About Cryptocurrency</a>
+              <a class="dropdown-item" href="#">Terms of Use</a>
+              <a class="dropdown-item" href="#">Investing Wisely</a>
+              <a class="dropdown-item" href="#">Technical Specifications</a>
             </div>
           </li>
         </ul>
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              USD
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink02">
+              <a class="dropdown-item" href="#">USD</a>
+              <a class="dropdown-item" href="#">EUR</a>
+              <a class="dropdown-item" href="#">GBP</a>
+            </div>
+          </li>
+      </ul>
       </div>
     </nav>
+    <!-- END NAV -->
 
-
-    <div class="box">
-      <div class="row header">
-
-      </div>
+    <div class="main-page">
 
     </div>
-
-    <script></script>
-
   </body>
 </html>
