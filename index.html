@@ -32,6 +32,10 @@
     <link rel="stylesheet" type="text/css" href="css/main.css" />
   </head>
   <body>
-
+    <script src="js/ejs.js"></script>
+    <script>
+      var people = ['geddy', 'neil', 'alex'],
+          html = ejs.render('<%= people.join(", "); %>', {people: people});
+    </script>
   </body>
 </html>
