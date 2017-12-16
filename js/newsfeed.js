@@ -2,19 +2,20 @@ $.getJSON("https://davidgarry1.github.io/SimpleTicker/json/news.json",function(n
   var output = "";
   for(var i=0; i<news.articles.length; i++){
     var article = "";
+    article += "<div class='article'>";
     article += "<a href='";
     article += news.articles[i].url;
     article += "' title='";
     article += news.articles[i].description;
     article += "'>";
-    article += "<div class='article'><span class='article-sitename'>";
-    article += news.articles[i].source.name;
-    article += "</span> * <span class='article-title'>";
+    article +="<div class='article-title'>";
     article += news.articles[i].title;
-    article += "</span> * <span class='article-time'>";
+    article += "</div></a><div class='article-meta'><span class='article-sitename'>";
+    article += news.articles[i].source.name;
+    article += "</span>&nbsp&nbsp<span class='article-time'>";
     article += convertTimestampToLocaleString(news.articles[i].publishedAt);
-    article += "</span></div>";
-    article += "</a>";
+    article += "</span></div></div>";
+    article += "";
     output += article;
   }
   $("#newsfeed").html(output);
