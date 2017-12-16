@@ -34,8 +34,8 @@
   <body>
     <script src="js/ejs.js"></script>
     <script>
-      var people = ['geddy', 'neil', 'alex'],
-          html = ejs.render('<%= people.join(", "); %>', {people: people});
+      var people = ['geddy', 'neil', 'alex'];
+      var html = ejs.render('<%= people.join(", "); %>', {people: people});
     </script>
   </body>
 </html>
