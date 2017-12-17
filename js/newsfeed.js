@@ -1,8 +1,14 @@
-var url = 'https://newsapi.org/v2/top-headlines?' +
+var dateObj = new Date();
+dateObj.setDate(dateObj.getDate() - 10);
+var month = dateObj.getUTCMonth() + 1; //months from 1-12
+var day = dateObj.getUTCDate();
+var year = dateObj.getUTCFullYear();
+
+var url = 'https://newsapi.org/v2/everything?' +
           'q=Investing+Cryptocurrency&' +
-          'from=2017-12-01&' +
+          'from='+year+'-'+month+'-'+day+'&' +
           'sortBy=popularity&' +
-          'category=business&language=en' +
+          'language=en&' +
           'apiKey=5448d59885724ecf9e865df785bbb667';
 
 $.getJSON(url,function(news){
