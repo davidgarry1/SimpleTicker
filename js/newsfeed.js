@@ -5,14 +5,15 @@ var day = dateObj.getUTCDate();
 var year = dateObj.getUTCFullYear();
 
 var url = 'https://newsapi.org/v2/everything?' +
-          'q=Investing+Cryptocurrency&' +
+          'sources=business-insider,bloomberg,the-wall-street-journal,cnbc,ars-technica,crypto-coins-news,engadget,recode,techradar,the-verge,wired,techcrunch,the-next-web,hacker-news,abc-news,cnn,associated-press,the-washington-post,the-huffington-post,usa-today&' +
+          'q=Cryptocurrency+Investing&' +
           'from='+year+'-'+month+'-'+day+'&' +
           'sortBy=popularity&' +
           'language=en&' +
           'apiKey=5448d59885724ecf9e865df785bbb667';
 
 $.getJSON(url,function(news){
-  var output = "<div class='article article-inverted'><div class='news-title'>Recent News From <a target='_blank' href='https://newsapi.org/'>NewsAPI</a></div></div>";
+  var output = "";
   for(var i=0; i<news.articles.length; i++){
     var article = "";
     if(i!= news.articles.length-1){
