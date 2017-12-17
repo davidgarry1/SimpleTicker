@@ -28,7 +28,5 @@ $.getJSON("https://davidgarry1.github.io/SimpleTicker/json/news.json",function(n
 });
 
 function convertTimestampToLocaleString(timeString){
-  string = timeString.substr(0, 4) + "-" + timeString.substr(4, 2) + "-" + timeString.substr(6);
-  console.log(string);
-  return new Date(string).toLocaleString('en-US');
+  return new Date(timeString.substr(0, 4) + "-" + timeString.substr(4, 2) + "-" + timeString.substr(6)).toLocaleString('en-US');
 }
