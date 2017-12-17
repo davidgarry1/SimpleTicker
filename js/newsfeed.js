@@ -36,6 +36,7 @@ $.getJSON(url,function(news){
     article += "";
     output += article;
   }
+  output += "<div class='article article-inverted'><div class='news-title'>Recent News From <a target='_blank' href='https://newsapi.org/'>NewsAPI</a></div></div>";
   $("#newsfeed").html(output);
 }).fail(function(){
   $("#newsfeed").html("<div class='article borderless'><div class='article-title'>Error loading newsfeed.<br><br>If this problem is persistent, please email us at <a target='_blank' href='mailto:bugs@simpleticker.com'>bugs@simpleticker.com</a>.</div></div>");
