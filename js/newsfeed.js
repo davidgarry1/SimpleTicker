@@ -1,5 +1,5 @@
 $.getJSON("http://simpleticker.com/json/news.json",function(news){
-  var output = "<div class='article'><div class='article-title'>Recent News</div></div>";
+  var output = "<div class='article article-inverted'><div class='news-title'>Recent News</div></div>";
   for(var i=0; i<news.articles.length; i++){
     var article = "";
     if(i!= news.articles.length-1){

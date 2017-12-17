@@ -7,8 +7,20 @@
   padding: 0.5rem;
 }
 
+.article-inverted {
+  background-color: grey;
+  color: white;
+}
+
 .article-title {
   font-size: 1.05em;
+}
+
+.news-title {
+  font-size: .9em;
+  line-height: .9em;
+  font-color: white;
+  font-style: italic;
 }
 
 .article-meta {
