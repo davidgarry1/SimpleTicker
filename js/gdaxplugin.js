@@ -38,10 +38,26 @@ function updateCoin(crypto, currency) {
         $("#"+crypto+"price").html(moneyFormatter.format(ticker.price));
         $.getJSON("https://api.gdax.com/products/"+crypto+"-"+currency+"/stats", function(t) {
             $("#"+crypto+"open").html(percentFormatter.format(((ticker.price/t.open)-1)));
+            changeColor(crypto+"price", ((ticker.price/t.open)-1));
+            changeColor(crypto+"open", ((ticker.price/t.open)-1));
             $("#"+crypto+"high").html(moneyFormatter.format(t.high));
             $("#"+crypto+"low").html(moneyFormatter.format(t.low));
+        }).fail(function(){
+          console.log("Too many requests to GDAX API");
         });
+    }).fail(function(){
+      console.log("Too many requests to GDAX API");
     });
+}
+
+function changeColor(elemID, num){
+  $("#"+elemID).removeClass("red");
+  $("#"+elemID).removeClass("green");
+  if(num >= 0){
+    $("#"+elemID).addClass("green");
+  } else {
+    $("#"+elemID).addClass("red");
+  }
 }
 
 function updatePage(all){

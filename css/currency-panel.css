@@ -47,26 +47,13 @@
 }
 
 .currency-deltas {
-  height: 6em;
+  height: 8.5em;
   line-height: 1.2em;
   font-size: 1em;
   width: 100%;
   text-align: left;
   vertical-align: top;
   background-color: white;
-  display: block;
-  overflow: hidden;
-}
-
-.show-on-tab {
-  height: 1em;
-  line-height: 1em;
-  width: 100%;
-  text-align: right;
-  vertical-align: top;
-  font-size: 1em;
-  background-color: white;
-  color: darkgrey;
   display: block;
   overflow: hidden;
 }

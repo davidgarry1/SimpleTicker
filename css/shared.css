@@ -28,3 +28,11 @@ html, body {
 .borderless {
   border: none;
 }
+
+.red {
+  color: red;
+}
+
+.green {
+  color: green;
+}
