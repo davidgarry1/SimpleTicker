@@ -1,7 +1,8 @@
-var url = 'https://newsapi.org/v2/everything?' +
+var url = 'https://newsapi.org/v2/top-headlines?' +
           'q=Investing+Cryptocurrency&' +
           'from=2017-12-01&' +
           'sortBy=popularity&' +
+          'category=business&language=en' +
           'apiKey=5448d59885724ecf9e865df785bbb667';
 
 $.getJSON(url,function(news){
