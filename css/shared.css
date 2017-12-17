@@ -16,11 +16,6 @@ html, body {
   width: 100%;
 }
 
-
-.borderless {
-  border: none;
-}
-
 .red {
   color: red;
 }
@@ -49,4 +44,8 @@ html, body {
     .main-panel {
       width: 100%;
     }
+}
+
+.borderless {
+  border: none;
 }
