@@ -15,11 +15,14 @@ var url = 'https://newsapi.org/v2/everything?' +
 var backupUrl = 'http://www.simpleticker.com/json/news.json';
 
 $.getJSON(url,function(raw){
+  console.log("Fetched newsfeed");
   createArticleList(raw);
 }).fail(function(){
   $.getJSON(backupUrl,function(raw){
+    console.log("Using cached newsfeed");
     createArticleList(raw);
   }).fail(function(){
+    console.log("Failed to load newsfeed");
     showErrorLoadingNews();
   });
 });
