@@ -12,7 +12,23 @@ var url = 'https://newsapi.org/v2/everything?' +
           'language=en&' +
           'apiKey=5448d59885724ecf9e865df785bbb667';
 
-$.getJSON(url,function(news){
+var backupUrl = 'http://www.simpleticker.com/json/news.json';
+
+$.getJSON(url,function(raw){
+  createArticleList(raw);
+}).fail(function(){
+  $.getJSON(backupUrl,function(raw){
+    createArticleList(raw);
+  }).fail(function(){
+    showErrorLoadingNews();
+  });
+});
+
+function showErrorLoadingNews(){
+  $("#newsfeed").html("<div class='article borderless'><div class='article-title'>Error loading newsfeed.<br><br>If this problem is persistent, please email us at <a target='_blank' href='mailto:bugs@simpleticker.com'>bugs@simpleticker.com</a>.</div></div>");
+}
+
+function createArticleList(news){
   var output = "";
   for(var i=0; i<news.articles.length; i++){
     var article = "";
@@ -38,9 +54,7 @@ $.getJSON(url,function(news){
   }
   output += "<div class='article article-inverted'><div class='news-title'>Recent News From <a target='_blank' href='https://newsapi.org/'>NewsAPI</a></div></div>";
   $("#newsfeed").html(output);
-}).fail(function(){
-  $("#newsfeed").html("<div class='article borderless'><div class='article-title'>Error loading newsfeed.<br><br>If this problem is persistent, please email us at <a target='_blank' href='mailto:bugs@simpleticker.com'>bugs@simpleticker.com</a>.</div></div>");
-});
+}
 
 function convertTimestampToLocaleString(timeString){
   return new Date(timeString).toLocaleString('en-US');
