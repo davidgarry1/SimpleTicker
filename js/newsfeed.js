@@ -1,5 +1,5 @@
-$.getJSON("https://davidgarry1.github.io/SimpleTicker/json/news.json",function(news){
-  var output = "";
+$.getJSON("http://simpleticker.com/json/news.json",function(news){
+  var output = "<div class='article'><div class='article-title'>Recent News</div></div>";
   for(var i=0; i<news.articles.length; i++){
     var article = "";
     if(i!= news.articles.length-1){
@@ -24,7 +24,7 @@ $.getJSON("https://davidgarry1.github.io/SimpleTicker/json/news.json",function(n
   }
   $("#newsfeed").html(output);
 }).fail(function(){
-  $("#newsfeed").html("Error loading feed.");
+  $("#newsfeed").html("<div class='article borderless'><div class='article-title'>Error loading newsfeed.<br><br>If this problem is persistent, please email us at <a target='_blank' href='mailto:bugs@simpleticker.com'>bugs@simpleticker.com</a>.</div></div>");
 });
 
 function convertTimestampToLocaleString(timeString){

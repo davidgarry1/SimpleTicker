@@ -29,8 +29,7 @@ function updateCoin(crypto, currency) {
 }
 
 function updatePage(){
-  CURRENT_COIN_NUM++;
-  if(CURRENT_COIN_NUM>3){
+  if(++CURRENT_COIN_NUM>3){
     CURRENT_COIN_NUM = 1;
   }
   if(CURRENT_COIN_NUM == 1){
