@@ -36,6 +36,7 @@ function updateCoin(crypto, currency) {
     });
     $.getJSON("https://api.gdax.com/products/"+crypto+"-"+currency+"/ticker", function(ticker) {
         $("#"+crypto+"price").html(moneyFormatter.format(ticker.price));
+        if(crypto == "btc") document.title = moneyFormatter.format(ticker.price) + "/BTC | Simple Ticker";
         $.getJSON("https://api.gdax.com/products/"+crypto+"-"+currency+"/stats", function(t) {
             $("#"+crypto+"open").html(percentFormatter.format(((ticker.price/t.open)-1)));
             changeColor(crypto+"price", ((ticker.price/t.open)-1));
