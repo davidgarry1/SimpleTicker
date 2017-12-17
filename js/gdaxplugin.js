@@ -1,8 +1,8 @@
-var INTERVAL = 1100; //Rate limits available at https://docs.gdax.com/#rate-limits
+var INTERVAL = 5000; //Rate limits available at https://docs.gdax.com/#rate-limits
 var CURRENT_COIN_NUM = 0;
 
 function updateCoin(crypto, currency) {
-    if((crypto = "ltc" || crypto == "eth") && currency == "GBP"){
+    if((crypto == "ltc" || crypto == "eth") && currency == "GBP"){
       currency = "BTC"; //no GBP exchange for LTC/ETH
     }
     var moneyFormatter = new Intl.NumberFormat("en-US", {
