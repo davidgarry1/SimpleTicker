@@ -16,14 +16,6 @@ html, body {
   width: 100%;
 }
 
-@media screen and (max-width: 749px) {
-    .desktop-only {
-      display: none;
-    }
-    .main-panel {
-      width: 100%;
-    }
-}
 
 .borderless {
   border: none;
@@ -35,4 +27,26 @@ html, body {
 
 .green {
   color: green;
+}
+
+.center-text-panel {
+  height: 100%;
+  width: 100%;
+  padding: 3%;
+  text-align: center;
+}
+
+.large-logo {
+  height: 5em;
+  width: 5em;
+  margin: 1em;
+}
+
+@media screen and (max-width: 749px) {
+    .desktop-only {
+      display: none;
+    }
+    .main-panel {
+      width: 100%;
+    }
 }

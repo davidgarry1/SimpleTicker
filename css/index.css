@@ -24,12 +24,12 @@ html, body {
   font-family: 'Overpass Mono', monospace;
 }
 
+.border-bottom {
+  border-bottom: 1px solid #292B2C;
+}
+
 @media screen and (max-width: 749px) {
   .currency-panel {
     font-size: 0.8em;
   }
-}
-
-.border-bottom {
-  border-bottom: 1px solid #292B2C;
 }
