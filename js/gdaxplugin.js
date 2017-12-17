@@ -1,4 +1,4 @@
-var INTERVAL = 1500; //Rate limits available at https://docs.gdax.com/#rate-limits
+var INTERVAL = 1100; //Rate limits available at https://docs.gdax.com/#rate-limits
 var CURRENT_COIN_NUM = 0;
 
 function updateCoin(crypto, currency) {
