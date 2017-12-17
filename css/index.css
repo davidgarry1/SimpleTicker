@@ -1,5 +1,5 @@
 html, body {
-overflow: hidden;
+
 }
 
 .sidebar {
@@ -21,6 +21,6 @@ overflow: hidden;
   background-color: white;
 }
 
-.main-panel .border-bottom {
+.border-bottom {
   border-bottom: 1px solid grey;
 }

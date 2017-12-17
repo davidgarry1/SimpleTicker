@@ -2,8 +2,12 @@ $.getJSON("https://davidgarry1.github.io/SimpleTicker/json/news.json",function(n
   var output = "";
   for(var i=0; i<news.articles.length; i++){
     var article = "";
-    article += "<div class='article'>";
-    article += "<a href='";
+    if(i!= news.articles.length-1){
+      article += "<div class='article border-bottom'>";
+    }else{
+      article += "<div class='article'>";
+    }
+    article += "<a target='_blank' href='";
     article += news.articles[i].url;
     article += "' title='";
     article += news.articles[i].description;

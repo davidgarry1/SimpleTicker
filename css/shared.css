@@ -7,13 +7,12 @@ html, body {
 }
 
 .main-page {
-  height: 93.5%;
+  height: calc(100% - 3.5rem);
   width: 100%;
   display: inline-block;
 }
 
 .navbar {
-  height: 6.5%;
   width: 100%;
 }
 
