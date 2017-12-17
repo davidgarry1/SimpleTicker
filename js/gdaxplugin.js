@@ -1,16 +1,17 @@
-var INTERVAL = 5000;
+var INTERVAL = 1100;
 var HOME_CURRENCY = "USD";
-var moneyFormatter = new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    minimumFractionDigits: 2
-});
-var percentFormatter = new Intl.NumberFormat("percent",{
-    style: "percent",
-    maximumFractionDigits: 2
-});
+var CURRENT_COIN_NUM = 0;
 
 function updateCoin(crypto, currency) {
+    var moneyFormatter = new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: HOME_CURRENCY,
+        minimumFractionDigits: 2
+    });
+    var percentFormatter = new Intl.NumberFormat("percent",{
+        style: "percent",
+        maximumFractionDigits: 2
+    });
     $.getJSON("https://api.gdax.com/products/"+crypto+"-"+currency+"/ticker", function(ticker) {
         $("#"+crypto+"price").html(moneyFormatter.format(ticker.price));
         $.getJSON("https://api.gdax.com/products/"+crypto+"-"+currency+"/stats", function(t) {
@@ -22,9 +23,17 @@ function updateCoin(crypto, currency) {
 }
 
 function updatePage(){
-  updateCoin("btc",HOME_CURRENCY);
-  updateCoin("eth",HOME_CURRENCY);
-  updateCoin("ltc",HOME_CURRENCY);
+  CURRENT_COIN_NUM++;
+  if(CURRENT_COIN_NUM>3){
+    CURRENT_COIN_NUM = 1;
+  }
+  if(CURRENT_COIN_NUM == 1){
+    updateCoin("btc",HOME_CURRENCY);
+  } else if(CURRENT_COIN_NUM == 2){
+    updateCoin("eth",HOME_CURRENCY);
+  } else {
+    updateCoin("ltc",HOME_CURRENCY);
+  }
 }
 
 
