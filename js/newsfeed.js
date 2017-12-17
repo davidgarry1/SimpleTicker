@@ -1,5 +1,11 @@
-$.getJSON("http://simpleticker.com/json/news.json",function(news){
-  var output = "<div class='article article-inverted'><div class='news-title'>Recent News</div></div>";
+var url = 'https://newsapi.org/v2/everything?' +
+          'q=Investing+Cryptocurrency&' +
+          'from=2017-12-01&' +
+          'sortBy=popularity&' +
+          'apiKey=5448d59885724ecf9e865df785bbb667';
+
+$.getJSON(url,function(news){
+  var output = "<div class='article article-inverted'><div class='news-title'>Recent News From <a target='_blank' href='https://newsapi.org/'>NewsAPI</a></div></div>";
   for(var i=0; i<news.articles.length; i++){
     var article = "";
     if(i!= news.articles.length-1){
@@ -28,5 +34,5 @@ $.getJSON("http://simpleticker.com/json/news.json",function(news){
 });
 
 function convertTimestampToLocaleString(timeString){
-  return new Date(timeString.substr(0, 4) + "-" + timeString.substr(4, 2) + "-" + timeString.substr(6)).toLocaleString('en-US');
+  return new Date(timeString).toLocaleString('en-US');
 }

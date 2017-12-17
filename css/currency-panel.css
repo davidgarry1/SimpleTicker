@@ -1,3 +1,4 @@
+
 .currency-chart {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
@@ -56,4 +57,13 @@
   background-color: white;
   display: block;
   overflow: hidden;
+}
+
+@media screen and (max-width: 749px) {
+  .currency-chart {
+    width: calc(55% - 0.5rem);
+  }
+  .currency-info {
+    width: calc(45% - 1.25rem);
+  }
 }
