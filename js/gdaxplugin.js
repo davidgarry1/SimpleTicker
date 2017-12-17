@@ -1,8 +1,8 @@
-var INTERVAL = 2000; //Rate limits available at https://docs.gdax.com/#rate-limits
+var INTERVAL = 1500; //Rate limits available at https://docs.gdax.com/#rate-limits
 var CURRENT_COIN_NUM = 0;
 
 function updateCoin(crypto, currency) {
-    var min_frac = 3;
+    var min_frac = 2;
     if((crypto == "ltc" || crypto == "eth") && currency == "GBP"){
       currency = "BTC"; //no GBP exchange for LTC/ETH
       min_frac = 7;
@@ -15,8 +15,8 @@ function updateCoin(crypto, currency) {
     });
     var percentFormatter = new Intl.NumberFormat("percent",{
         style: "percent",
-        minimumFractionDigits: min_frac,
-        maximumFractionDigits: min_frac
+        minimumFractionDigits: 3,
+        maximumFractionDigits: 3
     });
     $.getJSON("https://api.gdax.com/products/"+crypto+"-"+currency+"/ticker", function(ticker) {
         $("#"+crypto+"price").html(moneyFormatter.format(ticker.price));
@@ -42,7 +42,7 @@ function updatePage(){
   }
 }
 
-
+updatePage();
 setInterval(function() {
     updatePage();
 }, INTERVAL);
