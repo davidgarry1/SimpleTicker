@@ -1,5 +1,21 @@
 var INTERVAL = 1100; //Rate limits available at https://docs.gdax.com/#rate-limits
 var CURRENT_COIN_NUM = 0;
+var HOME_CURRENCY = "USD";
+$("#cusd").click(function(){
+  HOME_CURRENCY = "USD";
+  $("#activec").html(HOME_CURRENCY);
+  updatePage(true);
+});
+$("#ceur").click(function(){
+  HOME_CURRENCY = "EUR";
+  $("#activec").html(HOME_CURRENCY);
+  updatePage(true);
+});
+$("#cgbp").click(function(){
+  HOME_CURRENCY = "GBP";
+  $("#activec").html(HOME_CURRENCY);
+  updatePage(true);
+});
 
 function updateCoin(crypto, currency) {
     var min_frac = 2;
@@ -28,20 +44,26 @@ function updateCoin(crypto, currency) {
     });
 }
 
-function updatePage(){
-  if(++CURRENT_COIN_NUM>3){
-    CURRENT_COIN_NUM = 1;
+function updatePage(all){
+  times = 1;
+  if(all){
+    times = 3;
   }
-  if(CURRENT_COIN_NUM == 1){
-    updateCoin("btc",HOME_CURRENCY);
-  } else if(CURRENT_COIN_NUM == 2){
-    updateCoin("eth",HOME_CURRENCY);
-  } else {
-    updateCoin("ltc",HOME_CURRENCY);
+  for(var i=0; i<times; i++){
+    if(++CURRENT_COIN_NUM>3){
+      CURRENT_COIN_NUM = 1;
+    }
+    if(CURRENT_COIN_NUM == 1){
+      updateCoin("btc",HOME_CURRENCY);
+    } else if(CURRENT_COIN_NUM == 2){
+      updateCoin("eth",HOME_CURRENCY);
+    } else {
+      updateCoin("ltc",HOME_CURRENCY);
+    }
   }
 }
 
-updatePage();
+updatePage(true);
 setInterval(function() {
-    updatePage();
+    updatePage(false);
 }, INTERVAL);
