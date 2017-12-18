@@ -117,6 +117,11 @@ setInterval(function() {
 
 
 function updateCharts(hardReset){
+  if(hardReset){
+    firstBTCDraw = false;
+    firstETHDraw = false;
+    firstLTCDraw = false;
+  }
   drawChart("btc", HOME_CURRENCY, hardReset);
   drawChart("eth", HOME_CURRENCY, hardReset);
   drawChart("ltc", HOME_CURRENCY, hardReset);
