@@ -1,4 +1,4 @@
-var INTERVAL = 1100; //Rate limits available at https://docs.gdax.com/#rate-limits
+var INTERVAL = 1500; //Rate limits available at https://docs.gdax.com/#rate-limits
 var CURRENT_COIN_NUM = 0;
 var HOME_CURRENCY = "USD";
 var GRANULARITY = 60*1000; //60 seconds
@@ -133,7 +133,7 @@ function retryCharts(){
       if(!firstBTCDraw) drawChart("btc", HOME_CURRENCY, false);
       if(!firstLTCDraw) drawChart("ltc", HOME_CURRENCY, false);
       if(!firstETHDraw) drawChart("ETH", HOME_CURRENCY, false);
-    },500);
+    },1500);
 }
 
 var firstBTCDraw = false;
