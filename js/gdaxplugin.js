@@ -250,7 +250,7 @@ function drawChart(crypto, currency, hardReset) {
         } else if(CHART_TYPE == "candle") {
           chartCandles[0] = ["Date", "Low", "Open", "Close", "High", "Tooltip"];
         } else if(CHART_TYPE == "line"){
-          chartCandles[0] = ["Date", "Close", "Tooltip"];
+          chartCandles[0] = ["Date", "Close"];
         }
 
         for (var i = 1; i < 1+candles.length && new Date(candles[i-1][0] * 1000) >= dateObj; i++) {
@@ -265,7 +265,7 @@ function drawChart(crypto, currency, hardReset) {
             } else if(CHART_TYPE == "candle"){
               chartCandles[i] = [0, 0, 0, 0, 0, 0];
             } else if(CHART_TYPE == "line"){
-              chartCandles[i] = [0, 0, 0];
+              chartCandles[i] = [0, 0];
             }
 
             chartCandles[i][0] = new Date(time * 1000);
@@ -280,7 +280,7 @@ function drawChart(crypto, currency, hardReset) {
               }
             } else if(CHART_TYPE == "line"){
               chartCandles[i][1] = close;
-              chartCandles[i][2] = close;
+
             }
         }
         var formatter;
@@ -368,7 +368,7 @@ function drawChart(crypto, currency, hardReset) {
           };
 
         } else if(CHART_TYPE == "line"){
-          data.setColumnProperty(2, 'role', 'tooltip');
+
           var options = {
               legend: 'none',
               bar: {
