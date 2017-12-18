@@ -134,12 +134,13 @@ var percentFormatter = new Intl.NumberFormat("percent", {
 });
 
 function updateCoin(crypto, currency) {
+    var min_frac = 2;
+    if ((crypto == "ltc" || crypto == "eth") && currency == "GBP") {
+        currency = "BTC"; //no GBP exchange for LTC/ETH
+        min_frac = 7;
+    }
     $.getJSON("https://api.gdax.com/products/" + crypto + "-" + currency + "/ticker", function(ticker) {
-        var min_frac = 2;
-        if ((crypto == "ltc" || crypto == "eth") && currency == "GBP") {
-            currency = "BTC"; //no GBP exchange for LTC/ETH
-            min_frac = 7;
-        }
+
         var moneyFormatter = new Intl.NumberFormat("en-US", {
             style: "currency",
             currency: currency,
@@ -225,7 +226,6 @@ function drawChart(crypto, currency, hardReset) {
         currency = "BTC"; //no GBP exchange for LTC/ETH
         min_frac = 7;
     }
-    console.log("Getting " + crypto + "-" + currency + " chart");
     var dateObj = new Date( (new Date)*1 - GRANULARITY*61 );//ms*seconds*minutes*hours*days*weeks*months
     var loc = "https://api.gdax.com/products/" + crypto + "-" + currency + "/candles?granularity=" + GRANULARITY/1000 ;
 
@@ -236,6 +236,7 @@ function drawChart(crypto, currency, hardReset) {
             minimumFractionDigits: min_frac,
             maximumFractionDigits: min_frac
         });
+        console.log("Drawing " + crypto + "-" + currency + " chart");
         if (crypto == "btc") firstBTCDraw = true;
         if (crypto == "eth") firstETHDraw = true;
         if (crypto == "ltc") firstLTCDraw = true;
