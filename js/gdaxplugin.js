@@ -30,24 +30,30 @@ $("#cgbp").click(function() {
         updateCharts(true);
     }, 500);
 });
-
+var moneyFormatter = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: HOME_CURRENCY,
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+});
+var percentFormatter = new Intl.NumberFormat("percent", {
+    style: "percent",
+    minimumFractionDigits: 3,
+    maximumFractionDigits: 3
+});
 function updateCoin(crypto, currency) {
     var min_frac = 2;
     if ((crypto == "ltc" || crypto == "eth") && currency == "GBP") {
         currency = "BTC"; //no GBP exchange for LTC/ETH
         min_frac = 7;
     }
-    var moneyFormatter = new Intl.NumberFormat("en-US", {
+    moneyFormatter = new Intl.NumberFormat("en-US", {
         style: "currency",
         currency: currency,
         minimumFractionDigits: min_frac,
         maximumFractionDigits: min_frac
     });
-    var percentFormatter = new Intl.NumberFormat("percent", {
-        style: "percent",
-        minimumFractionDigits: 3,
-        maximumFractionDigits: 3
-    });
+
     $.getJSON("https://api.gdax.com/products/" + crypto + "-" + currency + "/ticker", function(ticker) {
         $("#" + crypto + "price").html(moneyFormatter.format(ticker.price));
         if (crypto == "btc") document.title = moneyFormatter.format(ticker.price) + "-BTC | Simple Ticker";
@@ -141,18 +147,23 @@ function drawChart(crypto, currency, hardReset) {
     if (hardReset) {
         document.getElementById(crypto + 'chart').innerHTML = " Loading...";
     }
-
+    var min_frac = 2;
     if ((crypto == "ltc" || crypto == "eth") && currency == "GBP") {
         currency = "BTC"; //no GBP exchange for LTC/ETH
+        min_frac = 7;
     }
-
+    moneyFormatter = new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: currency,
+        minimumFractionDigits: min_frac,
+        maximumFractionDigits: min_frac
+    });
+    console.log("Getting " + crypto + "-" + currency + " chart");
     $.getJSON("https://api.gdax.com/products/" + crypto + "-" + currency + "/candles?granularity=" + GRANULARITY / 1000, function(candles) {
-        console.log("Drawing " + crypto + "-" + currency + " chart");
         if (crypto == "btc") firstBTCDraw = true;
         if (crypto == "eth") firstETHDraw = true;
         if (crypto == "ltc") firstLTCDraw = true;
         var chartCandles = [];
-
         for (var i = 0; i < 60; i++) {
             var time = candles[i][0];
             var low = candles[i][1];
@@ -160,17 +171,18 @@ function drawChart(crypto, currency, hardReset) {
             var open = candles[i][3];
             var close = candles[i][4];
             var volume = candles[i][5];
-            chartCandles[i] = [0, 0, 0, 0, 0];
+            chartCandles[i] = [0, 0, 0, 0, 0, 0];
             chartCandles[i][0] = new Date(time * 1000);
             chartCandles[i][1] = low;
             chartCandles[i][2] = open;
             chartCandles[i][3] = close;
             chartCandles[i][4] = high;
+            chartCandles[i][5] = chartCandles[i][0].toLocaleString() + ": "+moneyFormatter.format(chartCandles[i][3]);
         }
 
 
         var data = google.visualization.arrayToDataTable(chartCandles, true); // Treat first row as data as well.
-
+        data.setColumnProperty(5, 'role', 'tooltip');
         var options = {
             legend: 'none',
             bar: {
