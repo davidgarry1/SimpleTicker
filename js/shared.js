@@ -1,3 +1,8 @@
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'UA-111384649-1');
+
 (function() {
 window.__insp = window.__insp || [];
 __insp.push(['wid', 208084210]);
