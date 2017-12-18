@@ -130,7 +130,7 @@ function retryCharts(){
       console.log("Attemping redraw");
       if(!firstBTCDraw) drawChart("btc", HOME_CURRENCY, false);
       if(!firstLTCDraw) drawChart("ltc", HOME_CURRENCY, false);
-      if(!firstETHDraw) drawChart("ETH", HOME_CURRENCY, false);
+      if(!firstETHDraw) drawChart("eth", HOME_CURRENCY, false);
     },1500);
 }
 
