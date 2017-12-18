@@ -96,16 +96,15 @@ function updatePage(all){
   }
 }
 
+updatePage(true);
 setTimeout(function(){
   updateCharts(true);
-}, 500);
+}, 1000);
 
-updatePage(true);
 
 setInterval(function() {
     updatePage(false);
 }, INTERVAL);
-
 
 $(window).resize(function(){
   updateCharts(true);
@@ -114,7 +113,6 @@ $(window).resize(function(){
 setInterval(function() {
   updateCharts(false);
 }, GRANULARITY);
-
 
 function updateCharts(hardReset){
   if(hardReset){
