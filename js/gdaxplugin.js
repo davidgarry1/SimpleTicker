@@ -156,7 +156,7 @@ $.getJSON("https://api.gdax.com/products/"+crypto+"-"+currency+"/candles?granula
         bar: {
             groupWidth: '100%'
         }, // Remove space between bars.
-        colors: ['black'],
+        colors: ['lightgrey'],
         candlestick: {
             fallingColor: {
                 stroke: 'black',
