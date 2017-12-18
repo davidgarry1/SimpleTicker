@@ -49,11 +49,7 @@ function createArticleList(news) {
     var output = "";
     for (var i = 0; i < news.articles.length; i++) {
         var article = "";
-        if (i != news.articles.length - 1) {
-            article += "<div class='article border-bottom'>";
-        } else {
-            article += "<div class='article'>";
-        }
+        article += "<div class='article border-bottom'>";
         article += "<a target='_blank' href='";
         article += news.articles[i].url;
         article += "' title='";
