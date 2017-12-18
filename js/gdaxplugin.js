@@ -12,16 +12,25 @@ $("#cusd").click(function(){
   HOME_CURRENCY = "USD";
   $("#activec").html(HOME_CURRENCY);
   updatePage(true);
+  setTimeout(function(){
+    updateCharts(true);
+  }, 500);
 });
 $("#ceur").click(function(){
   HOME_CURRENCY = "EUR";
   $("#activec").html(HOME_CURRENCY);
   updatePage(true);
+  setTimeout(function(){
+    updateCharts(true);
+  }, 500);
 });
 $("#cgbp").click(function(){
   HOME_CURRENCY = "GBP";
   $("#activec").html(HOME_CURRENCY);
   updatePage(true);
+  setTimeout(function(){
+    updateCharts(true);
+  }, 500);
 });
 
 function updateCoin(crypto, currency) {
@@ -88,7 +97,7 @@ function updatePage(all){
 }
 
 setTimeout(function(){
-  updateCharts();
+  updateCharts(true);
 }, 500);
 
 updatePage(true);
@@ -99,38 +108,48 @@ setInterval(function() {
 
 
 $(window).resize(function(){
-  updateCharts();
+  updateCharts(true);
 });
 
 setInterval(function() {
-  updateCharts();
+  updateCharts(false);
 }, GRANULARITY);
 
 
-function updateCharts(){
-  drawChart("btc", HOME_CURRENCY);
-  drawChart("eth", HOME_CURRENCY);
-  drawChart("ltc", HOME_CURRENCY);
+function updateCharts(hardReset){
+  drawChart("btc", HOME_CURRENCY, hardReset);
+  drawChart("eth", HOME_CURRENCY, hardReset);
+  drawChart("ltc", HOME_CURRENCY, hardReset);
 }
-var queuedChartReset = false;
+
 function retryCharts(){
-  if(!queuedChartReset){
-    queuedChartReset = true;
     setTimeout(function(){
-      updateCharts();
-      queuedChartReset = false;
-    });
-  }
+      console.log("Attemping redraw");
+      if(!firstBTCDraw) drawChart("btc", HOME_CURRENCY, false);
+      if(!firstLTCDraw) drawChart("ltc", HOME_CURRENCY, false);
+      if(!firstETHDraw) drawChart("ETH", HOME_CURRENCY, false);
+    },500);
 }
 
+var firstBTCDraw = false;
+var firstETHDraw = false;
+var firstLTCDraw = false;
 
-function drawChart(crypto, currency) {
+
+function drawChart(crypto, currency, hardReset) {
+  if(hardReset){
+    document.getElementById(crypto+'chart').innerHTML = " Loading...";
+  }
 
   if((crypto == "ltc" || crypto == "eth") && currency == "GBP"){
     currency = "BTC"; //no GBP exchange for LTC/ETH
   }
 
 $.getJSON("https://api.gdax.com/products/"+crypto+"-"+currency+"/candles?granularity="+GRANULARITY/1000, function(candles) {
+  console.log("Drawing "+crypto+"-"+currency+" chart");
+  if(crypto == "btc") firstBTCDraw = true;
+  if(crypto == "eth") firstETHDraw = true;
+  if(crypto == "ltc") firstLTCDraw = true;
   var chartCandles = [];
 
   for(var i=0; i<60; i++){
@@ -204,7 +223,7 @@ $.getJSON("https://api.gdax.com/products/"+crypto+"-"+currency+"/candles?granula
 
     chart.draw(data, options);
 }).fail(function(){
-    console.log("Too many requests to GDAX API");
+    console.log("Chart API Call Failed");
     retryCharts();
 });
 }
