@@ -11,6 +11,7 @@ $("#min").click(function() {
     setTimeout(function() {
         updateCharts(true);
     }, 500);
+    eraseCookie("GRANULARITY");
 });
 
 $("#hour").click(function() {
@@ -20,6 +21,7 @@ $("#hour").click(function() {
     setTimeout(function() {
         updateCharts(true);
     }, 500);
+    setCookie("GRANULARITY","#hour");
 });
 
 $("#day").click(function() {
@@ -29,6 +31,7 @@ $("#day").click(function() {
     setTimeout(function() {
         updateCharts(true);
     }, 500);
+    setCookie("GRANULARITY","#day");
 });
 
 $("#week").click(function() {
@@ -38,6 +41,7 @@ $("#week").click(function() {
     setTimeout(function() {
         updateCharts(true);
     }, 500);
+    setCookie("GRANULARITY","#week");
 });
 
 
@@ -48,6 +52,7 @@ $("#cusd").click(function() {
     setTimeout(function() {
         updateCharts(true);
     }, 500);
+    eraseCookie("HOME_CURRENCY");
 });
 $("#ceur").click(function() {
     HOME_CURRENCY = "EUR";
@@ -56,6 +61,7 @@ $("#ceur").click(function() {
     setTimeout(function() {
         updateCharts(true);
     }, 500);
+    setCookie("HOME_CURRENCY","#ceur");
 });
 $("#cgbp").click(function() {
     HOME_CURRENCY = "GBP";
@@ -64,7 +70,20 @@ $("#cgbp").click(function() {
     setTimeout(function() {
         updateCharts(true);
     }, 500);
+    setCookie("HOME_CURRENCY","#cgbp");
 });
+
+
+if(hasCookie("GRANULARITY")){
+  $(getCookie("GRANULARITY")).click();
+}
+
+if(hasCookie("HOME_CURRENCY")){
+  $(getCookie("HOME_CURRENCY")).click();
+}
+
+
+
 var moneyFormatter = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: HOME_CURRENCY,
