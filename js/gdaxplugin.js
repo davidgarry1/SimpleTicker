@@ -2,7 +2,28 @@ var INTERVAL = 1500; //Rate limits available at https://docs.gdax.com/#rate-limi
 var CURRENT_COIN_NUM = 0;
 var HOME_CURRENCY = "USD";
 var GRANULARITY = 60 * 1000; //60 seconds
+var CHART_TYPE = "line";
 
+$("#candle").click(function() {
+    CHART_TYPE = "candle";
+    $("#activechart").html("Chart: Candlestick");
+    updateCharts(true);
+    setCookie("CHART_TYPE","#candle");
+});
+
+$("#line").click(function() {
+    CHART_TYPE = "line";
+    $("#activechart").html("Chart: Line");
+    updateCharts(true);
+    setCookie("CHART_TYPE","#line");
+});
+
+$("#combo").click(function() {
+    CHART_TYPE = "both";
+    $("#activechart").html("Chart: Combo");
+    updateCharts(true);
+    setCookie("CHART_TYPE","#combo");
+});
 
 $("#min").click(function() {
     GRANULARITY = 60*1000;
@@ -82,6 +103,9 @@ if(hasCookie("HOME_CURRENCY")){
   $(getCookie("HOME_CURRENCY")).click();
 }
 
+if(hasCookie("CHART_TYPE")){
+  $(getCookie("CHART_TYPE")).click();
+}
 
 
 var moneyFormatter = new Intl.NumberFormat("en-US", {
@@ -196,7 +220,7 @@ var firstBTCDraw = false;
 var firstETHDraw = false;
 var firstLTCDraw = false;
 
-var uuu;
+
 function drawChart(crypto, currency, hardReset) {
     if (hardReset) {
         document.getElementById(crypto + 'chart').innerHTML = " Loading...";
@@ -213,29 +237,51 @@ function drawChart(crypto, currency, hardReset) {
         maximumFractionDigits: min_frac
     });
     console.log("Getting " + crypto + "-" + currency + " chart");
-    var dateObj = new Date( (new Date)*1 - GRANULARITY*60 );//ms*seconds*minutes*hours*days*weeks*months
+    var dateObj = new Date( (new Date)*1 - GRANULARITY*61 );//ms*seconds*minutes*hours*days*weeks*months
     var loc = "https://api.gdax.com/products/" + crypto + "-" + currency + "/candles?granularity=" + GRANULARITY/1000 ;
-    uuu = loc;
-    $.getJSON(loc, function(candles) {
 
+    $.getJSON(loc, function(candles) {
         if (crypto == "btc") firstBTCDraw = true;
         if (crypto == "eth") firstETHDraw = true;
         if (crypto == "ltc") firstLTCDraw = true;
         var chartCandles = [];
-        for (var i = 0; i < candles.length && new Date(candles[i][0] * 1000) >= dateObj; i++) {
-            var time = candles[i][0];
-            var low = candles[i][1];
-            var high = candles[i][2];
-            var open = candles[i][3];
-            var close = candles[i][4];
-            var volume = candles[i][5];
-            chartCandles[i] = [0, 0, 0, 0, 0, 0];
+        if(CHART_TYPE == "both"){
+          chartCandles[0] = ["Date", "Low", "Open", "Close", "High", "Tooltip", "Close"];
+        } else if(CHART_TYPE == "candle") {
+          chartCandles[0] = ["Date", "Low", "Open", "Close", "High", "Tooltip"];
+        } else if(CHART_TYPE == "line"){
+          chartCandles[0] = ["Date", "Close", "Tooltip"];
+        }
+
+        for (var i = 1; i < 1+candles.length && new Date(candles[i-1][0] * 1000) >= dateObj; i++) {
+            var time = candles[i-1][0];
+            var low = candles[i-1][1];
+            var high = candles[i-1][2];
+            var open = candles[i-1][3];
+            var close = candles[i-1][4];
+            var volume = candles[i-1][5];
+            if(CHART_TYPE == "both"){
+              chartCandles[i] = [0, 0, 0, 0, 0, 0, 0];
+            } else if(CHART_TYPE == "candle"){
+              chartCandles[i] = [0, 0, 0, 0, 0, 0];
+            } else if(CHART_TYPE == "line"){
+              chartCandles[i] = [0, 0, 0];
+            }
+
             chartCandles[i][0] = new Date(time * 1000);
-            chartCandles[i][1] = low;
-            chartCandles[i][2] = open;
-            chartCandles[i][3] = close;
-            chartCandles[i][4] = high;
-            chartCandles[i][5] = chartCandles[i][0].toLocaleString() + ": "+moneyFormatter.format(chartCandles[i][3]);
+            if(CHART_TYPE == "both" || CHART_TYPE == "candle"){
+              chartCandles[i][1] = low;
+              chartCandles[i][2] = open;
+              chartCandles[i][3] = close;
+              chartCandles[i][4] = high;
+              chartCandles[i][5] = chartCandles[i][0].toLocaleString() + ": "+moneyFormatter.format(chartCandles[i][3]);
+              if(CHART_TYPE == "both"){
+                chartCandles[i][6] = close;
+              }
+            } else if(CHART_TYPE == "line"){
+              chartCandles[i][1] = close;
+              chartCandles[i][2] = close;
+            }
         }
         var formatter;
         if(currency=="USD"){
@@ -247,72 +293,151 @@ function drawChart(crypto, currency, hardReset) {
         } else if(currency=="BTC"){
           formatter = "BTC"+'#,###.#######';
         }
-        var data = google.visualization.arrayToDataTable(chartCandles, true); // Treat first row as data as well.
-        data.setColumnProperty(5, 'role', 'tooltip');
-        var options = {
-            legend: 'none',
-            bar: {
-                groupWidth: '100%'
-            }, // Remove space between bars.
-            colors: ['lightgrey'],
-            candlestick: {
-                fallingColor: {
-                    stroke: 'black',
-                    strokeWidth: 0,
-                    fill: 'red'
-                }, // red
-                risingColor: {
-                    stroke: 'black',
-                    strokeWidth: 0,
-                    fill: 'green'
-                }, // green
-            },
-            chartArea: {
-                left: '10%',
-                bottom: '10%',
-                width: '89%',
-                height: '85%',
-            },
-            vAxis: {
+        var data = google.visualization.arrayToDataTable(chartCandles, false); // DO NOT Treat first row as data as well.
+        if(CHART_TYPE == "both" || CHART_TYPE == "candle"){
+          data.setColumnProperty(5, 'role', 'tooltip');
+          var options = {
+              legend: 'none',
+              bar: {
+                  groupWidth: '100%'
+              }, // Remove space between bars.
+              colors: ['lightgrey', 'black'],
+              candlestick: {
+                  fallingColor: {
+                      stroke: 'black',
+                      strokeWidth: 0,
+                      fill: 'red'
+                  }, // red
+                  risingColor: {
+                      stroke: 'black',
+                      strokeWidth: 0,
+                      fill: 'green'
+                  }, // green
+              },
+              chartArea: {
+                  left: '10%',
+                  bottom: '10%',
+                  width: '89%',
+                  height: '85%',
+              },
+              vAxis: {
+                  titleTextStyle: {
+                      color: 'black'
+                  },
+                  gridlines: {
+                      color: 'lightgrey',
 
-                titleTextStyle: {
-                    color: 'black'
-                },
-                gridlines: {
-                    color: 'grey',
+                  },
+                  textStyle: {
+                      color: 'black'
+                  },
+                  titleTextStyle: {
+                      color: 'black'
+                  },
+                  format:formatter,
+              },
 
-                },
-                textStyle: {
-                    color: 'black'
-                },
-                titleTextStyle: {
-                    color: 'black'
-                },
-                format:formatter,
-            },
+              backgroundColor: 'white',
+              titleTextStyle: {
+                      color: 'black'
+                  },
+              fontName: 'Consolas',
+              hAxis: {
+                  logscale: false,
+                  textStyle: {
+                      color: 'black'
+                  },
+                  titleTextStyle: {
+                      color: 'black'
+                  },
+                  gridlines: {
+                      color: 'lightgrey',
+                      count: 6
+                  },
 
-            backgroundColor: 'white',
-            titleTextStyle: {
-                    color: 'black'
-                },
-            fontName: 'Consolas',
-            hAxis: {
-                logscale: false,
-                textStyle: {
-                    color: 'black'
-                },
-                titleTextStyle: {
-                    color: 'black'
-                },
-                gridlines: {
-                    color: 'grey',
-                    count: 6
-                },
+              },
+              crosshair: {
+                trigger: 'both',
+              },
+              seriesType: 'candlesticks',
+              series: {
+                1: {
+                  type: 'area'
+                }
+              }
+          };
 
-            },
-        };
+        } else if(CHART_TYPE == "line"){
+          data.setColumnProperty(2, 'role', 'tooltip');
+          var options = {
+              legend: 'none',
+              bar: {
+                  groupWidth: '100%'
+              }, // Remove space between bars.
+              colors: ['black'],
+              candlestick: {
+                  fallingColor: {
+                      stroke: 'black',
+                      strokeWidth: 0,
+                      fill: 'red'
+                  }, // red
+                  risingColor: {
+                      stroke: 'black',
+                      strokeWidth: 0,
+                      fill: 'green'
+                  }, // green
+              },
+              chartArea: {
+                  left: '10%',
+                  bottom: '10%',
+                  width: '89%',
+                  height: '85%',
+              },
+              vAxis: {
+                  titleTextStyle: {
+                      color: 'black'
+                  },
+                  gridlines: {
+                      color: 'lightgrey',
 
-        var chart = new google.visualization.CandlestickChart(document.getElementById(crypto + 'chart'));
+                  },
+                  textStyle: {
+                      color: 'black'
+                  },
+                  titleTextStyle: {
+                      color: 'black'
+                  },
+                  format:formatter,
+              },
+
+              backgroundColor: 'white',
+              titleTextStyle: {
+                      color: 'black'
+                  },
+              fontName: 'Consolas',
+              hAxis: {
+                  logscale: false,
+                  textStyle: {
+                      color: 'black'
+                  },
+                  titleTextStyle: {
+                      color: 'black'
+                  },
+                  gridlines: {
+                      color: 'lightgrey',
+                      count: 6
+                  },
+
+              },
+              crosshair: {
+                trigger: 'both',
+              },
+              seriesType: 'area',
+          };
+
+        }
+
+        var chart = new google.visualization.ComboChart(document.getElementById(crypto + 'chart'));
 
         chart.draw(data, options);
     }).fail(function() {
