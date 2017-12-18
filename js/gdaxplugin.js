@@ -190,9 +190,9 @@ function drawChart(crypto, currency, hardReset) {
                 }, // green
             },
             chartArea: {
-                left: '8%',
+                left: '10%',
                 bottom: '10%',
-                width: '91%',
+                width: '89%',
                 height: '85%',
             },
             vAxis: {
@@ -207,7 +207,7 @@ function drawChart(crypto, currency, hardReset) {
             },
 
             backgroundColor: 'white',
-            fontName: 'Consolas',
+            fontName: 'Overpass Mono',
             hAxis: {
                 logscale: false
             },
