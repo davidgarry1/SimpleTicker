@@ -301,7 +301,7 @@ function drawChart(crypto, currency, hardReset) {
               bar: {
                   groupWidth: '100%'
               }, // Remove space between bars.
-              colors: ['lightgrey', 'black'],
+              colors: ['lightgrey', '#4c77b2'],
               candlestick: {
                   fallingColor: {
                       stroke: 'black',
@@ -374,7 +374,7 @@ function drawChart(crypto, currency, hardReset) {
               bar: {
                   groupWidth: '100%'
               }, // Remove space between bars.
-              colors: ['black'],
+              colors: ['#4c77b2'],
               candlestick: {
                   fallingColor: {
                       stroke: 'black',
