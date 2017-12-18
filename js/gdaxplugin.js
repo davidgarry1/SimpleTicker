@@ -259,12 +259,12 @@ function drawChart(crypto, currency, hardReset) {
                 fallingColor: {
                     stroke: 'black',
                     strokeWidth: 0,
-                    fill: '#a52714'
+                    fill: 'red'
                 }, // red
                 risingColor: {
                     stroke: 'black',
                     strokeWidth: 0,
-                    fill: '#0f9d58'
+                    fill: 'green'
                 }, // green
             },
             chartArea: {
@@ -279,20 +279,33 @@ function drawChart(crypto, currency, hardReset) {
                     color: 'black'
                 },
                 gridlines: {
-                    color: 'lightrey',
+                    color: 'grey',
 
+                },
+                textStyle: {
+                    color: 'black'
+                },
+                titleTextStyle: {
+                    color: 'black'
                 },
                 format:formatter,
             },
 
             backgroundColor: 'white',
+            titleTextStyle: {
+                    color: 'black'
+                },
             fontName: 'Consolas',
             hAxis: {
-                logscale: false
-            },
-            hAxis: {
+                logscale: false,
+                textStyle: {
+                    color: 'black'
+                },
+                titleTextStyle: {
+                    color: 'black'
+                },
                 gridlines: {
-                    color: 'lightgrey',
+                    color: 'grey',
                     count: 6
                 },
 
