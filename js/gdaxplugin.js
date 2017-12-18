@@ -107,6 +107,24 @@ if(hasCookie("CHART_TYPE")){
   $(getCookie("CHART_TYPE")).click();
 }
 
+updatePage(true);
+
+setTimeout(function() {
+  google.charts.setOnLoadCallback(updateCharts(true));
+}, 1000);
+
+$(window).resize(function() {
+    updateCharts(true);
+});
+
+setInterval(function() {
+    updatePage(false);
+}, INTERVAL);
+
+setInterval(function() {
+    updateCharts(false);
+}, GRANULARITY);
+
 
 var moneyFormatter = new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -177,24 +195,6 @@ function updatePage(all) {
         }
     }
 }
-
-updatePage(true);
-setTimeout(function() {
-    updateCharts(true);
-}, 1000);
-
-
-setInterval(function() {
-    updatePage(false);
-}, INTERVAL);
-
-$(window).resize(function() {
-    updateCharts(true);
-});
-
-setInterval(function() {
-    updateCharts(false);
-}, GRANULARITY);
 
 function updateCharts(hardReset) {
     if (hardReset) {
