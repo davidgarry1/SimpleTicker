@@ -38,5 +38,5 @@ function hasCookie(name){
 }
 
 function eraseCookie(name) {
-    createCookie(name, "", -1);
+    setCookie(name, "", -1);
 }
