@@ -1,6 +1,13 @@
 var INTERVAL = 1100; //Rate limits available at https://docs.gdax.com/#rate-limits
 var CURRENT_COIN_NUM = 0;
 var HOME_CURRENCY = "USD";
+var GRANULARITY = 60*1000; //60 seconds
+//Google Charts
+google.charts.load('current', {
+    'packages': ['corechart']
+});
+
+
 $("#cusd").click(function(){
   HOME_CURRENCY = "USD";
   $("#activec").html(HOME_CURRENCY);
@@ -80,7 +87,124 @@ function updatePage(all){
   }
 }
 
+setTimeout(function(){
+  updateCharts();
+}, 500);
+
 updatePage(true);
+
 setInterval(function() {
     updatePage(false);
 }, INTERVAL);
+
+
+$(window).resize(function(){
+  updateCharts();
+});
+
+setInterval(function() {
+  updateCharts();
+}, GRANULARITY);
+
+
+function updateCharts(){
+  drawChart("btc", HOME_CURRENCY);
+  drawChart("eth", HOME_CURRENCY);
+  drawChart("ltc", HOME_CURRENCY);
+}
+var queuedChartReset = false;
+function retryCharts(){
+  if(!queuedChartReset){
+    queuedChartReset = true;
+    setTimeout(function(){
+      updateCharts();
+      queuedChartReset = false;
+    });
+  }
+}
+
+
+function drawChart(crypto, currency) {
+
+  if((crypto == "ltc" || crypto == "eth") && currency == "GBP"){
+    currency = "BTC"; //no GBP exchange for LTC/ETH
+  }
+
+$.getJSON("https://api.gdax.com/products/"+crypto+"-"+currency+"/candles?granularity="+GRANULARITY/1000, function(candles) {
+  var chartCandles = [];
+
+  for(var i=0; i<60; i++){
+    var time = candles[i][0];
+    var low = candles[i][1];
+    var high = candles[i][2];
+    var open = candles[i][3];
+    var close = candles[i][4];
+    var volume = candles[i][5];
+    chartCandles[i] = [0,0,0,0,0];
+    chartCandles[i][0] = new Date(time*1000);
+    chartCandles[i][1] = low;
+    chartCandles[i][2] = open;
+    chartCandles[i][3] = close;
+    chartCandles[i][4] = high;
+  }
+
+
+    var data = google.visualization.arrayToDataTable(chartCandles, true);// Treat first row as data as well.
+
+    var options = {
+        legend: 'none',
+        bar: {
+            groupWidth: '100%'
+        }, // Remove space between bars.
+        colors: ['black'],
+        candlestick: {
+            fallingColor: {
+                stroke: 'black',
+                strokeWidth: 0,
+                fill: '#a52714'
+            }, // red
+            risingColor: {
+                stroke: 'black',
+                strokeWidth: 0,
+                fill: '#0f9d58'
+            }, // green
+        },
+        chartArea: {
+            left: '10%',
+            bottom: '10%',
+            width: '89%',
+            height: '85%',
+        },
+        vAxis: {
+
+            titleTextStyle: {
+                color: 'black'
+            },
+            gridlines: {
+                color: 'lightrey',
+
+            },
+        },
+
+        backgroundColor: 'white',
+        fontName: 'Consolas',
+        hAxis: {
+            logscale: false
+        },
+        hAxis: {
+            gridlines: {
+                color: 'lightgrey',
+
+            },
+
+        },
+    };
+
+    var chart = new google.visualization.CandlestickChart(document.getElementById(crypto+'chart'));
+
+    chart.draw(data, options);
+}).fail(function(){
+    console.log("Too many requests to GDAX API");
+    retryCharts();
+});
+}
