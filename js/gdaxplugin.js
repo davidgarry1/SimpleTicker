@@ -192,9 +192,9 @@ $.getJSON("https://api.gdax.com/products/"+crypto+"-"+currency+"/candles?granula
             }, // green
         },
         chartArea: {
-            left: '10%',
+            left: '8%',
             bottom: '10%',
-            width: '89%',
+            width: '91%',
             height: '85%',
         },
         vAxis: {
