@@ -2,8 +2,43 @@ var INTERVAL = 1500; //Rate limits available at https://docs.gdax.com/#rate-limi
 var CURRENT_COIN_NUM = 0;
 var HOME_CURRENCY = "USD";
 var GRANULARITY = 60 * 1000; //60 seconds
-//Google Charts
 
+
+$("#min").click(function() {
+    GRANULARITY = 60*1000;
+    $("#activet").html("Interval: 1 Min");
+    updatePage(true);
+    setTimeout(function() {
+        updateCharts(true);
+    }, 500);
+});
+
+$("#hour").click(function() {
+    GRANULARITY = 60*60*1000;
+    $("#activet").html("Interval: 1 Hour");
+    updatePage(true);
+    setTimeout(function() {
+        updateCharts(true);
+    }, 500);
+});
+
+$("#day").click(function() {
+    GRANULARITY = 60*60*24*1000;
+    $("#activet").html("Interval: 1 Day");
+    updatePage(true);
+    setTimeout(function() {
+        updateCharts(true);
+    }, 500);
+});
+
+$("#week").click(function() {
+    GRANULARITY = 60*60*24*7*1000;
+    $("#activet").html("Interval: 1 Week");
+    updatePage(true);
+    setTimeout(function() {
+        updateCharts(true);
+    }, 500);
+});
 
 
 $("#cusd").click(function() {
@@ -142,7 +177,7 @@ var firstBTCDraw = false;
 var firstETHDraw = false;
 var firstLTCDraw = false;
 
-
+var uuu;
 function drawChart(crypto, currency, hardReset) {
     if (hardReset) {
         document.getElementById(crypto + 'chart').innerHTML = " Loading...";
@@ -159,12 +194,16 @@ function drawChart(crypto, currency, hardReset) {
         maximumFractionDigits: min_frac
     });
     console.log("Getting " + crypto + "-" + currency + " chart");
-    $.getJSON("https://api.gdax.com/products/" + crypto + "-" + currency + "/candles?granularity=" + GRANULARITY / 1000, function(candles) {
+    var dateObj = new Date( (new Date)*1 - GRANULARITY*60 );//ms*seconds*minutes*hours*days*weeks*months
+    var loc = "https://api.gdax.com/products/" + crypto + "-" + currency + "/candles?granularity=" + GRANULARITY/1000 ;
+    uuu = loc;
+    $.getJSON(loc, function(candles) {
+
         if (crypto == "btc") firstBTCDraw = true;
         if (crypto == "eth") firstETHDraw = true;
         if (crypto == "ltc") firstLTCDraw = true;
         var chartCandles = [];
-        for (var i = 0; i < 60; i++) {
+        for (var i = 0; i < candles.length && new Date(candles[i][0] * 1000) >= dateObj; i++) {
             var time = candles[i][0];
             var low = candles[i][1];
             var high = candles[i][2];
@@ -179,8 +218,16 @@ function drawChart(crypto, currency, hardReset) {
             chartCandles[i][4] = high;
             chartCandles[i][5] = chartCandles[i][0].toLocaleString() + ": "+moneyFormatter.format(chartCandles[i][3]);
         }
-
-
+        var formatter;
+        if(currency=="USD"){
+          formatter = "$"+'#,###.##';
+        } else if(currency=="EUR"){
+          formatter = "€"+'#,###.##';
+        } else if(currency=="GBP"){
+          formatter = "£"+'#,###.##';
+        } else if(currency=="BTC"){
+          formatter = "BTC"+'#,###.#######';
+        }
         var data = google.visualization.arrayToDataTable(chartCandles, true); // Treat first row as data as well.
         data.setColumnProperty(5, 'role', 'tooltip');
         var options = {
@@ -216,6 +263,7 @@ function drawChart(crypto, currency, hardReset) {
                     color: 'lightrey',
 
                 },
+                format:formatter,
             },
 
             backgroundColor: 'white',
@@ -226,7 +274,7 @@ function drawChart(crypto, currency, hardReset) {
             hAxis: {
                 gridlines: {
                     color: 'lightgrey',
-
+                    count: 6
                 },
 
             },
