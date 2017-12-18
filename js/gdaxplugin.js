@@ -126,31 +126,26 @@ setInterval(function() {
 }, GRANULARITY);
 
 
-var moneyFormatter = new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: HOME_CURRENCY,
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2
-});
+
 var percentFormatter = new Intl.NumberFormat("percent", {
     style: "percent",
     minimumFractionDigits: 3,
     maximumFractionDigits: 3
 });
-function updateCoin(crypto, currency) {
-    var min_frac = 2;
-    if ((crypto == "ltc" || crypto == "eth") && currency == "GBP") {
-        currency = "BTC"; //no GBP exchange for LTC/ETH
-        min_frac = 7;
-    }
-    moneyFormatter = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: currency,
-        minimumFractionDigits: min_frac,
-        maximumFractionDigits: min_frac
-    });
 
+function updateCoin(crypto, currency) {
     $.getJSON("https://api.gdax.com/products/" + crypto + "-" + currency + "/ticker", function(ticker) {
+        var min_frac = 2;
+        if ((crypto == "ltc" || crypto == "eth") && currency == "GBP") {
+            currency = "BTC"; //no GBP exchange for LTC/ETH
+            min_frac = 7;
+        }
+        var moneyFormatter = new Intl.NumberFormat("en-US", {
+            style: "currency",
+            currency: currency,
+            minimumFractionDigits: min_frac,
+            maximumFractionDigits: min_frac
+        });
         $("#" + crypto + "price").html(moneyFormatter.format(ticker.price));
         if (crypto == "btc") document.title = moneyFormatter.format(ticker.price) + "-BTC | Simple Ticker";
         $.getJSON("https://api.gdax.com/products/" + crypto + "-" + currency + "/stats", function(t) {
@@ -230,17 +225,17 @@ function drawChart(crypto, currency, hardReset) {
         currency = "BTC"; //no GBP exchange for LTC/ETH
         min_frac = 7;
     }
-    moneyFormatter = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: currency,
-        minimumFractionDigits: min_frac,
-        maximumFractionDigits: min_frac
-    });
     console.log("Getting " + crypto + "-" + currency + " chart");
     var dateObj = new Date( (new Date)*1 - GRANULARITY*61 );//ms*seconds*minutes*hours*days*weeks*months
     var loc = "https://api.gdax.com/products/" + crypto + "-" + currency + "/candles?granularity=" + GRANULARITY/1000 ;
 
     $.getJSON(loc, function(candles) {
+        var moneyFormatter = new Intl.NumberFormat("en-US", {
+            style: "currency",
+            currency: currency,
+            minimumFractionDigits: min_frac,
+            maximumFractionDigits: min_frac
+        });
         if (crypto == "btc") firstBTCDraw = true;
         if (crypto == "eth") firstETHDraw = true;
         if (crypto == "ltc") firstLTCDraw = true;
