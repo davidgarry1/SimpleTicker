@@ -3,9 +3,7 @@ var CURRENT_COIN_NUM = 0;
 var HOME_CURRENCY = "USD";
 var GRANULARITY = 60*1000; //60 seconds
 //Google Charts
-google.charts.load('current', {
-    'packages': ['corechart']
-});
+
 
 
 $("#cusd").click(function(){
