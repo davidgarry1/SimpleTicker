@@ -1,203 +1,196 @@
 <html>
-  <head>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-111384649-1"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'UA-111384649-1');
-    </script>
-    <title>Simple Ticker</title>
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script>
-    google.charts.load('current', {
-        'packages': ['corechart']
-    });
-    </script>
-    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Overpass+Mono" rel="stylesheet">
-    <meta charset="utf-8">
-    <meta http-equiv="content-type" content="text/html;charset=UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="HandheldFriendly" content="True">
-    <meta name="MobileOptimized" content="320">
-    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-    <meta name="apple-mobile-web-app-title" content="Simple Ticker for Cryptocurrency">
-    <meta name="application-name" content="Simple Ticker for Cryptocurrency">
-    <meta name="theme-color" content="#000000">
-    <meta name="author" content="Simple Ticker for Cryptocurrency">
-    <link rel="canonical" href="http://www.simpleticker.com/">
-    <link rel="shortcut icon" href="http://www.simpleticker.com/img/logo.png" />
-    <link rel="apple-touch-icon" href="http://www.simpleticker.com/img/logo.png" sizes="180x180">
-    <link rel="icon" type="image/png" href="http://www.simpleticker.com/img/logo.png" sizes="32x32">
-    <link rel="icon" type="image/png" href="http://www.simpleticker.com/img/logo.png" sizes="16x16">
-    <meta property="og:image" content="http://www.simpleticker.com/img/logo.png">
-    <link rel="mask-icon" href="http://www.simpleticker.com/img/logo.png" color="#000000">
-    <meta property="og:site_name" content="Simple Ticker">
-    <meta property="og:locale" content="en_US">
-    <meta property="og:url" content="http://www.simpleticker.com/">
-    <meta property="og:title" content="Simple Ticker for Cryptocurrency">
-    <meta property="og:description" content="Simple Ticker for Cryptocurrency">
-    <meta property="og:type" content="website">
-    <meta property="og:image:width" content="600">
-    <meta property="og:image:height" content="400">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@SimpleTicker">
-
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
-
-
-    <link rel="stylesheet" type="text/css" href="css/index.css" />
-    <link rel="stylesheet" type="text/css" href="css/newsfeed.css" />
-    <link rel="stylesheet" type="text/css" href="css/currency-panel.css" />
-    <link rel="stylesheet" type="text/css" href="css/shared.css" />
-
-  </head>
-  <body>
-    <!-- NAV -->
-    <nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse">
-      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <a class="navbar-brand" href="index.html">SimpleTicker</a>
-      <div class="collapse navbar-collapse" id="navbarNavDropdown">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="about.html">About</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="contact.html">Contact</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              More
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-              <a class="dropdown-item" href="what-is-cryptocurrency.html">What is Cryptocurrency</a>
-              <a class="dropdown-item" href="terms-of-use.html">Terms of Use</a>
-              <a class="dropdown-item" href="investing-wisely.html">Investing Wisely</a>
-              <a class="dropdown-item" href="faq.html">FAQ</a>
+   <head>
+      <!-- Global site tag (gtag.js) - Google Analytics -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-111384649-1"></script>
+      <script>
+         window.dataLayer = window.dataLayer || [];
+         function gtag(){dataLayer.push(arguments);}
+         gtag('js', new Date());
+         gtag('config', 'UA-111384649-1');
+      </script>
+      <title>Simple Ticker</title>
+      <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+      <script>
+         google.charts.load('current', {
+             'packages': ['corechart']
+         });
+      </script>
+      <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css?family=Overpass+Mono" rel="stylesheet">
+      <meta charset="utf-8">
+      <meta http-equiv="content-type" content="text/html;charset=UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <meta name="HandheldFriendly" content="True">
+      <meta name="MobileOptimized" content="320">
+      <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+      <meta name="apple-mobile-web-app-title" content="Simple Ticker for Cryptocurrency">
+      <meta name="application-name" content="Simple Ticker for Cryptocurrency">
+      <meta name="theme-color" content="#000000">
+      <meta name="author" content="Simple Ticker for Cryptocurrency">
+      <link rel="canonical" href="http://www.simpleticker.com/">
+      <link rel="shortcut icon" href="http://www.simpleticker.com/img/logo.png" />
+      <link rel="apple-touch-icon" href="http://www.simpleticker.com/img/logo.png" sizes="180x180">
+      <link rel="icon" type="image/png" href="http://www.simpleticker.com/img/logo.png" sizes="32x32">
+      <link rel="icon" type="image/png" href="http://www.simpleticker.com/img/logo.png" sizes="16x16">
+      <meta property="og:image" content="http://www.simpleticker.com/img/logo.png">
+      <link rel="mask-icon" href="http://www.simpleticker.com/img/logo.png" color="#000000">
+      <meta property="og:site_name" content="Simple Ticker">
+      <meta property="og:locale" content="en_US">
+      <meta property="og:url" content="http://www.simpleticker.com/">
+      <meta property="og:title" content="Simple Ticker for Cryptocurrency">
+      <meta property="og:description" content="Simple Ticker for Cryptocurrency">
+      <meta property="og:type" content="website">
+      <meta property="og:image:width" content="600">
+      <meta property="og:image:height" content="400">
+      <meta name="twitter:card" content="summary_large_image">
+      <meta name="twitter:site" content="@SimpleTicker">
+      <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+      <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+      <link rel="stylesheet" type="text/css" href="css/index.css" />
+      <link rel="stylesheet" type="text/css" href="css/newsfeed.css" />
+      <link rel="stylesheet" type="text/css" href="css/currency-panel.css" />
+      <link rel="stylesheet" type="text/css" href="css/shared.css" />
+   </head>
+   <body>
+      <!-- NAV -->
+      <nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse">
+         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+         <span class="navbar-toggler-icon"></span>
+         </button>
+         <a class="navbar-brand" href="index.html">SimpleTicker</a>
+         <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav mr-auto">
+               <li class="nav-item active">
+                  <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+               </li>
+               <li class="nav-item">
+                  <a class="nav-link" href="about.html">About</a>
+               </li>
+               <li class="nav-item">
+                  <a class="nav-link" href="contact.html">Contact</a>
+               </li>
+               <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  More
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                     <a class="dropdown-item" href="what-is-cryptocurrency.html">What is Cryptocurrency</a>
+                     <a class="dropdown-item" href="terms-of-use.html">Terms of Use</a>
+                     <a class="dropdown-item" href="investing-wisely.html">Investing Wisely</a>
+                     <a class="dropdown-item" href="faq.html">FAQ</a>
+                  </div>
+               </li>
+            </ul>
+            <!--<ul class="navbar-nav ml-auto">
+               <li class="nav-item dropdown">
+                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                   <span id="activee">GDAX</span>
+                 </a>
+                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink01">
+                   <a id="" class="dropdown-item exchange-change" href="#">GDAX</a>
+                   <a id="" class="dropdown-item exchange-change" href="#">More Exchanges Coming Soon</a>
+                 </div>
+               </li>
+               </ul>-->
+            <ul class="navbar-nav">
+               <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <span id="activec">USD</span>
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink02">
+                     <a id="cusd" class="dropdown-item currencychange" href="#">USD</a>
+                     <a id="ceur" class="dropdown-item currencychange" href="#">EUR</a>
+                     <a id="cgbp" class="dropdown-item currencychange" href="#">GBP</a>
+                  </div>
+               </li>
+            </ul>
+         </div>
+      </nav>
+      <!-- END NAV -->
+      <div class="main-page">
+         <div id="sidebar" class="sidebar desktop-only">
+            <div id="newsfeed" class="feed">
+               <div class='article article-inverted'>
+                  <div class='news-title'>Recent News From <a target='_blank' href='https://newsapi.org/'>NewsAPI</a></div>
+               </div>
             </div>
-          </li>
-        </ul>
-        <!--<ul class="navbar-nav ml-auto">
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <span id="activee">GDAX</span>
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink01">
-              <a id="" class="dropdown-item exchange-change" href="#">GDAX</a>
-              <a id="" class="dropdown-item exchange-change" href="#">More Exchanges Coming Soon</a>
+         </div>
+         <div class="main-panel">
+            <div id="btc-panel" class="currency-panel">
+               <div id="btcchart" class="currency-chart">
+               </div>
+               <div class="currency-info">
+                  <div class="currency-title">
+                     <span class="desktop-only">Bitcoin (</span>BTC<span class="desktop-only">)</span>
+                  </div>
+                  <div id="btcprice" class="currency-price">
+                     Loading...
+                  </div>
+                  <div class="currency-deltas">
+                     <div class="delta-sub">
+                        24H Change: <span id="btcopen">...</span>
+                     </div>
+                     <div class="delta-sub">
+                        24H High: <span id="btchigh">...</span>
+                     </div>
+                     <div class="delta-sub">
+                        24H Low: <span id="btclow">...</span>
+                     </div>
+                  </div>
+               </div>
             </div>
-          </li>
-      </ul>-->
-        <ul class="navbar-nav">
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <span id="activec">USD</span>
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink02">
-              <a id="cusd" class="dropdown-item currencychange" href="#">USD</a>
-              <a id="ceur" class="dropdown-item currencychange" href="#">EUR</a>
-              <a id="cgbp" class="dropdown-item currencychange" href="#">GBP</a>
+            <div id="eth-panel" class="currency-panel">
+               <div id="ethchart" class="currency-chart">
+               </div>
+               <div class="currency-info">
+                  <div class="currency-title">
+                     <span class="desktop-only">Ethereum (</span>ETH<span class="desktop-only">)</span>
+                  </div>
+                  <div id="ethprice" class="currency-price">
+                     Loading...
+                  </div>
+                  <div class="currency-deltas">
+                     <div class="delta-sub">
+                        24H Change: <span id="ethopen">...</span>
+                     </div>
+                     <div class="delta-sub">
+                        24H High: <span id="ethhigh">...</span>
+                     </div>
+                     <div class="delta-sub">
+                        24H Low: <span id="ethlow">...</span>
+                     </div>
+                  </div>
+               </div>
             </div>
-          </li>
-      </ul>
+            <div id="ltc-panel" class="currency-panel">
+               <div id="ltcchart" class="currency-chart">
+               </div>
+               <div class="currency-info">
+                  <div class="currency-title">
+                     <span class="desktop-only">Litecoin (</span>LTC<span class="desktop-only">)</span>
+                  </div>
+                  <div id="ltcprice" class="currency-price">
+                     Loading...
+                  </div>
+                  <div class="currency-deltas">
+                     <div class="delta-sub">
+                        24H Change: <span id="ltcopen">...</span>
+                     </div>
+                     <div class=" delta-sub">
+                        24H High: <span id="ltchigh">...</span>
+                     </div>
+                     <div class=" delta-sub">
+                        24H Low: <span id="ltclow">...</span>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
       </div>
-    </nav>
-    <!-- END NAV -->
-    <div class="main-page">
-      <div id="sidebar" class="sidebar desktop-only">
-        <div id="newsfeed" class="feed">
-          <div class='article article-inverted'><div class='news-title'>Recent News From <a target='_blank' href='https://newsapi.org/'>NewsAPI</a></div></div>
-        </div>
-      </div>
-      <div class="main-panel">
-
-        <div id="btc-panel" class="currency-panel">
-          <div id="btcchart" class="currency-chart">
-
-          </div>
-          <div class="currency-info">
-            <div class="currency-title">
-              <span class="desktop-only">Bitcoin (</span>BTC<span class="desktop-only">)</span>
-            </div>
-            <div id="btcprice" class="currency-price">
-              Loading...
-            </div>
-            <div class="currency-deltas">
-              <div class="delta-sub">
-                24H Change: <span id="btcopen">...</span>
-              </div>
-              <div class="delta-sub">
-                24H High: <span id="btchigh">...</span>
-              </div>
-              <div class="delta-sub">
-                24H Low: <span id="btclow">...</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div id="eth-panel" class="currency-panel">
-          <div id="ethchart" class="currency-chart">
-
-          </div>
-          <div class="currency-info">
-            <div class="currency-title">
-              <span class="desktop-only">Ethereum (</span>ETH<span class="desktop-only">)</span>
-            </div>
-            <div id="ethprice" class="currency-price">
-              Loading...
-            </div>
-            <div class="currency-deltas">
-              <div class="delta-sub">
-                24H Change: <span id="ethopen">...</span>
-              </div>
-              <div class="delta-sub">
-                24H High: <span id="ethhigh">...</span>
-              </div>
-              <div class="delta-sub">
-                24H Low: <span id="ethlow">...</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div id="ltc-panel" class="currency-panel">
-          <div id="ltcchart" class="currency-chart">
-
-          </div>
-          <div class="currency-info">
-            <div class="currency-title">
-              <span class="desktop-only">Litecoin (</span>LTC<span class="desktop-only">)</span>
-            </div>
-            <div id="ltcprice" class="currency-price">
-              Loading...
-            </div>
-            <div class="currency-deltas">
-              <div class="delta-sub">
-                24H Change: <span id="ltcopen">...</span>
-              </div>
-              <div class=" delta-sub">
-                24H High: <span id="ltchigh">...</span>
-              </div>
-              <div class=" delta-sub">
-                24H Low: <span id="ltclow">...</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <script src="js/newsfeed.js"></script>
-    <script src="js/shared.js"></script>
-    <script src="js/gdaxplugin.js"></script>
-  </body>
+      <script src="js/newsfeed.js"></script>
+      <script src="js/shared.js"></script>
+      <script src="js/gdaxplugin.js"></script>
+   </body>
 </html>
