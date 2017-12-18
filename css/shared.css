@@ -16,12 +16,12 @@ html, body {
   width: 100%;
 }
 
-.red {
-  color: red;
+.green {
+  color: #0f9d58;
 }
 
-.green {
-  color: green;
+.red {
+  color: #a52714;
 }
 
 .center-text-panel {
