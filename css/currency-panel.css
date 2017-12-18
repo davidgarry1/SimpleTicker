@@ -33,6 +33,7 @@
   overflow: hidden;
   display: block;
   overflow: hidden;
+  font-family: 'Roboto Condensed', sans-serif;
 }
 
 .currency-price {
