@@ -207,7 +207,7 @@ function drawChart(crypto, currency, hardReset) {
             },
 
             backgroundColor: 'white',
-            fontName: 'Overpass Mono',
+            fontName: 'Consolas',
             hAxis: {
                 logscale: false
             },

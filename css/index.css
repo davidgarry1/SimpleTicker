@@ -21,7 +21,7 @@ html, body {
   background-color: white;
   margin: 0;
   padding: 0;
-  font-family: 'Overpass Mono', monospace;
+  font-family: 'Consolas', monospace;
 }
 
 .border-bottom {
