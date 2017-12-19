@@ -359,9 +359,9 @@ function drawChart(crypto, currency, hardReset) {
                   },
                   gridlines: {
                       color: 'lightgrey',
-        
+                      count: 4,
                   },
-
+                  showTextEvery: 1,
               },
               crosshair: {
                 trigger: 'both',
@@ -432,8 +432,9 @@ function drawChart(crypto, currency, hardReset) {
                   },
                   gridlines: {
                       color: 'lightgrey',
-
+                      count: 4,
                   },
+                  showTextEvery: 1,
 
               },
               crosshair: {
