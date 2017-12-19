@@ -1,0 +1,68 @@
+.input-field input[type=text].invalid,
+.input-field input[type=text].valid,
+.input-field input[type=text]:focus,
+input:not([type]):focus:not([readonly]),
+input[type=date]:focus:not([readonly]),
+input[type=datetime-local]:focus:not([readonly]),
+input[type=datetime]:focus:not([readonly]),
+input[type=email]:focus:not([readonly]),
+input[type=number]:focus:not([readonly]),
+input[type=password]:focus:not([readonly]),
+input[type=search]:focus:not([readonly]),
+input[type=tel]:focus:not([readonly]),
+input[type=text]:focus:not([readonly]),
+input[type=time]:focus:not([readonly]),
+input[type=url]:focus:not([readonly]),
+textarea.materialize-textarea:focus:not([readonly]) {
+    border-bottom: 1px solid #012661;
+    box-shadow: 0 1px 0 0 #012661
+}
+.input-field .prefix.active,
+.input-field input[type=text]:focus+label,
+.input-field label,
+input:not([type]):focus:not([readonly])+label,
+input[type=date]:focus:not([readonly])+label,
+input[type=datetime-local]:focus:not([readonly])+label,
+input[type=datetime]:focus:not([readonly])+label,
+input[type=email]:focus:not([readonly])+label,
+input[type=number]:focus:not([readonly])+label,
+input[type=password]:focus:not([readonly])+label,
+input[type=search]:focus:not([readonly])+label,
+input[type=tel]:focus:not([readonly])+label,
+input[type=text]:focus:not([readonly])+label,
+input[type=time]:focus:not([readonly])+label,
+input[type=url]:focus:not([readonly])+label,
+textarea.materialize-textarea:focus:not([readonly])+label {
+    color: #012661
+}
+.form-container .row {
+    margin-bottom: 0
+}
+.form-container .btn {
+    background-color: #012661
+}
+.submitbtn {
+    line-height: 4em;
+    display: block;
+    height: 4em;
+    width: 100%
+}
+.form-container h3 {
+    margin: 0;
+    padding: 0;
+    color: #000;
+    position: absolute;
+    font-size: 24px;
+    top: -26px
+}
+.form-container {
+    -webkit-transform: translate(0, 0);
+    -ms-transform: translate(0, 0);
+    -o-transform: translate(0, 0);
+    transform: translate(0, 0);
+    width: 100%;
+    padding: 1.6em;
+    background-color: #fff;
+    position: relative;
+    box-shadow: 0 16px 24px 2px rgba(0, 0, 0, .14), 0 20px 30px 5px rgba(0, 0, 0, .12), 0 8px 10px -5px rgba(0, 0, 0, .3)
+}

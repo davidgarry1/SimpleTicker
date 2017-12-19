@@ -1,5 +1,6 @@
 <html>
-  <head>
+
+<head>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-111384649-1"></script>
     <script src="js/shared.js"></script>
@@ -36,54 +37,54 @@
     <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
-  </head>
-  <body>
+</head>
+
+<body>
     <!-- NAV -->
     <nav class="navbar navbar-toggleable-md navbar-inverse">
-      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <a class="navbar-brand" href="index.html">SimpleTicker</a>
-      <div class="collapse navbar-collapse" id="navbarNavDropdown">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="index.html">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="about.html">About</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="contact.html">Contact</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              More
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-              <a class="dropdown-item" href="what-is-cryptocurrency.html">What is Cryptocurrency</a>
-              <a class="dropdown-item" href="terms-of-use.html">Terms of Use</a>
-              <a class="dropdown-item" href="investing-wisely.html">Investing Wisely</a>
-              <a class="dropdown-item active" href="faq.html">FAQ <span class="sr-only">(current)</span></a>
-            </div>
-          </li>
-        </ul>
-
-      </div>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">SimpleTicker</a>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="about.html">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="terms-of-use.html">Terms of Use</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">More</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="what-is-cryptocurrency.html">What is Cryptocurrency</a>
+                        <a class="dropdown-item" href="investing-wisely.html">Investing Wisely</a>
+                        <a class="dropdown-item active" href="faq.html">FAQ <span class="sr-only">(current)</span></a>
+                    </div>
+                </li>
+            </ul>
+        </div>
     </nav>
     <!-- END NAV -->
     <div class="main-page">
-      <div class="main-panel">
-        <div class="center-text-panel">
-          <img class="large-logo" src="img/logo.svg"></img>
-          <p>Hello. We are SimpleTicker.</p>
-          <p>This will be FAQ. Some questions I anticipate:</p>
-
-            <li>Why do I get errors when I have multiple tabs open?</li>
-            <li>Where does the data come from?</li>
-            <li>Why does GBP show as BTC for some currencies?</li>
-
+        <div class="main-panel">
+            <center>
+                <div class="logo-text">FAQ</div>
+            </center>
+            <div class="mleft center-text-panel">
+                <h3>How real-time is the data?</h3>
+                <p>The last trade price of a currency is updated about once per second, and therefore is 500ms delayed on average. The charts are updated when there is a new interval to poll, and depends on the granularity selected.</p>
+                <h3>Where does the data come from?</h3>
+                <p>The information comes from GDAX, which is the underlying cryptocurrency exchange of the Coinbase app. We are not affiliated with GDAX nor Coinbase.</p>
+                <h3>Why do some currencies show BTC price instead of GBP?</h3>
+                <p>Some currencies do not exchange for GBP on the GDAX exchange. Instead of showing a conversion rate based upon the USD price, which would be misleading and inaccurate, we display the price of altcoins in BTC – which is an exchange that GDAX does support.</p>
+                <h3>Where do the news articles come from?</h3>
+                <p>They are scraped from various news sources, looking for keywords relevant to cryptocurrency trading and investing. We do not hand select them and the opinions of any posted news article does not necessarily reflect the opinions of SimpleTicker.</p>
+            </div>
         </div>
-      </div>
     </div>
-  </body>
+</body>
 </html>

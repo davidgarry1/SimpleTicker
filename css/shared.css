@@ -8,6 +8,8 @@ html, body {
   font-family: 'Nunito', sans-serif;
 }
 
+
+
 .main-page {
   height: calc(100% - 3.5rem);
   width: 100%;
@@ -20,6 +22,8 @@ html, body {
   background-color: #012661;
 }
 
+
+
 .green {
   color: green;
 }
@@ -29,10 +33,10 @@ html, body {
 }
 
 .center-text-panel {
-  height: 100%;
-  width: 100%;
+
+  width: 65%;
   padding: 3%;
-  text-align: center;
+  font-size: 1.2em;
 }
 
 .large-logo {
@@ -41,12 +45,106 @@ html, body {
   margin: 1em;
 }
 
+.photo-bin {
+  width: 100%;
+  color: black;
+  font-family: 'Roboto Condensed', sans-serif;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+.padded-table {
+  text-align: center;
+}
+.padded-table td{
+  padding-right: 1em;
+  padding-left: 1em;
+  padding-top: 0.2em;
+  padding-bottom: 0.2em;
+}
+
+.person {
+  height: 7em;
+  width: 7em;
+  margin: 0.2em;
+  border-radius: 3.5em;
+  display: block;
+}
+
+.person-card {
+  margin-left: 0.2em;
+  margin-right: 0.2em;
+  margin-top: 1em;
+  margin-bottom: 1em;
+
+}
+
+.person-card a {
+  color: inherit;
+}
+
+.person-card a:hover {
+  color: inherit;
+}
+
+.person-name {
+  color: #012661;
+  font-size: 1.4em;
+  font-weight: bold;
+}
+
+.person-title {
+  color: darkgrey;
+  font-size: 1em;
+  line-height: 1em;
+  font-style: italic;
+}
+
+.logo-text {
+  font-family: 'Roboto Condensed', sans-serif;
+  padding-top: 2rem;
+  padding-bottom: 0rem;
+  font-size: 4rem;
+
+  color:  #012661;
+  font-weight: bold;
+}
+
+.mleft {
+  margin-left: 15%;
+}
+
+@media screen and (max-width: 1100px) {
+    .center-text-panel {
+      width: 80%;
+    }
+    .mleft {
+      margin-left: 10%;
+    }
+}
+
+@media screen and (max-width: 949px) {
+    .center-text-panel {
+      width: 85%;
+    }
+    .mleft {
+      margin-left: 7.5%;
+    }
+}
+
 @media screen and (max-width: 749px) {
     .desktop-only {
       display: none;
     }
     .main-panel {
       width: 100%;
+    }
+    .center-text-panel {
+      width: 92%;
+    }
+    .mleft {
+      margin-left: 4%;
     }
 }
 
