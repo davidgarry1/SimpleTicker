@@ -6,8 +6,10 @@
   margin-right: 0.25rem;
   width: calc(70% - 0.5rem);
   height: calc(100% - 1rem);
-  border: 2px solid #292B2C;
+  border: 2px solid #012661;
   display: inline-block;
+  background-color: #012661;
+  color: white;
 }
 
 .currency-info {
