@@ -1,7 +1,7 @@
 var INTERVAL = 1500; //Rate limits available at https://docs.gdax.com/#rate-limits
 var CURRENT_COIN_NUM = 0;
 var HOME_CURRENCY = "USD";
-var GRANULARITY = 60 * 1000; //60 seconds
+var GRANULARITY = 60 * 60 * 1000; //60 minutes
 var CHART_TYPE = "line";
 
 $("#candle").click(function() {
@@ -26,8 +26,8 @@ $("#combo").click(function() {
 });
 
 $("#min").click(function() {
-    GRANULARITY = 60*1000;
-    $("#activet").html("Interval: 1 Min");
+    GRANULARITY = 60*60*1000;
+    $("#activet").html("Interval: 1 Hour");
     updatePage(true);
     setTimeout(function() {
         updateCharts(true);
@@ -36,8 +36,8 @@ $("#min").click(function() {
 });
 
 $("#hour").click(function() {
-    GRANULARITY = 60*60*1000;
-    $("#activet").html("Interval: 1 Hour");
+    GRANULARITY = 24*60*60*1000;
+    $("#activet").html("Interval: 1 Day");
     updatePage(true);
     setTimeout(function() {
         updateCharts(true);
@@ -46,8 +46,8 @@ $("#hour").click(function() {
 });
 
 $("#day").click(function() {
-    GRANULARITY = 60*60*24*1000;
-    $("#activet").html("Interval: 1 Day");
+    GRANULARITY = 30*24*60*60*1000;
+    $("#activet").html("Interval: 30 Days");
     updatePage(true);
     setTimeout(function() {
         updateCharts(true);
@@ -56,8 +56,8 @@ $("#day").click(function() {
 });
 
 $("#week").click(function() {
-    GRANULARITY = 60*60*24*7*1000;
-    $("#activet").html("Interval: 1 Week");
+    GRANULARITY = 364*24*60*60*1000;
+    $("#activet").html("Interval: 1 Year");
     updatePage(true);
     setTimeout(function() {
         updateCharts(true);
@@ -226,8 +226,9 @@ function drawChart(crypto, currency, hardReset) {
         currency = "BTC"; //no GBP exchange for LTC/ETH
         min_frac = 7;
     }
-    var dateObj = new Date( (new Date)*1 - GRANULARITY*61 );//ms*seconds*minutes*hours*days*weeks*months
-    var loc = "https://api.gdax.com/products/" + crypto + "-" + currency + "/candles?granularity=" + GRANULARITY/1000 ;
+    var dateObj = new Date( (new Date)*1 - GRANULARITY );//ms*seconds*minutes*hours*days*weeks*months
+    var loc = "https://api.gdax.com/products/" + crypto + "-" + currency + "/candles?start="+dateObj.toISOString() +"&end="+new Date().toISOString() +"&granularity=" + GRANULARITY/110000 ;
+    console.log(loc);
 
     $.getJSON(loc, function(candles) {
         var moneyFormatter = new Intl.NumberFormat("en-US", {
