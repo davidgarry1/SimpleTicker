@@ -1,7 +1,7 @@
 var INTERVAL = 1500; //Rate limits available at https://docs.gdax.com/#rate-limits
 var CURRENT_COIN_NUM = 0;
 var HOME_CURRENCY = "USD";
-var GRANULARITY = 60 * 60 * 1000; //60 minutes
+var GRANULARITY = 60 * 60 * 1000; //1 Hour
 var CHART_TYPE = "line";
 
 $("#candle").click(function() {
@@ -25,7 +25,7 @@ $("#combo").click(function() {
     setCookie("CHART_TYPE","#combo");
 });
 
-$("#min").click(function() {
+$("#hour").click(function() {
     GRANULARITY = 60*60*1000;
     $("#activet").html("Interval: 1 Hour");
     updatePage(true);
@@ -35,19 +35,9 @@ $("#min").click(function() {
     eraseCookie("GRANULARITY");
 });
 
-$("#hour").click(function() {
+$("#day").click(function() {
     GRANULARITY = 24*60*60*1000;
     $("#activet").html("Interval: 1 Day");
-    updatePage(true);
-    setTimeout(function() {
-        updateCharts(true);
-    }, 500);
-    setCookie("GRANULARITY","#hour");
-});
-
-$("#day").click(function() {
-    GRANULARITY = 30*24*60*60*1000;
-    $("#activet").html("Interval: 30 Days");
     updatePage(true);
     setTimeout(function() {
         updateCharts(true);
@@ -56,13 +46,33 @@ $("#day").click(function() {
 });
 
 $("#week").click(function() {
+    GRANULARITY = 7*24*60*60*1000;
+    $("#activet").html("Interval: 1 Week");
+    updatePage(true);
+    setTimeout(function() {
+        updateCharts(true);
+    }, 500);
+    setCookie("GRANULARITY","#week");
+});
+
+$("#month").click(function() {
+    GRANULARITY = 30*24*60*60*1000;
+    $("#activet").html("Interval: 1 Month");
+    updatePage(true);
+    setTimeout(function() {
+        updateCharts(true);
+    }, 500);
+    setCookie("GRANULARITY","#month");
+});
+
+$("#year").click(function() {
     GRANULARITY = 364*24*60*60*1000;
     $("#activet").html("Interval: 1 Year");
     updatePage(true);
     setTimeout(function() {
         updateCharts(true);
     }, 500);
-    setCookie("GRANULARITY","#week");
+    setCookie("GRANULARITY","#year");
 });
 
 
@@ -349,7 +359,7 @@ function drawChart(crypto, currency, hardReset) {
                   },
                   gridlines: {
                       color: 'lightgrey',
-                      count: 6
+        
                   },
 
               },
@@ -422,7 +432,7 @@ function drawChart(crypto, currency, hardReset) {
                   },
                   gridlines: {
                       color: 'lightgrey',
-                      count: 6
+
                   },
 
               },
