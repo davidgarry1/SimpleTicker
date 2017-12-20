@@ -141,9 +141,9 @@ if (hasCookie("CHART_TYPE")) {
 }
 
 google.charts.setOnLoadCallback(function(){
-  resetIntervalsAndUpdatePrices();
+  resetIntervalsAndUpdateCharts();
   setTimeout(function(){
-    resetIntervalsAndUpdateCharts();
+    resetIntervalsAndUpdatePrices();
   },1500);
 });
 
