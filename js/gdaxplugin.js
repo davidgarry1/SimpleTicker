@@ -140,7 +140,10 @@ if (hasCookie("CHART_TYPE")) {
     }
 }
 
-google.charts.setOnLoadCallback(resetIntervalsAndUpdateBoth());
+google.charts.setOnLoadCallback(function(){
+  updatePage(true);
+  resetIntervalsAndUpdateCharts();
+});
 
 
 $(window).resize(function() {
@@ -550,6 +553,6 @@ function drawChart(crypto, currency, hardReset) {
         chart.draw(data, options);
 
     }).fail(function() {
-      
+
     });
 }
