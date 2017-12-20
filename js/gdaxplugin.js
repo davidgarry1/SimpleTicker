@@ -303,7 +303,7 @@ function drawChart(crypto, currency, hardReset) {
     }, 600);
     $.getJSON(loc, function(candles) {
       hold = false;
-        var SWidth = Math.max(10, (100*90 / $(document).width()));
+        var SWidth = Math.max(10, (100*75 / $(document).width()));
         //console.log(SWidth);
 
         if (candles.length < 140) {
