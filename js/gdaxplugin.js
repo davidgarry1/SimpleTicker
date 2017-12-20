@@ -250,7 +250,7 @@ function drawChart(crypto, currency, hardReset) {
     var loc = "https://api.gdax.com/products/" + crypto + "-" + currency + "/candles?start=" + dateObj.toISOString() + "&end=" + date.toISOString() + "&granularity=" + GRANULARITY / 150000;
     if(hold) {
       setTimeout(function(){
-        drawChart(crypto, currency, hardReset);
+        drawChart(crypto, currency, false);
       },1000);
       return;
     }
