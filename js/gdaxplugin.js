@@ -243,15 +243,21 @@ function updateCharts(hardReset) {
         firstETHDraw = false;
         firstLTCDraw = false;
     }
-    drawChart("btc", HOME_CURRENCY, hardReset);
-    drawChart("eth", HOME_CURRENCY, hardReset);
-    drawChart("ltc", HOME_CURRENCY, hardReset);
+    setTimeout(function(){
+      drawChart("btc", HOME_CURRENCY, hardReset);
+    },1100);
+    setTimeout(function(){
+      drawChart("eth", HOME_CURRENCY, hardReset);
+    },2200);
+    setTimeout(function(){
+      drawChart("ltc", HOME_CURRENCY, hardReset);
+    },3300);
 }
 
 function retryCharts() {
-    if (!firstBTCDraw) drawChart("btc", HOME_CURRENCY, false);
-    if (!firstLTCDraw) drawChart("ltc", HOME_CURRENCY, false);
-    if (!firstETHDraw) drawChart("eth", HOME_CURRENCY, false);
+    if (!firstBTCDraw) setTimeout(function(){drawChart("btc", HOME_CURRENCY, false)},1100);
+    if (!firstLTCDraw) setTimeout(function(){drawChart("ltc", HOME_CURRENCY, false)},2200);
+    if (!firstETHDraw) setTimeout(function(){drawChart("eth", HOME_CURRENCY, false)},3300);
 }
 
 var firstBTCDraw = false;
@@ -277,11 +283,15 @@ function updatePChange(crypto, open) {
         }, 100);
     }
 }
-var hold = false;
+
+
 function drawChart(crypto, currency, hardReset) {
 
     if (hardReset) {
         document.getElementById(crypto + 'chart').innerHTML = " Loading...";
+        $("#" + crypto + "open").html("...");
+        $("#" + crypto + "high").html("...");
+        $("#" + crypto + "low").html("...");
     }
     var min_frac = 2;
     if ((crypto == "ltc" || crypto == "eth") && currency == "GBP") {
@@ -297,12 +307,9 @@ function drawChart(crypto, currency, hardReset) {
       },1000);
       return;
     }
-    hold = true;
-    setTimeout(function(){
-      hold = false;
-    }, 600);
+
     $.getJSON(loc, function(candles) {
-      hold = false;
+
         var SWidth = Math.max(10, (100*75 / $(document).width()));
         //console.log(SWidth);
 
@@ -528,10 +535,6 @@ function drawChart(crypto, currency, hardReset) {
 
         chart.draw(data, options);
     }).fail(function() {
-      hold = false;
-        //console.log("GDAX API Candle Call Failed");
-        setTimeout(function() {
-            retryCharts();
-        }, 2000);
+
     });
 }
