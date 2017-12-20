@@ -162,10 +162,10 @@ function updateCoin(crypto, currency) {
             $("#" + crypto + "high").html(moneyFormatter.format(t.high));
             $("#" + crypto + "low").html(moneyFormatter.format(t.low));
         }).fail(function() {
-            console.log("Too many requests to GDAX API");
+            //console.log("Too many requests to GDAX API");
         });
     }).fail(function() {
-        console.log("Too many requests to GDAX API");
+        //console.log("Too many requests to GDAX API");
     });
 }
 
@@ -211,7 +211,7 @@ function updateCharts(hardReset) {
 
 function retryCharts() {
     setTimeout(function() {
-        console.log("Attemping redraw");
+        console.log("Attemping to re-render");
         if (!firstBTCDraw) drawChart("btc", HOME_CURRENCY, false);
         if (!firstLTCDraw) drawChart("ltc", HOME_CURRENCY, false);
         if (!firstETHDraw) drawChart("eth", HOME_CURRENCY, false);
@@ -235,17 +235,20 @@ function drawChart(crypto, currency, hardReset) {
     var date = new Date();
     var dateObj = new Date( (new Date)*1 - GRANULARITY );//ms*seconds*minutes*hours*days*weeks*months
     var loc = "https://api.gdax.com/products/" + crypto + "-" + currency + "/candles?start="+dateObj.toISOString() +"&end="+date.toISOString() +"&granularity=" + GRANULARITY/150000 ;
-    console.log(loc);
 
     $.getJSON(loc, function(candles) {
+        if(candles.length < 140){
+          console.log("GDAX API Returned Junk");
+          drawChart(crypto, HOME_CURRENCY, hardReset);
+          return;
+        }
         var moneyFormatter = new Intl.NumberFormat("en-US", {
             style: "currency",
             currency: currency,
             minimumFractionDigits: min_frac,
             maximumFractionDigits: min_frac
         });
-        console.log(" chart");
-        console.log("Drawing " + crypto.toUpperCase() + "-" + currency + ", candles.length: "+candles.length);
+        console.log("Rendering " + crypto.toUpperCase() + "-" + currency + ", candles.length: "+candles.length);
         if (crypto == "btc") firstBTCDraw = true;
         if (crypto == "eth") firstETHDraw = true;
         if (crypto == "ltc") firstLTCDraw = true;
@@ -447,7 +450,7 @@ function drawChart(crypto, currency, hardReset) {
 
         chart.draw(data, options);
     }).fail(function() {
-        console.log("Chart API Call Failed");
+        console.log("GDAX API Candle Call Failed");
         retryCharts();
     });
 }
