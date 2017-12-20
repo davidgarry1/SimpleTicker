@@ -87,8 +87,8 @@ $("#cgbp").click(function() {
 
 
 if (hasCookie("GRANULARITY")) {
-    var gr = $(getCookie("GRANULARITY"));
-    console.log(gr);
+    var gr = getCookie("GRANULARITY");
+    
     if(gr == "#hour"){
       GRANULARITY = 60 * 60 * 1000;
       $("#activet").html("Interval: 1 Hour");
@@ -113,8 +113,8 @@ if (hasCookie("GRANULARITY")) {
 }
 
 if (hasCookie("HOME_CURRENCY")) {
-    var hc = $(getCookie("HOME_CURRENCY"));
-    console.log(hc);
+    var hc = getCookie("HOME_CURRENCY");
+
     if(hc == "#cusd"){
       HOME_CURRENCY = "USD";
     } else if(hc == "#ceur"){
@@ -126,8 +126,8 @@ if (hasCookie("HOME_CURRENCY")) {
 }
 
 if (hasCookie("CHART_TYPE")) {
-    var ct = $(getCookie("CHART_TYPE"));
-    console.log(ct);
+    var ct = getCookie("CHART_TYPE");
+
     if(ct == "#candle"){
       CHART_TYPE = "candle";
       $("#activechart").html("Chart: Candlestick");
