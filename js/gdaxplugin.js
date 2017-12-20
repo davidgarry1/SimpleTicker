@@ -234,7 +234,7 @@ function updatePChange(crypto, open) {
         }, 100);
     }
 }
-
+var hold = false;
 function drawChart(crypto, currency, hardReset) {
 
     if (hardReset) {
@@ -248,10 +248,20 @@ function drawChart(crypto, currency, hardReset) {
     var date = new Date();
     var dateObj = new Date((new Date) * 1 - GRANULARITY); //ms*seconds*minutes*hours*days*weeks*months
     var loc = "https://api.gdax.com/products/" + crypto + "-" + currency + "/candles?start=" + dateObj.toISOString() + "&end=" + date.toISOString() + "&granularity=" + GRANULARITY / 150000;
-
+    if(hold) {
+      setTimeout(function(){
+        drawChart(crypto, currency, hardReset);
+      },1000);
+      return;
+    }
+    hold = true;
+    setTimeout(function(){
+      hold = false;
+    }, 600);
     $.getJSON(loc, function(candles) {
+      hold = false;
         var SWidth = Math.max(10, (100*100 / $(document).width()));
-        console.log(SWidth);
+        //console.log(SWidth);
 
         if (candles.length < 140) {
             //console.log("GDAX API Returned Junk");
@@ -475,6 +485,7 @@ function drawChart(crypto, currency, hardReset) {
 
         chart.draw(data, options);
     }).fail(function() {
+      hold = false;
         //console.log("GDAX API Candle Call Failed");
         setTimeout(function() {
             retryCharts();
