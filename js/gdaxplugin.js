@@ -88,7 +88,7 @@ $("#cgbp").click(function() {
 
 if (hasCookie("GRANULARITY")) {
     var gr = getCookie("GRANULARITY");
-    
+
     if(gr == "#hour"){
       GRANULARITY = 60 * 60 * 1000;
       $("#activet").html("Interval: 1 Hour");
@@ -141,22 +141,18 @@ if (hasCookie("CHART_TYPE")) {
 }
 
 google.charts.setOnLoadCallback(function(){
-  updatePage(true);
-  resetIntervalsAndUpdateCharts();
+  resetIntervalsAndUpdatePrices();
+  setTimeout(function(){
+    resetIntervalsAndUpdateCharts();
+  },1500);
 });
 
 
 $(window).resize(function() {
-    updateCharts(true);
+    resetIntervalsAndUpdateCharts();
 });
 
-var pageInt = setInterval(function() {
-    updatePage(false);
-}, INTERVAL*10);
-
-var chartInt = setInterval(function() {
-    updateCharts(false);
-}, INTERVAL*10);
+var pageInt, chartInt;
 
 function resetIntervalsAndUpdateBoth(){
   resetIntervalsAndUpdateCharts();
@@ -165,6 +161,7 @@ function resetIntervalsAndUpdateBoth(){
 
 function resetIntervalsAndUpdatePrices(){
   clearInterval(pageInt);
+  updatePage(true);
   pageInt = setInterval(function() {
       updatePage(false);
   }, INTERVAL*10);
@@ -177,7 +174,6 @@ function resetIntervalsAndUpdateCharts(){
       updateCharts(false);
   }, INTERVAL*10);
 }
-
 
 
 var percentFormatter = new Intl.NumberFormat("percent", {
