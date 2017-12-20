@@ -140,7 +140,7 @@ if (hasCookie("CHART_TYPE")) {
     }
 }
 
-google.charts.setOnLoadCallback(updateCharts(true));
+google.charts.setOnLoadCallback(resetIntervalsAndUpdateBoth());
 
 
 $(window).resize(function() {
@@ -149,7 +149,7 @@ $(window).resize(function() {
 
 var pageInt = setInterval(function() {
     updatePage(false);
-}, INTERVAL);
+}, INTERVAL*10);
 
 var chartInt = setInterval(function() {
     updateCharts(false);
@@ -164,7 +164,7 @@ function resetIntervalsAndUpdatePrices(){
   clearInterval(pageInt);
   pageInt = setInterval(function() {
       updatePage(false);
-  }, INTERVAL);
+  }, INTERVAL*10);
 }
 
 function resetIntervalsAndUpdateCharts(){
@@ -305,8 +305,6 @@ function updatePChange(crypto, open) {
 
 
 function drawChart(crypto, currency, hardReset) {
-    clearInterval(chartInt);
-
     if (hardReset) {
         document.getElementById(crypto + 'chart').innerHTML = " Loading...";
         $("#" + crypto + "open").html("...");
@@ -550,12 +548,8 @@ function drawChart(crypto, currency, hardReset) {
         var chart = new google.visualization.ComboChart(document.getElementById(crypto + 'chart'));
 
         chart.draw(data, options);
-        chartInt = setInterval(function() {
-            updateCharts(false);
-        }, INTERVAL*10);
+
     }).fail(function() {
-      chartInt = setInterval(function() {
-          updateCharts(false);
-      }, INTERVAL*10);
+      
     });
 }
