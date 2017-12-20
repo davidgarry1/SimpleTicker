@@ -251,10 +251,10 @@ function drawChart(crypto, currency, hardReset) {
 
     $.getJSON(loc, function(candles) {
         var SWidth = Math.max(10, (100 / $(document).width()));
-        console.log(SWidth);
+        //console.log(SWidth);
 
         if (candles.length < 140) {
-            console.log("GDAX API Returned Junk");
+            //console.log("GDAX API Returned Junk");
             drawChart(crypto, HOME_CURRENCY, hardReset);
             return;
         }
@@ -264,7 +264,7 @@ function drawChart(crypto, currency, hardReset) {
             minimumFractionDigits: min_frac,
             maximumFractionDigits: min_frac
         });
-        console.log("Rendering " + crypto.toUpperCase() + "-" + currency + ", candles.length: " + candles.length);
+        //console.log("Rendering " + crypto.toUpperCase() + "-" + currency + ", candles.length: " + candles.length);
         if (crypto == "btc") firstBTCDraw = true;
         if (crypto == "eth") firstETHDraw = true;
         if (crypto == "ltc") firstLTCDraw = true;
@@ -475,7 +475,7 @@ function drawChart(crypto, currency, hardReset) {
 
         chart.draw(data, options);
     }).fail(function() {
-        console.log("GDAX API Candle Call Failed");
+        //console.log("GDAX API Candle Call Failed");
         setTimeout(function() {
             retryCharts();
         }, 2000);
