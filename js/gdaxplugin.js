@@ -111,18 +111,61 @@ $("#cgbp").click(function() {
 
 
 if (hasCookie("GRANULARITY")) {
-    $(getCookie("GRANULARITY")).click();
+    var gr = $(getCookie("GRANULARITY"));
+    if(gr == "#hour"){
+      GRANULARITY = 60 * 60 * 1000;
+      $("#activet").html("Interval: 1 Hour");
+      $("span.interval").html("1H");
+    } else if(gr == "#day"){
+      GRANULARITY = 24 * 60 * 60 * 1000;
+      $("#activet").html("Interval: 1 Day");
+      $("span.interval").html("1D");
+    } else if(gr == "#week"){
+      GRANULARITY = 7 * 24 * 60 * 60 * 1000;
+      $("#activet").html("Interval: 1 Week");
+      $("span.interval").html("1W");
+    } else if(gr == "#month"){
+      GRANULARITY = 30 * 24 * 60 * 60 * 1000;
+      $("#activet").html("Interval: 1 Month");
+      $("span.interval").html("1M");
+    } else if(gr == "#year"){
+      GRANULARITY = 364 * 24 * 60 * 60 * 1000;
+      $("#activet").html("Interval: 1 Year");
+      $("span.interval").html("1Y");
+    }
 }
 
 if (hasCookie("HOME_CURRENCY")) {
-    $(getCookie("HOME_CURRENCY")).click();
+    var hc = $(getCookie("HOME_CURRENCY"));
+    if(hc == "#cusd"){
+      HOME_CURRENCY = "USD";
+    } else if(hc == "#ceur"){
+      HOME_CURRENCY = "EUR";
+    } else if(hc == "#cgbp"){
+      HOME_CURRENCY = "GBP";
+    }
+    $("#activec").html(HOME_CURRENCY);
 }
 
 if (hasCookie("CHART_TYPE")) {
-    $(getCookie("CHART_TYPE")).click();
+    var ct = $(getCookie("CHART_TYPE"));
+    if(ct == "#candle"){
+      CHART_TYPE = "candle";
+      $("#activechart").html("Chart: Candlestick");
+    } else if(ct == "#line"){
+      CHART_TYPE = "line";
+      $("#activechart").html("Chart: Line");
+    } else if(ct == "#combo"){
+      CHART_TYPE = "both";
+      $("#activechart").html("Chart: Combo");
+    }
 }
 
+
 google.charts.setOnLoadCallback(updateCharts(true));
+
+
+
 
 $(window).resize(function() {
     updateCharts(true);
@@ -134,7 +177,7 @@ setInterval(function() {
 
 setInterval(function() {
     updateCharts(false);
-}, 20*1000);
+}, 30*1000);
 
 
 
