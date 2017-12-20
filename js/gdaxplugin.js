@@ -1,4 +1,4 @@
-var INTERVAL = 1000; //Rate limits available at https://docs.gdax.com/#rate-limits
+var INTERVAL = 1200; //Rate limits available at https://docs.gdax.com/#rate-limits
 var CURRENT_COIN_NUM = 0;
 var HOME_CURRENCY = "USD";
 var GRANULARITY = 60 * 60 * 1000; //1 Hour
@@ -7,21 +7,21 @@ var CHART_TYPE = "line";
 $("#candle").click(function() {
     CHART_TYPE = "candle";
     $("#activechart").html("Chart: Candlestick");
-    updateCharts(true);
+    resetIntervalsAndUpdateCharts();
     setCookie("CHART_TYPE", "#candle");
 });
 
 $("#line").click(function() {
     CHART_TYPE = "line";
     $("#activechart").html("Chart: Line");
-    updateCharts(true);
+    resetIntervalsAndUpdateCharts();
     setCookie("CHART_TYPE", "#line");
 });
 
 $("#combo").click(function() {
     CHART_TYPE = "both";
     $("#activechart").html("Chart: Combo");
-    updateCharts(true);
+    resetIntervalsAndUpdateCharts();
     setCookie("CHART_TYPE", "#combo");
 });
 
@@ -29,10 +29,7 @@ $("#hour").click(function() {
     GRANULARITY = 60 * 60 * 1000;
     $("#activet").html("Interval: 1 Hour");
     $("span.interval").html("1H");
-    updatePage(true);
-    setTimeout(function() {
-        updateCharts(true);
-    }, 500);
+    resetIntervalsAndUpdateBoth();
     eraseCookie("GRANULARITY");
 });
 
@@ -40,10 +37,7 @@ $("#day").click(function() {
     GRANULARITY = 24 * 60 * 60 * 1000;
     $("#activet").html("Interval: 1 Day");
     $("span.interval").html("1D");
-    updatePage(true);
-    setTimeout(function() {
-        updateCharts(true);
-    }, 500);
+    resetIntervalsAndUpdateBoth();
     setCookie("GRANULARITY", "#day");
 });
 
@@ -51,10 +45,7 @@ $("#week").click(function() {
     GRANULARITY = 7 * 24 * 60 * 60 * 1000;
     $("#activet").html("Interval: 1 Week");
     $("span.interval").html("1W");
-    updatePage(true);
-    setTimeout(function() {
-        updateCharts(true);
-    }, 500);
+    resetIntervalsAndUpdateBoth();
     setCookie("GRANULARITY", "#week");
 });
 
@@ -62,10 +53,7 @@ $("#month").click(function() {
     GRANULARITY = 30 * 24 * 60 * 60 * 1000;
     $("#activet").html("Interval: 1 Month");
     $("span.interval").html("1M");
-    updatePage(true);
-    setTimeout(function() {
-        updateCharts(true);
-    }, 500);
+    resetIntervalsAndUpdateBoth();
     setCookie("GRANULARITY", "#month");
 });
 
@@ -73,10 +61,7 @@ $("#year").click(function() {
     GRANULARITY = 364 * 24 * 60 * 60 * 1000;
     $("#activet").html("Interval: 1 Year");
     $("span.interval").html("1Y");
-    updatePage(true);
-    setTimeout(function() {
-        updateCharts(true);
-    }, 500);
+    resetIntervalsAndUpdateBoth();
     setCookie("GRANULARITY", "#year");
 });
 
@@ -84,28 +69,19 @@ $("#year").click(function() {
 $("#cusd").click(function() {
     HOME_CURRENCY = "USD";
     $("#activec").html(HOME_CURRENCY);
-    updatePage(true);
-    setTimeout(function() {
-        updateCharts(true);
-    }, 500);
+    resetIntervalsAndUpdateBoth();
     eraseCookie("HOME_CURRENCY");
 });
 $("#ceur").click(function() {
     HOME_CURRENCY = "EUR";
     $("#activec").html(HOME_CURRENCY);
-    updatePage(true);
-    setTimeout(function() {
-        updateCharts(true);
-    }, 500);
+    resetIntervalsAndUpdateBoth();
     setCookie("HOME_CURRENCY", "#ceur");
 });
 $("#cgbp").click(function() {
     HOME_CURRENCY = "GBP";
     $("#activec").html(HOME_CURRENCY);
-    updatePage(true);
-    setTimeout(function() {
-        updateCharts(true);
-    }, 500);
+    resetIntervalsAndUpdateBoth();
     setCookie("HOME_CURRENCY", "#cgbp");
 });
 
@@ -171,13 +147,34 @@ $(window).resize(function() {
     updateCharts(true);
 });
 
-setInterval(function() {
+var pageInt = setInterval(function() {
     updatePage(false);
 }, INTERVAL);
 
-setInterval(function() {
+var chartInt = setInterval(function() {
     updateCharts(false);
-}, 10*1000);
+}, INTERVAL*10);
+
+function resetIntervalsAndUpdateBoth(){
+  resetIntervalsAndUpdatePrices();
+  resetIntervalsAndUpdateCharts();
+}
+
+function resetIntervalsAndUpdatePrices(){
+  clearInterval(pageInt);
+  updatePage(true);
+  pageInt = setInterval(function() {
+      updatePage(false);
+  }, INTERVAL);
+}
+
+function resetIntervalsAndUpdateCharts(){
+  clearInterval(chartInt);
+  updateCharts(true);
+  chartInt = setInterval(function() {
+      updateCharts(false);
+  }, INTERVAL*10);
+}
 
 
 
@@ -246,19 +243,19 @@ function updateCharts(hardReset) {
     }
     setTimeout(function(){
       drawChart("btc", HOME_CURRENCY, hardReset);
-    },1100);
+    },50);
     setTimeout(function(){
       drawChart("eth", HOME_CURRENCY, hardReset);
-    },2200);
+    },1200);
     setTimeout(function(){
       drawChart("ltc", HOME_CURRENCY, hardReset);
-    },3300);
+    },2400);
 }
 
 function retryCharts() {
-    if (!firstBTCDraw) setTimeout(function(){drawChart("btc", HOME_CURRENCY, false)},1100);
-    if (!firstLTCDraw) setTimeout(function(){drawChart("ltc", HOME_CURRENCY, false)},2200);
-    if (!firstETHDraw) setTimeout(function(){drawChart("eth", HOME_CURRENCY, false)},3300);
+    if (!firstBTCDraw) setTimeout(function(){drawChart("btc", HOME_CURRENCY, false)},50);
+    if (!firstLTCDraw) setTimeout(function(){drawChart("ltc", HOME_CURRENCY, false)},1200);
+    if (!firstETHDraw) setTimeout(function(){drawChart("eth", HOME_CURRENCY, false)},2400);
 }
 
 var firstBTCDraw = false;
@@ -287,6 +284,10 @@ function updatePChange(crypto, open) {
 
 
 function drawChart(crypto, currency, hardReset) {
+    clearInterval(chartInt);
+    chartInt = setInterval(function() {
+        updateCharts(false);
+    }, 10*1000);
 
     if (hardReset) {
         document.getElementById(crypto + 'chart').innerHTML = " Loading...";
