@@ -177,7 +177,7 @@ setInterval(function() {
 
 setInterval(function() {
     updateCharts(false);
-}, 30*1000);
+}, 10*1000);
 
 
 
@@ -292,6 +292,8 @@ function drawChart(crypto, currency, hardReset) {
         $("#" + crypto + "open").html("...");
         $("#" + crypto + "high").html("...");
         $("#" + crypto + "low").html("...");
+        $("#" + crypto + "open").removeClass("red");
+        $("#" + crypto + "open").removeClass("green");
     }
     var min_frac = 2;
     if ((crypto == "ltc" || crypto == "eth") && currency == "GBP") {
@@ -301,12 +303,6 @@ function drawChart(crypto, currency, hardReset) {
     var date = new Date();
     var dateObj = new Date((new Date) * 1 - GRANULARITY); //ms*seconds*minutes*hours*days*weeks*months
     var loc = "https://api.gdax.com/products/" + crypto + "-" + currency + "/candles?start=" + dateObj.toISOString() + "&end=" + date.toISOString() + "&granularity=" + GRANULARITY / 150000;
-    if(hold) {
-      setTimeout(function(){
-        drawChart(crypto, currency, false);
-      },1000);
-      return;
-    }
 
     $.getJSON(loc, function(candles) {
 
