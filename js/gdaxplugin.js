@@ -159,8 +159,8 @@ var chartInt = setInterval(function() {
 }, INTERVAL*10);
 
 function resetIntervalsAndUpdateBoth(){
-  resetIntervalsAndUpdatePrices();
   resetIntervalsAndUpdateCharts();
+  resetIntervalsAndUpdatePrices();
 }
 
 function resetIntervalsAndUpdatePrices(){
