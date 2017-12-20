@@ -16,6 +16,7 @@ function loadMoreNews() {
         'sortBy=popularity&' +
         'language=en&' +
         'apiKey=5448d59885724ecf9e865df785bbb667';
+
     var backupUrl = 'http://www.simpleticker.com/json/news.json';
     $.getJSON(url, function(raw) {
         console.log("Fetched newsfeed");
@@ -29,7 +30,7 @@ function loadMoreNews() {
                 createArticleList(raw);
                 newsload = true;
             }).fail(function() {
-                console.log("Failed to load newsfeed");
+                console.log("Failed to load cached newsfeed");
                 showErrorLoadingNews();
                 newsload = true;
             });
