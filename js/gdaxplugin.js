@@ -190,16 +190,16 @@ function updateCoin(crypto, currency) {
         currency = "BTC"; //no GBP exchange for LTC/ETH
         min_frac = 7;
     }
-    $.getJSON("https://api.cryptowat.ch/markets/gdax/" + crypto.toLowerCase() + "" + currency.toLowerCase() + "/price", function(ticker) {
+    $.getJSON("https://api.gdax.com/products/" + crypto + "-" + currency + "/ticker", function(ticker) {
+
         var moneyFormatter = new Intl.NumberFormat("en-US", {
             style: "currency",
             currency: currency,
             minimumFractionDigits: min_frac,
             maximumFractionDigits: min_frac
         });
-        $("#" + crypto + "price").html(moneyFormatter.format(ticker.result.price));
-        if (crypto == "btc") document.title = moneyFormatter.format(ticker.result.price) + "-BTC | Simple Ticker";
-        console.log(ticker.allowance.cost + " | " +ticker.allowance.remaining);
+        $("#" + crypto + "price").html(moneyFormatter.format(ticker.price));
+        if (crypto == "btc") document.title = moneyFormatter.format(ticker.price) + "-BTC | Simple Ticker";
     }).fail(function() {
         //console.log("Too many requests to GDAX API");
     });
