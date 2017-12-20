@@ -29,7 +29,7 @@ $("#hour").click(function() {
     GRANULARITY = 60 * 60 * 1000;
     $("#activet").html("Interval: 1 Hour");
     $("span.interval").html("1H");
-    resetIntervalsAndUpdateBoth();
+    resetIntervalsAndUpdateCharts();
     setCookie("GRANULARITY", "#hour");
 });
 
@@ -37,7 +37,7 @@ $("#day").click(function() {
     GRANULARITY = 24 * 60 * 60 * 1000;
     $("#activet").html("Interval: 1 Day");
     $("span.interval").html("1D");
-    resetIntervalsAndUpdateBoth();
+    resetIntervalsAndUpdateCharts();
     setCookie("GRANULARITY", "#day");
 });
 
@@ -45,7 +45,7 @@ $("#week").click(function() {
     GRANULARITY = 7 * 24 * 60 * 60 * 1000;
     $("#activet").html("Interval: 1 Week");
     $("span.interval").html("1W");
-    resetIntervalsAndUpdateBoth();
+    resetIntervalsAndUpdateCharts();
     setCookie("GRANULARITY", "#week");
 });
 
@@ -53,7 +53,7 @@ $("#month").click(function() {
     GRANULARITY = 30 * 24 * 60 * 60 * 1000;
     $("#activet").html("Interval: 1 Month");
     $("span.interval").html("1M");
-    resetIntervalsAndUpdateBoth();
+    resetIntervalsAndUpdateCharts();
     setCookie("GRANULARITY", "#month");
 });
 
@@ -61,7 +61,7 @@ $("#year").click(function() {
     GRANULARITY = 364 * 24 * 60 * 60 * 1000;
     $("#activet").html("Interval: 1 Year");
     $("span.interval").html("1Y");
-    resetIntervalsAndUpdateBoth();
+    resetIntervalsAndUpdateCharts();
     setCookie("GRANULARITY", "#year");
 });
 
