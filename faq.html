@@ -78,9 +78,9 @@
                 <h3>Why is Bitcoin Cash (BTH) not listed?</h3>
                 <p>GDAX recently added Bitcoin Cash (BTH), not to be confused with Bitcoin (BTC), and we will including it shortly. If you would like to know more about the differences between BTC and BTH, you can read more on <a target="_blank" href="http://www.slate.com/blogs/future_tense/2017/08/04/explaining_bitcoin_s_split_into_two_cryptocurrencies.html">Slate</a>.</p>
                 <h3>Why does a page load take so long?</h3>
-                <p>We are limited by the GDAX API to 3 API calls per second with occasional 6 call bursts. This means that we sometimes need about 2 or 3 seconds to load the homepage. The good news is that leaving a SimpleTicker tab open has a negligible impact on your CPU, far outperforming most other cryptocurrency dashboards.</p>
+                <p>We are limited by the GDAX API to 3 API calls per user per second with occasional 6 call bursts. This means that if you refresh the charts multiple times back to back it may result in the API call being rejected and your page not loading. Leave the homepage for about 30 seconds and come back, and that should solve the problem. We are working to resolve this.</p>
                 <h3>How real-time is the data?</h3>
-                <p>The last trade price of a currency is updated about once per second, and therefore is 500ms delayed on average. The charts are updated when there is a new interval to poll, and depends on the granularity selected.</p>
+                <p>The last trade price of a currency is updated about every 1.5 seconds, and therefore is 750ms delayed on average. The charts are updated when there is a new interval to poll, and depends on the granularity selected.</p>
                 <h3>Where does the data come from?</h3>
                 <p>The information comes from GDAX, which is the underlying cryptocurrency exchange of the Coinbase app. We are not affiliated with GDAX nor Coinbase.</p>
                 <h3>Why do some currencies show BTC price instead of GBP?</h3>
