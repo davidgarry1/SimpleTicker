@@ -215,7 +215,7 @@ function retryCharts() {
         if (!firstBTCDraw) drawChart("btc", HOME_CURRENCY, false);
         if (!firstLTCDraw) drawChart("ltc", HOME_CURRENCY, false);
         if (!firstETHDraw) drawChart("eth", HOME_CURRENCY, false);
-    }, 1500);
+    }, 1000);
 }
 
 var firstBTCDraw = false;
@@ -448,6 +448,6 @@ function drawChart(crypto, currency, hardReset) {
         chart.draw(data, options);
     }).fail(function() {
         console.log("Chart API Call Failed");
-        //retryCharts();
+        retryCharts();
     });
 }
