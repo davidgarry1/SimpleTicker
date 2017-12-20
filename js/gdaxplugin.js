@@ -164,7 +164,7 @@ function resetIntervalsAndUpdatePrices(){
   updatePage(true);
   pageInt = setInterval(function() {
       updatePage(false);
-  }, INTERVAL*5);
+  }, INTERVAL*6);
 }
 
 function resetIntervalsAndUpdateCharts(){
@@ -318,7 +318,7 @@ function drawChart(crypto, currency, hardReset) {
         min_frac = 7;
     }
     var date = new Date();
-    var dateObj = new Date((new Date) * 1 - GRANULARITY); //ms*seconds*minutes*hours*days*weeks*months
+    var dateObj = new Date((new Date) * 1 - GRANULARITY);
     var loc = "https://api.gdax.com/products/" + crypto + "-" + currency + "/candles?start=" + dateObj.toISOString() + "&end=" + date.toISOString() + "&granularity=" + GRANULARITY / 150000;
 
     $.getJSON(loc, function(candles) {
