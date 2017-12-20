@@ -250,8 +250,8 @@ function drawChart(crypto, currency, hardReset) {
     var loc = "https://api.gdax.com/products/" + crypto + "-" + currency + "/candles?start=" + dateObj.toISOString() + "&end=" + date.toISOString() + "&granularity=" + GRANULARITY / 150000;
 
     $.getJSON(loc, function(candles) {
-        var SWidth = Math.max(10, (100 / $(document).width()));
-        //console.log(SWidth);
+        var SWidth = Math.max(10, (100*100 / $(document).width()));
+        console.log(SWidth);
 
         if (candles.length < 140) {
             //console.log("GDAX API Returned Junk");
