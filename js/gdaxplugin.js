@@ -1,4 +1,4 @@
-var INTERVAL = 1200; //Rate limits available at https://docs.gdax.com/#rate-limits
+var INTERVAL = 1500; //Rate limits available at https://docs.gdax.com/#rate-limits
 var CURRENT_COIN_NUM = 0;
 var HOME_CURRENCY = "USD";
 var GRANULARITY = 60 * 60 * 1000; //1 Hour
@@ -162,7 +162,7 @@ function resetIntervalsAndUpdateBoth(){
 
 function resetIntervalsAndUpdatePrices(){
   clearInterval(pageInt);
-  updatePage(true);
+  updatePage(false);
   pageInt = setInterval(function() {
       updatePage(false);
   }, INTERVAL);
@@ -234,6 +234,8 @@ function updatePage(all) {
     }
 }
 
+var chartB = false;
+var priceB = false;
 
 function updateCharts(hardReset) {
     if (hardReset) {
@@ -241,21 +243,41 @@ function updateCharts(hardReset) {
         firstETHDraw = false;
         firstLTCDraw = false;
     }
-    setTimeout(function(){
-      drawChart("btc", HOME_CURRENCY, hardReset);
-    },50);
-    setTimeout(function(){
-      drawChart("eth", HOME_CURRENCY, hardReset);
-    },1200);
-    setTimeout(function(){
-      drawChart("ltc", HOME_CURRENCY, hardReset);
-    },2400);
+    if(chartB){
+      setTimeout(function(){
+        drawChart("btc", HOME_CURRENCY, hardReset);
+      },50);
+      setTimeout(function(){
+        drawChart("eth", HOME_CURRENCY, hardReset);
+      },1200);
+      setTimeout(function(){
+        drawChart("ltc", HOME_CURRENCY, hardReset);
+      },2400);
+    } else {
+      setTimeout(function(){
+        drawChart("ltc", HOME_CURRENCY, hardReset);
+      },50);
+      setTimeout(function(){
+        drawChart("eth", HOME_CURRENCY, hardReset);
+      },1200);
+      setTimeout(function(){
+        drawChart("btc", HOME_CURRENCY, hardReset);
+      },2400);
+    }
+    chartB = !chartB;
 }
 
 function retryCharts() {
-    if (!firstBTCDraw) setTimeout(function(){drawChart("btc", HOME_CURRENCY, false)},50);
-    if (!firstLTCDraw) setTimeout(function(){drawChart("ltc", HOME_CURRENCY, false)},1200);
-    if (!firstETHDraw) setTimeout(function(){drawChart("eth", HOME_CURRENCY, false)},2400);
+    if(priceB){
+      if (!firstBTCDraw) setTimeout(function(){drawChart("btc", HOME_CURRENCY, false)},50);
+      if (!firstLTCDraw) setTimeout(function(){drawChart("ltc", HOME_CURRENCY, false)},1200);
+      if (!firstETHDraw) setTimeout(function(){drawChart("eth", HOME_CURRENCY, false)},2400);
+    } else {
+      if (!firstBTCDraw) setTimeout(function(){drawChart("eth", HOME_CURRENCY, false)},50);
+      if (!firstLTCDraw) setTimeout(function(){drawChart("ltc", HOME_CURRENCY, false)},1200);
+      if (!firstETHDraw) setTimeout(function(){drawChart("btc", HOME_CURRENCY, false)},2400);
+    }
+    priceB = !priceB;
 }
 
 var firstBTCDraw = false;
