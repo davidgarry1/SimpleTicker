@@ -164,7 +164,7 @@ function resetIntervalsAndUpdatePrices(){
   updatePage(true);
   pageInt = setInterval(function() {
       updatePage(false);
-  }, INTERVAL*10);
+  }, INTERVAL*5);
 }
 
 function resetIntervalsAndUpdateCharts(){
