@@ -30,7 +30,7 @@ $("#hour").click(function() {
     $("#activet").html("Interval: 1 Hour");
     $("span.interval").html("1H");
     resetIntervalsAndUpdateBoth();
-    eraseCookie("GRANULARITY");
+    setCookie("GRANULARITY", "#hour");
 });
 
 $("#day").click(function() {
@@ -70,7 +70,7 @@ $("#cusd").click(function() {
     HOME_CURRENCY = "USD";
     $("#activec").html(HOME_CURRENCY);
     resetIntervalsAndUpdateBoth();
-    eraseCookie("HOME_CURRENCY");
+    setCookie("HOME_CURRENCY", "#cusd");
 });
 $("#ceur").click(function() {
     HOME_CURRENCY = "EUR";
@@ -137,10 +137,7 @@ if (hasCookie("CHART_TYPE")) {
     }
 }
 
-
 google.charts.setOnLoadCallback(updateCharts(true));
-
-
 
 
 $(window).resize(function() {
@@ -162,7 +159,6 @@ function resetIntervalsAndUpdateBoth(){
 
 function resetIntervalsAndUpdatePrices(){
   clearInterval(pageInt);
-  updatePage(false);
   pageInt = setInterval(function() {
       updatePage(false);
   }, INTERVAL);
