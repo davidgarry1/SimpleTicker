@@ -1,4 +1,4 @@
-var INTERVAL = 1500; //Rate limits available at https://docs.gdax.com/#rate-limits
+var INTERVAL = 1000; //Rate limits available at https://docs.gdax.com/#rate-limits
 var CURRENT_COIN_NUM = 0;
 var HOME_CURRENCY = "USD";
 var GRANULARITY = 60 * 60 * 1000; //1 Hour
@@ -164,7 +164,7 @@ function resetIntervalsAndUpdatePrices(){
   updatePage(true);
   pageInt = setInterval(function() {
       updatePage(false);
-  }, INTERVAL*6);
+  }, INTERVAL*5);
 }
 
 function resetIntervalsAndUpdateCharts(){
@@ -172,7 +172,7 @@ function resetIntervalsAndUpdateCharts(){
   updateCharts(true);
   chartInt = setInterval(function() {
       updateCharts(false);
-  }, INTERVAL*10);
+  }, INTERVAL*12);
 }
 
 
