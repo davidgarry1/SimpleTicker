@@ -1,4 +1,4 @@
-var INTERVAL = 1500; //Rate limits available at https://docs.gdax.com/#rate-limits
+var INTERVAL = 1100; //Rate limits available at https://docs.gdax.com/#rate-limits
 var CURRENT_COIN_NUM = 0;
 var HOME_CURRENCY = "USD";
 var GRANULARITY = 60 * 60 * 1000; //1 Hour
@@ -190,16 +190,16 @@ function updateCoin(crypto, currency) {
         currency = "BTC"; //no GBP exchange for LTC/ETH
         min_frac = 7;
     }
-    $.getJSON("https://api.gdax.com/products/" + crypto + "-" + currency + "/ticker", function(ticker) {
-
+    $.getJSON("https://api.cryptowat.ch/markets/gdax/" + crypto.toLowerCase() + "" + currency.toLowerCase() + "/price", function(ticker) {
         var moneyFormatter = new Intl.NumberFormat("en-US", {
             style: "currency",
             currency: currency,
             minimumFractionDigits: min_frac,
             maximumFractionDigits: min_frac
         });
-        $("#" + crypto + "price").html(moneyFormatter.format(ticker.price));
-        if (crypto == "btc") document.title = moneyFormatter.format(ticker.price) + "-BTC | Simple Ticker";
+        $("#" + crypto + "price").html(moneyFormatter.format(ticker.result.price));
+        if (crypto == "btc") document.title = moneyFormatter.format(ticker.result.price) + "-BTC | Simple Ticker";
+        console.log(ticker.allowance.cost + " | " +ticker.allowance.remaining);
     }).fail(function() {
         //console.log("Too many requests to GDAX API");
     });
@@ -307,9 +307,6 @@ function updatePChange(crypto, open) {
 
 function drawChart(crypto, currency, hardReset) {
     clearInterval(chartInt);
-    chartInt = setInterval(function() {
-        updateCharts(false);
-    }, 10*1000);
 
     if (hardReset) {
         document.getElementById(crypto + 'chart').innerHTML = " Loading...";
@@ -554,7 +551,12 @@ function drawChart(crypto, currency, hardReset) {
         var chart = new google.visualization.ComboChart(document.getElementById(crypto + 'chart'));
 
         chart.draw(data, options);
+        chartInt = setInterval(function() {
+            updateCharts(false);
+        }, INTERVAL*10);
     }).fail(function() {
-
+      chartInt = setInterval(function() {
+          updateCharts(false);
+      }, INTERVAL*10);
     });
 }
