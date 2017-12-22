@@ -1,3 +1,5 @@
+function w(){
+
 var INTERVAL_PRICES = 1300; //Rate limits available at https://docs.gdax.com/#rate-limits
 var INTERVAL_CHARTS = 60 * 1000;
 var CURRENT_COIN_NUM = 0;
@@ -531,3 +533,6 @@ function drawChart(crypto, currency, hardReset) {
         console.log("CHART API Call Failure");
     });
 }
+
+
+}w();
