@@ -105,25 +105,29 @@ if (hasCookie("GRANULARITY")) {
     var gr = getCookie("GRANULARITY");
 
     if(gr == "#hour"){
-      GRANULARITY = 60 * 60 * 1000;
+      GRANULARITY = GRAN_HOUR;
       $("#activet").html("Interval: 1 Hour");
       $("span.interval").html("1H");
     } else if(gr == "#day"){
-      GRANULARITY = 24 * 60 * 60 * 1000;
+      GRANULARITY = GRAN_DAY;
       $("#activet").html("Interval: 1 Day");
       $("span.interval").html("1D");
     } else if(gr == "#week"){
-      GRANULARITY = 7 * 24 * 60 * 60 * 1000;
+      GRANULARITY = GRAN_WEEK;
       $("#activet").html("Interval: 1 Week");
       $("span.interval").html("1W");
     } else if(gr == "#month"){
-      GRANULARITY = 30 * 24 * 60 * 60 * 1000;
+      GRANULARITY = GRAN_MONTH;
       $("#activet").html("Interval: 1 Month");
       $("span.interval").html("1M");
     } else if(gr == "#year"){
-      GRANULARITY = 364 * 24 * 60 * 60 * 1000;
+      GRANULARITY = GRAN_YEAR;
       $("#activet").html("Interval: 1 Year");
       $("span.interval").html("1Y");
+    } else if(gr == "#alltime"){
+      GRANULARITY = GRAN_ALL_TIME;
+      $("#activet").html("Interval: All Time");
+      $("span.interval").html("ALL");
     }
 }
 
