@@ -116,17 +116,20 @@ function setHandlers() {
     });
     $("#tabbtc").click(function() {
         ACTIVE_TAB = "BTC";
-        $("#tabbtc").html("Tab: "+ACTIVE_TAB);
+        $("#activetab").html("Tab: "+ACTIVE_TAB);
+        document.title = $("#" + ACTIVE_TAB.toLowerCase() + "price").html() + "-"+ACTIVE_TAB+" | Simple Ticker";
         setCookie("ACTIVE_TAB", "BTC");
     });
     $("#tabeth").click(function() {
         ACTIVE_TAB = "ETH";
-        $("#tabeth").html("Tab: "+ACTIVE_TAB);
+        $("#activetab").html("Tab: "+ACTIVE_TAB);
+        document.title = $("#" + ACTIVE_TAB.toLowerCase() + "price").html() + "-"+ACTIVE_TAB+" | Simple Ticker";
         setCookie("ACTIVE_TAB", "ETH");
     });
     $("#tabltc").click(function() {
         ACTIVE_TAB = "LTC";
-        $("#tabltc").html("Tab: "+ACTIVE_TAB);
+        $("#activetab").html("Tab: "+ACTIVE_TAB);
+        document.title = $("#" + ACTIVE_TAB.toLowerCase() + "price").html() + "-"+ACTIVE_TAB+" | Simple Ticker";
         setCookie("ACTIVE_TAB", "LTC");
     });
 }
