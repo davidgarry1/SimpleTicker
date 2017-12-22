@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300|Montserrat:800" rel="stylesheet">
+      <meta charset="utf-8">
+      <meta http-equiv="content-type" content="text/html;charset=UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <meta name="HandheldFriendly" content="True">
+      <meta name="MobileOptimized" content="320">
+      <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+      <meta property="og:type" content="website">
+      <meta property="og:image:width" content="600">
+      <meta property="og:image:height" content="400">
+      <title>Embarc</title>
+      <link rel="shortcut icon" href="../assets/embarc_icon.png" />
+      <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/4.4.0/firebase.js"></script>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+      <script>
+         // Initialize Firebase
+         var config = {
+           apiKey: "AIzaSyBmwAi6c82WLwRCTfXeLgNyIU02BAM3PZc",
+           authDomain: "embarcio.firebaseapp.com",
+           databaseURL: "https://embarcio.firebaseio.com",
+           projectId: "embarcio",
+           storageBucket: "embarcio.appspot.com",
+           messagingSenderId: "200380587657"
+         };
+         firebase.initializeApp(config);
+      </script>
+
+      <link href="../css/main.css" rel="stylesheet" type="text/css" />
+   </head>
+   <body>
+      <div class="navbar-holder">
+
+
+
+
+
+
+
+
+
+
+
+         <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+               <div class="navbar-header">
+                  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  </button>
+                  <a class="navbar-brand" href="index.html"><img class="homeicon" src="../assets/embarc_icon.png"></a>
+               </div>
+               <div class="collapse navbar-collapse" id="myNavbar">
+                  <ul class="nav navbar-nav">
+                     <li><a href="#">Journies</a></li>
+                     <li><a href="#">Class Data</a></li>
+                  </ul>
+                  <ul class="nav navbar-nav navbar-right">
+                     <li><a href="#">
+                       <span class="glyphicon glyphicon-user">
+                       </span><span id="si"> Sign Up</span></a></li>
+                     <li><a href="../login/index.html">
+                       <span id="" class="glyphicon glyphicon-log-in">
+                       </span><span id="li"> Login</span></a></li>
+                  </ul>
+                  <ul class="nav navbar-nav">
+                     <li><a href="feedback.html">Feedback</a></li>
+                     <li><a href="#">Settings</a></li>
+                  </ul>
+               </div>
+            </div>
+         </nav>
+
+      </div>
+
+      <!--end of nav-->
+      <div class="journey-panel">
+        <div class="journey-header">
+          <center>
+            Rock Gym
+          </center>
+        </div>
+        <div class="bottom-journey-panel">
+          <div class="stars-review-panel">
+
+            <div class="rating">
+              <span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span>
+            </div>
+
+          </div>
+          <div class="most-recent-review-panel">
+            <div class="review">
+              <span class="name">David Garry:</span> Thanks for sharing this. It works but when the selection seems to be working from the reverse side. e.g. if I select the fourth star it highlights the 4th and 5th in yellow instead of the 1st to 4th. How can I fix it?
+            </div>
+            <div class="review">
+              <span class="name">Sean Li:</span> I used a slightly different variation of this rating system shown by another blog, but it's almost identical, especially the CSS. Pretty much prepend the ID, Name and For tags with a unique identifier, such as the row ID for the data assigned to the rating.
+
+
+
+            </div>
+            <div class="review">
+              <span class="name">David Garry:</span> Thanks for sharing this. It works but when the selection seems to be working from the reverse side. e.g. if I select the fourth star it highlights the 4th and 5th in yellow instead of the 1st to 4th. How can I fix it?
+            </div>
+            <div class="review">
+              <span class="name">Sean Li:</span> I used a slightly different variation of this rating system shown by another blog, but it's almost identical, especially the CSS. Pretty much prepend the ID, Name and For tags with a unique identifier, such as the row ID for the data assigned to the rating.
+            </div>
+            <div class="review">
+              <span class="name">David Garry:</span> Thanks for sharing this. It works but when the selection seems to be working from the reverse side. e.g. if I select the fourth star it highlights the 4th and 5th in yellow instead of the 1st to 4th. How can I fix it?
+            </div>
+            <div class="review">
+              <span class="name">Sean Li:</span> I used a slightly different variation of this rating system shown by another blog, but it's almost identical, especially the CSS. Pretty much prepend the ID, Name and For tags with a unique identifier, such as the row ID for the data assigned to the rating.
+            </div>
+            <div class="review">
+              <span class="name">David Garry:</span> Thanks for sharing this. It works but when the selection seems to be working from the reverse side. e.g. if I select the fourth star it highlights the 4th and 5th in yellow instead of the 1st to 4th. How can I fix it?
+            </div>
+            <div class="review">
+              <span class="name">Sean Li:</span> I used a slightly different variation of this rating system shown by another blog, but it's almost identical, especially the CSS. Pretty much prepend the ID, Name and For tags with a unique identifier, such as the row ID for the data assigned to the rating.
+            </div>
+            <div class="review">
+              <span class="name">David Garry:</span> Thanks for sharing this. It works but when the selection seems to be working from the reverse side. e.g. if I select the fourth star it highlights the 4th and 5th in yellow instead of the 1st to 4th. How can I fix it?
+            </div>
+            <div class="review">
+              <span class="name">Sean Li:</span> I used a slightly different variation of this rating system shown by another blog, but it's almost identical, especially the CSS. Pretty much prepend the ID, Name and For tags with a unique identifier, such as the row ID for the data assigned to the rating.
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+<script src="../js/main.js"></script> <!--main load-->
+
+   </body>
+</html>

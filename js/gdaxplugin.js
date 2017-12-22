@@ -3,6 +3,7 @@ var INTERVAL_CHARTS = 60 * 1000;
 var CURRENT_COIN_NUM = 0;
 var HOME_CURRENCY = "USD";
 var CHART_TYPE = "line";
+var ACTIVE_TAB = "BTC";
 var GRAN_HOUR = 1;
 var GRAN_DAY = 2;
 var GRAN_WEEK = 3;
@@ -39,137 +40,137 @@ function setHandlers() {
         CHART_TYPE = "candle";
         $("#activechart").html("Chart: Candlestick");
         resetIntervalsAndUpdateCharts();
-        setCookie("CHART_TYPE", "#candle");
+        setCookie("CHART_TYPE", "candle");
     });
     $("#line").click(function() {
         CHART_TYPE = "line";
         $("#activechart").html("Chart: Line");
         resetIntervalsAndUpdateCharts();
-        setCookie("CHART_TYPE", "#line");
+        setCookie("CHART_TYPE", "line");
     });
     $("#combo").click(function() {
         CHART_TYPE = "both";
         $("#activechart").html("Chart: Combo");
         resetIntervalsAndUpdateCharts();
-        setCookie("CHART_TYPE", "#combo");
+        setCookie("CHART_TYPE", "both");
     });
     $("#hour").click(function() {
         GRANULARITY = GRAN_HOUR;
         $("#activet").html("Interval: 1 Hour");
         $("span.interval").html("1H");
         resetIntervalsAndUpdateCharts();
-        setCookie("GRANULARITY", "#hour");
+        setCookie("GRANULARITY", GRAN_HOUR);
     });
     $("#day").click(function() {
         GRANULARITY = GRAN_DAY;
         $("#activet").html("Interval: 1 Day");
         $("span.interval").html("1D");
         resetIntervalsAndUpdateCharts();
-        setCookie("GRANULARITY", "#day");
+        setCookie("GRANULARITY", GRAN_DAY);
     });
     $("#week").click(function() {
         GRANULARITY = GRAN_WEEK;
         $("#activet").html("Interval: 1 Week");
         $("span.interval").html("1W");
         resetIntervalsAndUpdateCharts();
-        setCookie("GRANULARITY", "#week");
+        setCookie("GRANULARITY", GRAN_WEEK);
     });
     $("#month").click(function() {
         GRANULARITY = GRAN_MONTH;
         $("#activet").html("Interval: 1 Month");
         $("span.interval").html("1M");
         resetIntervalsAndUpdateCharts();
-        setCookie("GRANULARITY", "#month");
+        setCookie("GRANULARITY", GRAN_MONTH);
     });
     $("#year").click(function() {
         GRANULARITY = GRAN_YEAR;
         $("#activet").html("Interval: 1 Year");
         $("span.interval").html("1Y");
         resetIntervalsAndUpdateCharts();
-        setCookie("GRANULARITY", "#year");
+        setCookie("GRANULARITY", GRAN_YEAR);
     });
     $("#alltime").click(function() {
         GRANULARITY = GRAN_ALL_TIME;
         $("#activet").html("Interval: All Time");
         $("span.interval").html("ALL");
         resetIntervalsAndUpdateCharts();
-        setCookie("GRANULARITY", "#alltime");
+        setCookie("GRANULARITY", GRAN_ALL_TIME);
     });
     $("#cusd").click(function() {
         HOME_CURRENCY = "USD";
         $("#activec").html(HOME_CURRENCY);
         resetIntervalsAndUpdateBoth();
-        setCookie("HOME_CURRENCY", "#cusd");
+        setCookie("HOME_CURRENCY", "USD");
     });
     $("#ceur").click(function() {
         HOME_CURRENCY = "EUR";
         $("#activec").html(HOME_CURRENCY);
         resetIntervalsAndUpdateBoth();
-        setCookie("HOME_CURRENCY", "#ceur");
+        setCookie("HOME_CURRENCY", "EUR");
     });
     $("#cgbp").click(function() {
         HOME_CURRENCY = "GBP";
         $("#activec").html(HOME_CURRENCY);
         resetIntervalsAndUpdateBoth();
-        setCookie("HOME_CURRENCY", "#cgbp");
+        setCookie("HOME_CURRENCY", "GBP");
+    });
+    $("#tabbtc").click(function() {
+        ACTIVE_TAB = "BTC";
+        $("#tabbtc").html("Tab: "+ACTIVE_TAB);
+        setCookie("ACTIVE_TAB", "BTC");
+    });
+    $("#tabeth").click(function() {
+        ACTIVE_TAB = "ETH";
+        $("#tabeth").html("Tab: "+ACTIVE_TAB);
+        setCookie("ACTIVE_TAB", "ETH");
+    });
+    $("#tabltc").click(function() {
+        ACTIVE_TAB = "LTC";
+        $("#tabltc").html("Tab: "+ACTIVE_TAB);
+        setCookie("ACTIVE_TAB", "LTC");
     });
 }
 
 function checkCookies() {
     if (hasCookie("GRANULARITY")) {
-        var gr = getCookie("GRANULARITY");
-
-        if (gr == "#hour") {
-            GRANULARITY = GRAN_HOUR;
+        GRANULARITY = getCookie("GRANULARITY");
+        if (GRANULARITY == GRAN_HOUR) {
             $("#activet").html("Interval: 1 Hour");
             $("span.interval").html("1H");
-        } else if (gr == "#day") {
-            GRANULARITY = GRAN_DAY;
+        } else if (GRANULARITY == GRAN_DAY) {
             $("#activet").html("Interval: 1 Day");
             $("span.interval").html("1D");
-        } else if (gr == "#week") {
-            GRANULARITY = GRAN_WEEK;
+        } else if (GRANULARITY == GRAN_WEEK) {
             $("#activet").html("Interval: 1 Week");
             $("span.interval").html("1W");
-        } else if (gr == "#month") {
-            GRANULARITY = GRAN_MONTH;
+        } else if (GRANULARITY == GRAN_MONTH) {
             $("#activet").html("Interval: 1 Month");
             $("span.interval").html("1M");
-        } else if (gr == "#year") {
-            GRANULARITY = GRAN_YEAR;
+        } else if (GRANULARITY == GRAN_YEAR) {
             $("#activet").html("Interval: 1 Year");
             $("span.interval").html("1Y");
-        } else if (gr == "#alltime") {
-            GRANULARITY = GRAN_ALL_TIME;
+        } else if (GRANULARITY == GRAN_ALL_TIME) {
             $("#activet").html("Interval: All Time");
             $("span.interval").html("ALL");
         }
     }
 
-    if (hasCookie("HOME_CURRENCY")) {
-        var hc = getCookie("HOME_CURRENCY");
+    if (hasCookie("ACTIVE_TAB")) {
+        ACTIVE_TAB = getCookie("ACTIVE_TAB");
+    }
 
-        if (hc == "#cusd") {
-            HOME_CURRENCY = "USD";
-        } else if (hc == "#ceur") {
-            HOME_CURRENCY = "EUR";
-        } else if (hc == "#cgbp") {
-            HOME_CURRENCY = "GBP";
-        }
+    if (hasCookie("HOME_CURRENCY")) {
+        HOME_CURRENCY = getCookie("HOME_CURRENCY");
         $("#activec").html(HOME_CURRENCY);
     }
 
     if (hasCookie("CHART_TYPE")) {
-        var ct = getCookie("CHART_TYPE");
-
-        if (ct == "#candle") {
-            CHART_TYPE = "candle";
+        CHART_TYPE = getCookie("CHART_TYPE");
+        if (CHART_TYPE == "candle") {
             $("#activechart").html("Chart: Candlestick");
-        } else if (ct == "#line") {
-            CHART_TYPE = "line";
+        } else if (CHART_TYPE == "line") {
             $("#activechart").html("Chart: Line");
-        } else if (ct == "#combo") {
-            CHART_TYPE = "both";
+        } else if (CHART_TYPE == "both") {
             $("#activechart").html("Chart: Combo");
         }
     }
