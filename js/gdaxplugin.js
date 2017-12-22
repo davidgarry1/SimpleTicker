@@ -4,6 +4,12 @@ var CURRENT_COIN_NUM = 0;
 var HOME_CURRENCY = "USD";
 var GRANULARITY = 60 * 60 * 1000; //1 Hour
 var CHART_TYPE = "line";
+var GRAN_HOUR = 60 * 60 * 1000;
+var GRAN_DAY = 24 * 60 * 60 * 1000;
+var GRAN_WEEK = 7 * 24 * 60 * 60 * 1000;
+var GRAN_MONTH = 30 * 24 * 60 * 60 * 1000;
+var GRAN_YEAR = 364 * 24 * 60 * 60 * 1000;
+var GRAN_ALL_TIME = 364 * 24 * 60 * 60 * 1000 * 20;
 
 $("#candle").click(function() {
     CHART_TYPE = "candle";
@@ -27,7 +33,7 @@ $("#combo").click(function() {
 });
 
 $("#hour").click(function() {
-    GRANULARITY = 60 * 60 * 1000;
+    GRANULARITY = GRAN_HOUR;
     $("#activet").html("Interval: 1 Hour");
     $("span.interval").html("1H");
     resetIntervalsAndUpdateCharts();
@@ -35,7 +41,7 @@ $("#hour").click(function() {
 });
 
 $("#day").click(function() {
-    GRANULARITY = 24 * 60 * 60 * 1000;
+    GRANULARITY = GRAN_DAY;
     $("#activet").html("Interval: 1 Day");
     $("span.interval").html("1D");
     resetIntervalsAndUpdateCharts();
@@ -43,7 +49,7 @@ $("#day").click(function() {
 });
 
 $("#week").click(function() {
-    GRANULARITY = 7 * 24 * 60 * 60 * 1000;
+    GRANULARITY = GRAN_WEEK;
     $("#activet").html("Interval: 1 Week");
     $("span.interval").html("1W");
     resetIntervalsAndUpdateCharts();
@@ -51,7 +57,7 @@ $("#week").click(function() {
 });
 
 $("#month").click(function() {
-    GRANULARITY = 30 * 24 * 60 * 60 * 1000;
+    GRANULARITY = GRAN_MONTH;
     $("#activet").html("Interval: 1 Month");
     $("span.interval").html("1M");
     resetIntervalsAndUpdateCharts();
@@ -59,7 +65,15 @@ $("#month").click(function() {
 });
 
 $("#year").click(function() {
-    GRANULARITY = 364 * 24 * 60 * 60 * 1000;
+    GRANULARITY = GRAN_YEAR;
+    $("#activet").html("Interval: 1 Year");
+    $("span.interval").html("1Y");
+    resetIntervalsAndUpdateCharts();
+    setCookie("GRANULARITY", "#year");
+});
+
+$("#alltime").click(function() {
+    GRANULARITY = GRAN_ALL_TIME;
     $("#activet").html("Interval: 1 Year");
     $("span.interval").html("1Y");
     resetIntervalsAndUpdateCharts();
@@ -262,22 +276,6 @@ function updateCharts(hardReset) {
     chartB = !chartB;
 }
 
-function retryCharts() {
-    if(priceB){
-      if (!firstBTCDraw) setTimeout(function(){drawChart("btc", HOME_CURRENCY, false)},0);
-      if (!firstLTCDraw) setTimeout(function(){drawChart("ltc", HOME_CURRENCY, false)},0);
-      if (!firstETHDraw) setTimeout(function(){drawChart("eth", HOME_CURRENCY, false)},0);
-    } else {
-      if (!firstBTCDraw) setTimeout(function(){drawChart("eth", HOME_CURRENCY, false)},0);
-      if (!firstLTCDraw) setTimeout(function(){drawChart("ltc", HOME_CURRENCY, false)},0);
-      if (!firstETHDraw) setTimeout(function(){drawChart("btc", HOME_CURRENCY, false)},0);
-    }
-    priceB = !priceB;
-}
-
-var firstBTCDraw = false;
-var firstETHDraw = false;
-var firstLTCDraw = false;
 var callback = JSON.parse("{}");
 callback["btc"] = true;
 callback["ltc"] = true;
@@ -317,28 +315,36 @@ function drawChart(crypto, currency, hardReset) {
     var date = new Date();
     var dateObj = new Date((new Date) * 1 - GRANULARITY);
     /*var loc = "https://api.gdax.com/products/" + crypto + "-" + currency + "/candles?start=" + dateObj.toISOString() + "&end=" + date.toISOString() + "&granularity=" + GRANULARITY / 150000;*/
-    var loc = "";
+    var loc;
+    if(GRANULARITY == GRAN_HOUR){
+      loc = "https://min-api.cryptocompare.com/data/histominute?fsym="+crypto.toUpperCase()+"&tsym="+currency.toUpperCase()+"&limit=60&aggregate=1&e=GDAX";
+    } else if(GRANULARITY == GRAN_DAY){
+      loc = "https://min-api.cryptocompare.com/data/histominute?fsym="+crypto.toUpperCase()+"&tsym="+currency.toUpperCase()+"&limit=72&aggregate=20&e=GDAX";
+    } else if(GRANULARITY == GRAN_WEEK){
+      loc = "https://min-api.cryptocompare.com/data/histohour?fsym="+crypto.toUpperCase()+"&tsym="+currency.toUpperCase()+"&limit=84&aggregate=2&e=GDAX";
+    } else if(GRANULARITY == GRAN_MONTH){
+      loc = "https://min-api.cryptocompare.com/data/histohour?fsym="+crypto.toUpperCase()+"&tsym="+currency.toUpperCase()+"&limit=72&aggregate=10&e=GDAX";
+    } else if(GRANULARITY == GRAN_YEAR){
+      loc = "https://min-api.cryptocompare.com/data/histoday?fsym="+crypto.toUpperCase()+"&tsym="+currency.toUpperCase()+"&limit=73&aggregate=5&e=GDAX";
+    } else if(GRANULARITY == GRAN_ALL_TIME){
+      loc = "https://min-api.cryptocompare.com/data/histoday?fsym="+crypto.toUpperCase()+"&tsym="+currency.toUpperCase()+"&limit=2000&aggregate=14&e=GDAX";
+    }
 
     $.getJSON(loc, function(candles) {
-
-        var SWidth = Math.max(10, (100*75 / $(document).width()));
-        //console.log(SWidth);
-
-        if (candles.length < 140) {
-            //console.log("GDAX API Returned Junk");
-            drawChart(crypto, HOME_CURRENCY, hardReset);
-            return;
+        if(candles.Response != "Success"){
+          console.log("Chart API Call Failed: "+ candles.Response);
+          return;
         }
+        var SWidth = Math.max(10, (100*75 / $(document).width()));
+
         var moneyFormatter = new Intl.NumberFormat("en-US", {
             style: "currency",
             currency: currency,
             minimumFractionDigits: min_frac,
             maximumFractionDigits: min_frac
         });
-        //console.log("Rendering " + crypto.toUpperCase() + "-" + currency + ", candles.length: " + candles.length);
-        if (crypto == "btc") firstBTCDraw = true;
-        if (crypto == "eth") firstETHDraw = true;
-        if (crypto == "ltc") firstLTCDraw = true;
+        console.log("Rendering " + crypto.toUpperCase() + "-" + currency.toUpperCase() + ", candles.Data.length: " + candles.Data.length);
+
         var chartCandles = [];
         if (CHART_TYPE == "both") {
             chartCandles[0] = ["Date", "Low", "Open", "Close", "High", "Tooltip", "Close"];
@@ -348,20 +354,21 @@ function drawChart(crypto, currency, hardReset) {
             chartCandles[0] = ["Date", "Close"];
         }
         var overallHigh, overallLow;
-        overallLow = candles[0][1];
-        overallHigh = candles[0][2];
+        overallLow = candles.Data[0].low;
+        overallHigh = candles.Data[0].high;
 
-        updatePChange(crypto, candles[candles.length - 1][3]);
+        updatePChange(crypto, candles.Data[0].open);
 
-        for (var i = 1; i < 1 + candles.length; i++) {
-            var time = candles[i - 1][0];
-            var low = candles[i - 1][1];
+        for (var i = 1; i < 1 + candles.Data.length; i++) {
+            var time = candles.Data[i-1].time;
+            var low = candles.Data[i-1].low;
             overallLow = Math.min(overallLow, low);
-            var high = candles[i - 1][2];
+            var high = candles.Data[i-1].high;
             overallHigh = Math.max(overallHigh, high);
-            var open = candles[i - 1][3];
-            var close = candles[i - 1][4];
-            var volume = candles[i - 1][5];
+            var open = candles.Data[i-1].open;
+            var close = candles.Data[i-1].close;
+            var volume = candles.Data[i-1].volumeto;
+
             if (CHART_TYPE == "both") {
                 chartCandles[i] = [0, 0, 0, 0, 0, 0, 0];
             } else if (CHART_TYPE == "candle") {
