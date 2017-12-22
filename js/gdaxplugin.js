@@ -1,201 +1,201 @@
 var INTERVAL_PRICES = 1300; //Rate limits available at https://docs.gdax.com/#rate-limits
-var INTERVAL_CHARTS = 60*1000;
+var INTERVAL_CHARTS = 60 * 1000;
 var CURRENT_COIN_NUM = 0;
 var HOME_CURRENCY = "USD";
-var GRANULARITY = 60 * 60 * 1000; //1 Hour
 var CHART_TYPE = "line";
-var GRAN_HOUR = 60 * 60 * 1000;
-var GRAN_DAY = 24 * 60 * 60 * 1000;
-var GRAN_WEEK = 7 * 24 * 60 * 60 * 1000;
-var GRAN_MONTH = 30 * 24 * 60 * 60 * 1000;
-var GRAN_YEAR = 364 * 24 * 60 * 60 * 1000;
-var GRAN_ALL_TIME = 364 * 24 * 60 * 60 * 1000 * 20;
-
-$("#candle").click(function() {
-    CHART_TYPE = "candle";
-    $("#activechart").html("Chart: Candlestick");
-    resetIntervalsAndUpdateCharts();
-    setCookie("CHART_TYPE", "#candle");
-});
-
-$("#line").click(function() {
-    CHART_TYPE = "line";
-    $("#activechart").html("Chart: Line");
-    resetIntervalsAndUpdateCharts();
-    setCookie("CHART_TYPE", "#line");
-});
-
-$("#combo").click(function() {
-    CHART_TYPE = "both";
-    $("#activechart").html("Chart: Combo");
-    resetIntervalsAndUpdateCharts();
-    setCookie("CHART_TYPE", "#combo");
-});
-
-$("#hour").click(function() {
-    GRANULARITY = GRAN_HOUR;
-    $("#activet").html("Interval: 1 Hour");
-    $("span.interval").html("1H");
-    resetIntervalsAndUpdateCharts();
-    setCookie("GRANULARITY", "#hour");
-});
-
-$("#day").click(function() {
-    GRANULARITY = GRAN_DAY;
-    $("#activet").html("Interval: 1 Day");
-    $("span.interval").html("1D");
-    resetIntervalsAndUpdateCharts();
-    setCookie("GRANULARITY", "#day");
-});
-
-$("#week").click(function() {
-    GRANULARITY = GRAN_WEEK;
-    $("#activet").html("Interval: 1 Week");
-    $("span.interval").html("1W");
-    resetIntervalsAndUpdateCharts();
-    setCookie("GRANULARITY", "#week");
-});
-
-$("#month").click(function() {
-    GRANULARITY = GRAN_MONTH;
-    $("#activet").html("Interval: 1 Month");
-    $("span.interval").html("1M");
-    resetIntervalsAndUpdateCharts();
-    setCookie("GRANULARITY", "#month");
-});
-
-$("#year").click(function() {
-    GRANULARITY = GRAN_YEAR;
-    $("#activet").html("Interval: 1 Year");
-    $("span.interval").html("1Y");
-    resetIntervalsAndUpdateCharts();
-    setCookie("GRANULARITY", "#year");
-});
-
-$("#alltime").click(function() {
-    GRANULARITY = GRAN_ALL_TIME;
-    $("#activet").html("Interval: All Time");
-    $("span.interval").html("ALL");
-    resetIntervalsAndUpdateCharts();
-    setCookie("GRANULARITY", "#alltime");
-});
-
-
-$("#cusd").click(function() {
-    HOME_CURRENCY = "USD";
-    $("#activec").html(HOME_CURRENCY);
-    resetIntervalsAndUpdateBoth();
-    setCookie("HOME_CURRENCY", "#cusd");
-});
-$("#ceur").click(function() {
-    HOME_CURRENCY = "EUR";
-    $("#activec").html(HOME_CURRENCY);
-    resetIntervalsAndUpdateBoth();
-    setCookie("HOME_CURRENCY", "#ceur");
-});
-$("#cgbp").click(function() {
-    HOME_CURRENCY = "GBP";
-    $("#activec").html(HOME_CURRENCY);
-    resetIntervalsAndUpdateBoth();
-    setCookie("HOME_CURRENCY", "#cgbp");
-});
-
-
-if (hasCookie("GRANULARITY")) {
-    var gr = getCookie("GRANULARITY");
-
-    if(gr == "#hour"){
-      GRANULARITY = GRAN_HOUR;
-      $("#activet").html("Interval: 1 Hour");
-      $("span.interval").html("1H");
-    } else if(gr == "#day"){
-      GRANULARITY = GRAN_DAY;
-      $("#activet").html("Interval: 1 Day");
-      $("span.interval").html("1D");
-    } else if(gr == "#week"){
-      GRANULARITY = GRAN_WEEK;
-      $("#activet").html("Interval: 1 Week");
-      $("span.interval").html("1W");
-    } else if(gr == "#month"){
-      GRANULARITY = GRAN_MONTH;
-      $("#activet").html("Interval: 1 Month");
-      $("span.interval").html("1M");
-    } else if(gr == "#year"){
-      GRANULARITY = GRAN_YEAR;
-      $("#activet").html("Interval: 1 Year");
-      $("span.interval").html("1Y");
-    } else if(gr == "#alltime"){
-      GRANULARITY = GRAN_ALL_TIME;
-      $("#activet").html("Interval: All Time");
-      $("span.interval").html("ALL");
-    }
-}
-
-if (hasCookie("HOME_CURRENCY")) {
-    var hc = getCookie("HOME_CURRENCY");
-
-    if(hc == "#cusd"){
-      HOME_CURRENCY = "USD";
-    } else if(hc == "#ceur"){
-      HOME_CURRENCY = "EUR";
-    } else if(hc == "#cgbp"){
-      HOME_CURRENCY = "GBP";
-    }
-    $("#activec").html(HOME_CURRENCY);
-}
-
-if (hasCookie("CHART_TYPE")) {
-    var ct = getCookie("CHART_TYPE");
-
-    if(ct == "#candle"){
-      CHART_TYPE = "candle";
-      $("#activechart").html("Chart: Candlestick");
-    } else if(ct == "#line"){
-      CHART_TYPE = "line";
-      $("#activechart").html("Chart: Line");
-    } else if(ct == "#combo"){
-      CHART_TYPE = "both";
-      $("#activechart").html("Chart: Combo");
-    }
-}
-
-google.charts.setOnLoadCallback(function(){
-  resetIntervalsAndUpdateBoth();
-});
-
-$(window).resize(function() {
-    resetIntervalsAndUpdateCharts();
-});
-
-var pageInt, chartInt;
-
-function resetIntervalsAndUpdateBoth(){
-  resetIntervalsAndUpdateCharts();
-  resetIntervalsAndUpdatePrices();
-}
-
-function resetIntervalsAndUpdatePrices(){
-  clearInterval(pageInt);
-  updatePage(true);
-  pageInt = setInterval(function() {
-      updatePage(false);
-  }, INTERVAL_PRICES);
-}
-
-function resetIntervalsAndUpdateCharts(){
-  clearInterval(chartInt);
-  updateCharts(true);
-  chartInt = setInterval(function() {
-      updateCharts(false);
-  }, INTERVAL_CHARTS);
-}
-
-
+var GRAN_HOUR = 1;
+var GRAN_DAY = 2;
+var GRAN_WEEK = 3;
+var GRAN_MONTH = 4;
+var GRAN_YEAR = 5;
+var GRAN_ALL_TIME = 6;
+var GRANULARITY = GRAN_HOUR;
 var percentFormatter = new Intl.NumberFormat("percent", {
     style: "percent",
     minimumFractionDigits: 3,
     maximumFractionDigits: 3
 });
+var pageInt, chartInt;
+var callback = JSON.parse("{}");
+callback["btc"] = true;
+callback["ltc"] = true;
+callback["eth"] = true;
+
+google.charts.setOnLoadCallback(function() {
+    startUp();
+});
+
+function startUp() {
+    checkCookies();
+    setHandlers();
+    resetIntervalsAndUpdateBoth();
+}
+
+function setHandlers() {
+    $(window).resize(function() {
+        resetIntervalsAndUpdateCharts();
+    });
+    $("#candle").click(function() {
+        CHART_TYPE = "candle";
+        $("#activechart").html("Chart: Candlestick");
+        resetIntervalsAndUpdateCharts();
+        setCookie("CHART_TYPE", "#candle");
+    });
+    $("#line").click(function() {
+        CHART_TYPE = "line";
+        $("#activechart").html("Chart: Line");
+        resetIntervalsAndUpdateCharts();
+        setCookie("CHART_TYPE", "#line");
+    });
+    $("#combo").click(function() {
+        CHART_TYPE = "both";
+        $("#activechart").html("Chart: Combo");
+        resetIntervalsAndUpdateCharts();
+        setCookie("CHART_TYPE", "#combo");
+    });
+    $("#hour").click(function() {
+        GRANULARITY = GRAN_HOUR;
+        $("#activet").html("Interval: 1 Hour");
+        $("span.interval").html("1H");
+        resetIntervalsAndUpdateCharts();
+        setCookie("GRANULARITY", "#hour");
+    });
+    $("#day").click(function() {
+        GRANULARITY = GRAN_DAY;
+        $("#activet").html("Interval: 1 Day");
+        $("span.interval").html("1D");
+        resetIntervalsAndUpdateCharts();
+        setCookie("GRANULARITY", "#day");
+    });
+    $("#week").click(function() {
+        GRANULARITY = GRAN_WEEK;
+        $("#activet").html("Interval: 1 Week");
+        $("span.interval").html("1W");
+        resetIntervalsAndUpdateCharts();
+        setCookie("GRANULARITY", "#week");
+    });
+    $("#month").click(function() {
+        GRANULARITY = GRAN_MONTH;
+        $("#activet").html("Interval: 1 Month");
+        $("span.interval").html("1M");
+        resetIntervalsAndUpdateCharts();
+        setCookie("GRANULARITY", "#month");
+    });
+    $("#year").click(function() {
+        GRANULARITY = GRAN_YEAR;
+        $("#activet").html("Interval: 1 Year");
+        $("span.interval").html("1Y");
+        resetIntervalsAndUpdateCharts();
+        setCookie("GRANULARITY", "#year");
+    });
+    $("#alltime").click(function() {
+        GRANULARITY = GRAN_ALL_TIME;
+        $("#activet").html("Interval: All Time");
+        $("span.interval").html("ALL");
+        resetIntervalsAndUpdateCharts();
+        setCookie("GRANULARITY", "#alltime");
+    });
+    $("#cusd").click(function() {
+        HOME_CURRENCY = "USD";
+        $("#activec").html(HOME_CURRENCY);
+        resetIntervalsAndUpdateBoth();
+        setCookie("HOME_CURRENCY", "#cusd");
+    });
+    $("#ceur").click(function() {
+        HOME_CURRENCY = "EUR";
+        $("#activec").html(HOME_CURRENCY);
+        resetIntervalsAndUpdateBoth();
+        setCookie("HOME_CURRENCY", "#ceur");
+    });
+    $("#cgbp").click(function() {
+        HOME_CURRENCY = "GBP";
+        $("#activec").html(HOME_CURRENCY);
+        resetIntervalsAndUpdateBoth();
+        setCookie("HOME_CURRENCY", "#cgbp");
+    });
+}
+
+function checkCookies() {
+    if (hasCookie("GRANULARITY")) {
+        var gr = getCookie("GRANULARITY");
+
+        if (gr == "#hour") {
+            GRANULARITY = GRAN_HOUR;
+            $("#activet").html("Interval: 1 Hour");
+            $("span.interval").html("1H");
+        } else if (gr == "#day") {
+            GRANULARITY = GRAN_DAY;
+            $("#activet").html("Interval: 1 Day");
+            $("span.interval").html("1D");
+        } else if (gr == "#week") {
+            GRANULARITY = GRAN_WEEK;
+            $("#activet").html("Interval: 1 Week");
+            $("span.interval").html("1W");
+        } else if (gr == "#month") {
+            GRANULARITY = GRAN_MONTH;
+            $("#activet").html("Interval: 1 Month");
+            $("span.interval").html("1M");
+        } else if (gr == "#year") {
+            GRANULARITY = GRAN_YEAR;
+            $("#activet").html("Interval: 1 Year");
+            $("span.interval").html("1Y");
+        } else if (gr == "#alltime") {
+            GRANULARITY = GRAN_ALL_TIME;
+            $("#activet").html("Interval: All Time");
+            $("span.interval").html("ALL");
+        }
+    }
+
+    if (hasCookie("HOME_CURRENCY")) {
+        var hc = getCookie("HOME_CURRENCY");
+
+        if (hc == "#cusd") {
+            HOME_CURRENCY = "USD";
+        } else if (hc == "#ceur") {
+            HOME_CURRENCY = "EUR";
+        } else if (hc == "#cgbp") {
+            HOME_CURRENCY = "GBP";
+        }
+        $("#activec").html(HOME_CURRENCY);
+    }
+
+    if (hasCookie("CHART_TYPE")) {
+        var ct = getCookie("CHART_TYPE");
+
+        if (ct == "#candle") {
+            CHART_TYPE = "candle";
+            $("#activechart").html("Chart: Candlestick");
+        } else if (ct == "#line") {
+            CHART_TYPE = "line";
+            $("#activechart").html("Chart: Line");
+        } else if (ct == "#combo") {
+            CHART_TYPE = "both";
+            $("#activechart").html("Chart: Combo");
+        }
+    }
+}
+
+
+function resetIntervalsAndUpdateBoth() {
+    resetIntervalsAndUpdateCharts();
+    resetIntervalsAndUpdatePrices();
+}
+
+function resetIntervalsAndUpdatePrices() {
+    clearInterval(pageInt);
+    updatePage(true);
+    pageInt = setInterval(function() {
+        updatePage(false);
+    }, INTERVAL_PRICES);
+}
+
+function resetIntervalsAndUpdateCharts() {
+    clearInterval(chartInt);
+    updateCharts(true);
+    chartInt = setInterval(function() {
+        updateCharts(false);
+    }, INTERVAL_CHARTS);
+}
 
 function updateCoin(crypto, currency) {
     var min_frac = 2;
@@ -253,11 +253,6 @@ function updateCharts(hardReset) {
     drawChart("ltc", HOME_CURRENCY, hardReset);
 }
 
-var callback = JSON.parse("{}");
-callback["btc"] = true;
-callback["ltc"] = true;
-callback["eth"] = true;
-
 function updatePChange(crypto, open) {
     var innerd = $("#" + crypto + "price").text().replace(/[^0-9\.-]+/g, "");
     if (innerd != "...") {
@@ -293,26 +288,26 @@ function drawChart(crypto, currency, hardReset) {
     var dateObj = new Date((new Date) * 1 - GRANULARITY);
     var loc = "https://api.gdax.com/products/" + crypto + "-" + currency + "/candles?start=" + dateObj.toISOString() + "&end=" + date.toISOString() + "&granularity=" + GRANULARITY / 150000;*/
     var loc;
-    if(GRANULARITY == GRAN_HOUR){
-      loc = "https://min-api.cryptocompare.com/data/histominute?fsym="+crypto.toUpperCase()+"&tsym="+currency.toUpperCase()+"&limit=60&aggregate=1&e=GDAX";
-    } else if(GRANULARITY == GRAN_DAY){
-      loc = "https://min-api.cryptocompare.com/data/histominute?fsym="+crypto.toUpperCase()+"&tsym="+currency.toUpperCase()+"&limit=72&aggregate=20&e=GDAX";
-    } else if(GRANULARITY == GRAN_WEEK){
-      loc = "https://min-api.cryptocompare.com/data/histohour?fsym="+crypto.toUpperCase()+"&tsym="+currency.toUpperCase()+"&limit=84&aggregate=2&e=GDAX";
-    } else if(GRANULARITY == GRAN_MONTH){
-      loc = "https://min-api.cryptocompare.com/data/histohour?fsym="+crypto.toUpperCase()+"&tsym="+currency.toUpperCase()+"&limit=72&aggregate=10&e=GDAX";
-    } else if(GRANULARITY == GRAN_YEAR){
-      loc = "https://min-api.cryptocompare.com/data/histoday?fsym="+crypto.toUpperCase()+"&tsym="+currency.toUpperCase()+"&limit=73&aggregate=5&e=GDAX";
-    } else if(GRANULARITY == GRAN_ALL_TIME){
-      loc = "https://min-api.cryptocompare.com/data/histoday?fsym="+crypto.toUpperCase()+"&tsym="+currency.toUpperCase()+"&limit=2000&aggregate=14&e=GDAX";
+    if (GRANULARITY == GRAN_HOUR) {
+        loc = "https://min-api.cryptocompare.com/data/histominute?fsym=" + crypto.toUpperCase() + "&tsym=" + currency.toUpperCase() + "&limit=60&aggregate=1&e=GDAX";
+    } else if (GRANULARITY == GRAN_DAY) {
+        loc = "https://min-api.cryptocompare.com/data/histominute?fsym=" + crypto.toUpperCase() + "&tsym=" + currency.toUpperCase() + "&limit=72&aggregate=20&e=GDAX";
+    } else if (GRANULARITY == GRAN_WEEK) {
+        loc = "https://min-api.cryptocompare.com/data/histohour?fsym=" + crypto.toUpperCase() + "&tsym=" + currency.toUpperCase() + "&limit=84&aggregate=2&e=GDAX";
+    } else if (GRANULARITY == GRAN_MONTH) {
+        loc = "https://min-api.cryptocompare.com/data/histohour?fsym=" + crypto.toUpperCase() + "&tsym=" + currency.toUpperCase() + "&limit=72&aggregate=10&e=GDAX";
+    } else if (GRANULARITY == GRAN_YEAR) {
+        loc = "https://min-api.cryptocompare.com/data/histoday?fsym=" + crypto.toUpperCase() + "&tsym=" + currency.toUpperCase() + "&limit=73&aggregate=5&e=GDAX";
+    } else if (GRANULARITY == GRAN_ALL_TIME) {
+        loc = "https://min-api.cryptocompare.com/data/histoday?fsym=" + crypto.toUpperCase() + "&tsym=" + currency.toUpperCase() + "&limit=75&aggregate=16&e=GDAX";
     }
 
     $.getJSON(loc, function(candles) {
-        if(candles.Response != "Success"){
-          console.log("Chart API Call Failed: "+ candles.Response);
-          return;
+        if (candles.Response != "Success") {
+            console.log("Chart API Call Failed: " + candles.Response);
+            return;
         }
-        var SWidth = Math.max(10, (100*75 / $(document).width()));
+        var SWidth = Math.max(10, (100 * 75 / $(document).width()));
 
         var moneyFormatter = new Intl.NumberFormat("en-US", {
             style: "currency",
@@ -334,17 +329,15 @@ function drawChart(crypto, currency, hardReset) {
         overallLow = candles.Data[0].low;
         overallHigh = candles.Data[0].high;
 
-
-
         for (var i = 1; i < 1 + candles.Data.length; i++) {
-            var time = candles.Data[i-1].time;
-            var low = candles.Data[i-1].low;
+            var time = candles.Data[i - 1].time;
+            var low = candles.Data[i - 1].low;
             overallLow = Math.min(overallLow, low);
-            var high = candles.Data[i-1].high;
+            var high = candles.Data[i - 1].high;
             overallHigh = Math.max(overallHigh, high);
-            var open = candles.Data[i-1].open;
-            var close = candles.Data[i-1].close;
-            var volume = candles.Data[i-1].volumeto;
+            var open = candles.Data[i - 1].open;
+            var close = candles.Data[i - 1].close;
+            var volume = candles.Data[i - 1].volumeto;
 
             if (CHART_TYPE == "both") {
                 chartCandles[i] = [0, 0, 0, 0, 0, 0, 0];
@@ -529,6 +522,6 @@ function drawChart(crypto, currency, hardReset) {
         chart.draw(data, options);
         updatePChange(crypto, candles.Data[0].open);
     }).fail(function() {
-      console.log("CHART API Call Failure");
+        console.log("CHART API Call Failure");
     });
 }
