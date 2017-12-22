@@ -1,4 +1,4 @@
-var INTERVAL_PRICES = 1000; //Rate limits available at https://docs.gdax.com/#rate-limits
+var INTERVAL_PRICES = 1300; //Rate limits available at https://docs.gdax.com/#rate-limits
 var INTERVAL_CHARTS = 60*1000;
 var CURRENT_COIN_NUM = 0;
 var HOME_CURRENCY = "USD";
