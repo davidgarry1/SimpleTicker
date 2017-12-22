@@ -1,4 +1,5 @@
-var INTERVAL = 1000; //Rate limits available at https://docs.gdax.com/#rate-limits
+var INTERVAL_PRICES = 1000; //Rate limits available at https://docs.gdax.com/#rate-limits
+var INTERVAL_CHARTS = 60*1000;
 var CURRENT_COIN_NUM = 0;
 var HOME_CURRENCY = "USD";
 var GRANULARITY = 60 * 60 * 1000; //1 Hour
@@ -141,12 +142,8 @@ if (hasCookie("CHART_TYPE")) {
 }
 
 google.charts.setOnLoadCallback(function(){
-  resetIntervalsAndUpdateCharts();
-  setTimeout(function(){
-    resetIntervalsAndUpdatePrices();
-  },1500);
+  resetIntervalsAndUpdateBoth();
 });
-
 
 $(window).resize(function() {
     resetIntervalsAndUpdateCharts();
@@ -164,7 +161,7 @@ function resetIntervalsAndUpdatePrices(){
   updatePage(true);
   pageInt = setInterval(function() {
       updatePage(false);
-  }, INTERVAL*5);
+  }, INTERVAL_PRICES);
 }
 
 function resetIntervalsAndUpdateCharts(){
@@ -172,7 +169,7 @@ function resetIntervalsAndUpdateCharts(){
   updateCharts(true);
   chartInt = setInterval(function() {
       updateCharts(false);
-  }, INTERVAL*12);
+  }, INTERVAL_CHARTS);
 }
 
 
@@ -319,7 +316,8 @@ function drawChart(crypto, currency, hardReset) {
     }
     var date = new Date();
     var dateObj = new Date((new Date) * 1 - GRANULARITY);
-    var loc = "https://api.gdax.com/products/" + crypto + "-" + currency + "/candles?start=" + dateObj.toISOString() + "&end=" + date.toISOString() + "&granularity=" + GRANULARITY / 150000;
+    /*var loc = "https://api.gdax.com/products/" + crypto + "-" + currency + "/candles?start=" + dateObj.toISOString() + "&end=" + date.toISOString() + "&granularity=" + GRANULARITY / 150000;*/
+    var loc = "";
 
     $.getJSON(loc, function(candles) {
 
