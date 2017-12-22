@@ -74,10 +74,10 @@ $("#year").click(function() {
 
 $("#alltime").click(function() {
     GRANULARITY = GRAN_ALL_TIME;
-    $("#activet").html("Interval: 1 Year");
-    $("span.interval").html("1Y");
+    $("#activet").html("Interval: All Time");
+    $("span.interval").html("ALL");
     resetIntervalsAndUpdateCharts();
-    setCookie("GRANULARITY", "#year");
+    setCookie("GRANULARITY", "#alltime");
 });
 
 
