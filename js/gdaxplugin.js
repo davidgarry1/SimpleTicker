@@ -200,7 +200,6 @@ function updateCoin(crypto, currency) {
         min_frac = 7;
     }
     $.getJSON("https://api.gdax.com/products/" + crypto + "-" + currency + "/ticker", function(ticker) {
-
         var moneyFormatter = new Intl.NumberFormat("en-US", {
             style: "currency",
             currency: currency,
@@ -210,7 +209,7 @@ function updateCoin(crypto, currency) {
         $("#" + crypto + "price").html(moneyFormatter.format(ticker.price));
         if (crypto == "btc") document.title = moneyFormatter.format(ticker.price) + "-BTC | Simple Ticker";
     }).fail(function() {
-        //console.log("Too many requests to GDAX API");
+        console.log("Too many requests to GDAX API");
     });
 }
 
@@ -243,37 +242,11 @@ function updatePage(all) {
     }
 }
 
-var chartB = false;
-var priceB = false;
 
 function updateCharts(hardReset) {
-    if (hardReset) {
-        firstBTCDraw = false;
-        firstETHDraw = false;
-        firstLTCDraw = false;
-    }
-    if(chartB){
-      setTimeout(function(){
-        drawChart("btc", HOME_CURRENCY, hardReset);
-      },0);
-      setTimeout(function(){
-        drawChart("eth", HOME_CURRENCY, hardReset);
-      },0);
-      setTimeout(function(){
-        drawChart("ltc", HOME_CURRENCY, hardReset);
-      },0);
-    } else {
-      setTimeout(function(){
-        drawChart("ltc", HOME_CURRENCY, hardReset);
-      },0);
-      setTimeout(function(){
-        drawChart("eth", HOME_CURRENCY, hardReset);
-      },0);
-      setTimeout(function(){
-        drawChart("btc", HOME_CURRENCY, hardReset);
-      },0);
-    }
-    chartB = !chartB;
+    drawChart("btc", HOME_CURRENCY, hardReset);
+    drawChart("eth", HOME_CURRENCY, hardReset);
+    drawChart("ltc", HOME_CURRENCY, hardReset);
 }
 
 var callback = JSON.parse("{}");
@@ -312,9 +285,9 @@ function drawChart(crypto, currency, hardReset) {
         currency = "BTC"; //no GBP exchange for LTC/ETH
         min_frac = 7;
     }
-    var date = new Date();
+    /*var date = new Date();
     var dateObj = new Date((new Date) * 1 - GRANULARITY);
-    /*var loc = "https://api.gdax.com/products/" + crypto + "-" + currency + "/candles?start=" + dateObj.toISOString() + "&end=" + date.toISOString() + "&granularity=" + GRANULARITY / 150000;*/
+    var loc = "https://api.gdax.com/products/" + crypto + "-" + currency + "/candles?start=" + dateObj.toISOString() + "&end=" + date.toISOString() + "&granularity=" + GRANULARITY / 150000;*/
     var loc;
     if(GRANULARITY == GRAN_HOUR){
       loc = "https://min-api.cryptocompare.com/data/histominute?fsym="+crypto.toUpperCase()+"&tsym="+currency.toUpperCase()+"&limit=60&aggregate=1&e=GDAX";
@@ -343,7 +316,7 @@ function drawChart(crypto, currency, hardReset) {
             minimumFractionDigits: min_frac,
             maximumFractionDigits: min_frac
         });
-        console.log("Rendering " + crypto.toUpperCase() + "-" + currency.toUpperCase() + ", candles.Data.length: " + candles.Data.length);
+        console.log("Rendering " + crypto.toUpperCase() + "-" + currency.toUpperCase());
 
         var chartCandles = [];
         if (CHART_TYPE == "both") {
@@ -357,7 +330,7 @@ function drawChart(crypto, currency, hardReset) {
         overallLow = candles.Data[0].low;
         overallHigh = candles.Data[0].high;
 
-        updatePChange(crypto, candles.Data[0].open);
+
 
         for (var i = 1; i < 1 + candles.Data.length; i++) {
             var time = candles.Data[i-1].time;
@@ -548,12 +521,10 @@ function drawChart(crypto, currency, hardReset) {
             };
 
         }
-
         var chart = new google.visualization.ComboChart(document.getElementById(crypto + 'chart'));
-
         chart.draw(data, options);
-
+        updatePChange(crypto, candles.Data[0].open);
     }).fail(function() {
-
+      console.log("CHART API Call Failure");
     });
 }
