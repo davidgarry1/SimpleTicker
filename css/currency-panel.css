@@ -10,6 +10,8 @@
   display: inline-block;
   background-color: #012661;
   color: white;
+  font-size: 1.5em;
+  text-align: center;
 }
 
 .currency-info {
