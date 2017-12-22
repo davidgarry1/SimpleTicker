@@ -157,6 +157,10 @@ function checkCookies() {
         } else if (GRANULARITY == GRAN_ALL_TIME) {
             $("#activet").html("Interval: All Time");
             $("span.interval").html("ALL");
+        } else {
+          GRANULARITY = GRAN_HOUR;
+          $("#activet").html("Interval: 1 Hour");
+          $("span.interval").html("1H");
         }
     }
 
@@ -177,6 +181,9 @@ function checkCookies() {
             $("#activechart").html("Chart: Line");
         } else if (CHART_TYPE == "both") {
             $("#activechart").html("Chart: Combo");
+        } else {
+            CHART_TYPE = "line";
+            $("#activechart").html("Chart: Line");
         }
     }
 }
