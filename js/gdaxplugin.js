@@ -212,7 +212,9 @@ function updateCoin(crypto, currency) {
             maximumFractionDigits: min_frac
         });
         $("#" + crypto + "price").html(moneyFormatter.format(ticker.price));
-        if (crypto == "btc") document.title = moneyFormatter.format(ticker.price) + "-BTC | Simple Ticker";
+        if (crypto.toUpperCase() == ACTIVE_TAB){
+          document.title = moneyFormatter.format(ticker.price) + "-"+crypto.toUpperCase()+" | Simple Ticker";
+        }
     }).fail(function() {
         console.log("Too many requests to GDAX API");
     });
