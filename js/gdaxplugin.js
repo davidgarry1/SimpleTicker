@@ -35,9 +35,16 @@ function startUp() {
 }
 
 function setHandlers() {
-    $(window).resize(function() {
+    var timeHelper;
+    window.onresize = function(){
+      hardResetData("btc");
+      hardResetData("eth");
+      hardResetData("ltc");
+      clearTimeout(timeHelper);
+      timeHelper = setTimeout(function(){
         resetIntervalsAndUpdateCharts();
-    });
+      },500);
+    };
     $("#candle").click(function() {
         CHART_TYPE = "candle";
         $("#activechart").html("Chart: Candlestick");
@@ -284,15 +291,19 @@ function updatePChange(crypto, open) {
     }
 }
 
+function hardResetData(crypto){
+  document.getElementById(crypto + 'chart').innerHTML = " Loading...";
+  $("#" + crypto + "open").html("...");
+  $("#" + crypto + "high").html("...");
+  $("#" + crypto + "low").html("...");
+  $("#" + crypto + "open").removeClass("red");
+  $("#" + crypto + "open").removeClass("green");
+}
+
 
 function drawChart(crypto, currency, hardReset) {
     if (hardReset) {
-        document.getElementById(crypto + 'chart').innerHTML = " Loading...";
-        $("#" + crypto + "open").html("...");
-        $("#" + crypto + "high").html("...");
-        $("#" + crypto + "low").html("...");
-        $("#" + crypto + "open").removeClass("red");
-        $("#" + crypto + "open").removeClass("green");
+        hardResetData(crypto);
     }
     var min_frac = 2;
     if ((crypto == "ltc" || crypto == "eth") && currency == "GBP") {
