@@ -330,7 +330,8 @@ function drawChart(crypto, currency, hardReset) {
             console.log("Chart API Call Failed: " + candles.Response);
             return;
         }
-        var SWidth = Math.max(10, (100 * 75 / $(document).width()));
+
+        var SWidth = (100 * 85 / $(".main-panel").width());
 
         var moneyFormatter = new Intl.NumberFormat("en-US", {
             style: "currency",
