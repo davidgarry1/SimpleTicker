@@ -64,6 +64,11 @@
   overflow: hidden;
 }
 
+.interval {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
 @media screen and (max-width: 749px) {
   .currency-chart {
     width: calc(55% - 0.5rem);

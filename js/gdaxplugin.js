@@ -62,42 +62,42 @@ function setHandlers() {
     $("#hour").click(function() {
         GRANULARITY = GRAN_HOUR;
         $("#activet").html("Interval: 1 Hour");
-        $("span.interval").html("1H");
+        $("span.interval").html("1 Hour Stats");
         resetIntervalsAndUpdateCharts();
         setCookie("GRANULARITY", GRAN_HOUR);
     });
     $("#day").click(function() {
         GRANULARITY = GRAN_DAY;
         $("#activet").html("Interval: 1 Day");
-        $("span.interval").html("1D");
+        $("span.interval").html("1 Day Stats");
         resetIntervalsAndUpdateCharts();
         setCookie("GRANULARITY", GRAN_DAY);
     });
     $("#week").click(function() {
         GRANULARITY = GRAN_WEEK;
         $("#activet").html("Interval: 1 Week");
-        $("span.interval").html("1W");
+        $("span.interval").html("1 Week Stats");
         resetIntervalsAndUpdateCharts();
         setCookie("GRANULARITY", GRAN_WEEK);
     });
     $("#month").click(function() {
         GRANULARITY = GRAN_MONTH;
         $("#activet").html("Interval: 1 Month");
-        $("span.interval").html("1M");
+        $("span.interval").html("1 Month Stats");
         resetIntervalsAndUpdateCharts();
         setCookie("GRANULARITY", GRAN_MONTH);
     });
     $("#year").click(function() {
         GRANULARITY = GRAN_YEAR;
         $("#activet").html("Interval: 1 Year");
-        $("span.interval").html("1Y");
+        $("span.interval").html("1 Year Stats");
         resetIntervalsAndUpdateCharts();
         setCookie("GRANULARITY", GRAN_YEAR);
     });
     $("#alltime").click(function() {
         GRANULARITY = GRAN_ALL_TIME;
         $("#activet").html("Interval: All Time");
-        $("span.interval").html("ALL");
+        $("span.interval").html("All Time Stats");
         resetIntervalsAndUpdateCharts();
         setCookie("GRANULARITY", GRAN_ALL_TIME);
     });
@@ -292,6 +292,7 @@ function hardResetData(crypto){
   $("#" + crypto + "open").html("...");
   $("#" + crypto + "high").html("...");
   $("#" + crypto + "low").html("...");
+  $("#" + crypto + "vol").html("...");
   $("#" + crypto + "open").removeClass("red");
   $("#" + crypto + "open").removeClass("green");
 }
@@ -348,6 +349,7 @@ function drawChart(crypto, currency, hardReset) {
             chartCandles[0] = ["Date", "Close"];
         }
         var overallHigh, overallLow;
+        var periodVolume = 0;
         overallLow = candles.Data[0].low;
         overallHigh = candles.Data[0].high;
 
@@ -360,6 +362,8 @@ function drawChart(crypto, currency, hardReset) {
             var open = candles.Data[i - 1].open;
             var close = candles.Data[i - 1].close;
             var volume = candles.Data[i - 1].volumeto;
+            periodVolume += Number(volume);
+            console.log(periodVolume);
 
             if (CHART_TYPE == "both") {
                 chartCandles[i] = [0, 0, 0, 0, 0, 0, 0];
@@ -386,6 +390,7 @@ function drawChart(crypto, currency, hardReset) {
         }
         $("#" + crypto + "high").html(moneyFormatter.format(overallHigh));
         $("#" + crypto + "low").html(moneyFormatter.format(overallLow));
+        $("#" + crypto + "vol").html(moneyFormatter.format(periodVolume));
         var formatter;
         if (currency == "USD") {
             formatter = "$" + '#,###.##';
