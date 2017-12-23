@@ -39,7 +39,7 @@ function setHandlers() {
       clearTimeout(timeHelper);
       timeHelper = setTimeout(function(){
         updateChartsUsingCache();
-      },500);
+      },100);
     };
     $("#candle").click(function() {
         CHART_TYPE = "candle";
