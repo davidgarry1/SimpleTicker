@@ -38,7 +38,7 @@ function setHandlers() {
       hardResetData("ltc");
       clearTimeout(timeHelper);
       timeHelper = setTimeout(function(){
-        resetIntervalsAndUpdateCharts();
+        updateChartsUsingCache();
       },500);
     };
     $("#candle").click(function() {
@@ -213,6 +213,14 @@ function resetIntervalsAndUpdateCharts() {
     }, INTERVAL_CHARTS);
 }
 
+function updateChartsUsingCache() {
+    console.log("NEXT 3 CHART LOADS FROM LOCAL CACHE");
+    completeChartDraw("btc", HOME_CURRENCY, cachedJSON["btc"]);
+    completeChartDraw("eth", HOME_CURRENCY, cachedJSON["eth"]);
+    completeChartDraw("ltc", HOME_CURRENCY, cachedJSON["ltc"]);
+}
+
+
 function updateCoin(crypto, currency) {
     var min_frac = 2;
     if ((crypto == "ltc" || crypto == "eth") && currency == "GBP") {
@@ -297,261 +305,272 @@ function hardResetData(crypto){
   $("#" + crypto + "open").removeClass("green");
 }
 
+var cachedJSON = [];
+
 
 function drawChart(crypto, currency, hardReset) {
     if (hardReset) {
         hardResetData(crypto);
     }
-    var min_frac = 2;
-    if ((crypto == "ltc" || crypto == "eth") && currency == "GBP") {
-        currency = "BTC"; //no GBP exchange for LTC/ETH
-        min_frac = 7;
-    }
-    /*var date = new Date();
-    var dateObj = new Date((new Date) * 1 - GRANULARITY);
-    var loc = "https://api.gdax.com/products/" + crypto + "-" + currency + "/candles?start=" + dateObj.toISOString() + "&end=" + date.toISOString() + "&granularity=" + GRANULARITY / 150000;*/
-    var loc;
-    if (GRANULARITY == GRAN_HOUR) {
-        loc = "https://min-api.cryptocompare.com/data/histominute?fsym=" + crypto.toUpperCase() + "&tsym=" + currency.toUpperCase() + "&limit=60&aggregate=1&e=GDAX";
-    } else if (GRANULARITY == GRAN_DAY) {
-        loc = "https://min-api.cryptocompare.com/data/histominute?fsym=" + crypto.toUpperCase() + "&tsym=" + currency.toUpperCase() + "&limit=72&aggregate=20&e=GDAX";
-    } else if (GRANULARITY == GRAN_WEEK) {
-        loc = "https://min-api.cryptocompare.com/data/histohour?fsym=" + crypto.toUpperCase() + "&tsym=" + currency.toUpperCase() + "&limit=84&aggregate=2&e=GDAX";
-    } else if (GRANULARITY == GRAN_MONTH) {
-        loc = "https://min-api.cryptocompare.com/data/histohour?fsym=" + crypto.toUpperCase() + "&tsym=" + currency.toUpperCase() + "&limit=72&aggregate=10&e=GDAX";
-    } else if (GRANULARITY == GRAN_YEAR) {
-        loc = "https://min-api.cryptocompare.com/data/histoday?fsym=" + crypto.toUpperCase() + "&tsym=" + currency.toUpperCase() + "&limit=73&aggregate=5&e=GDAX";
-    } else if (GRANULARITY == GRAN_ALL_TIME) {
-        loc = "https://min-api.cryptocompare.com/data/histoday?fsym=" + crypto.toUpperCase() + "&tsym=" + currency.toUpperCase() + "&limit=75&aggregate=16&e=GDAX";
-    }
+    var loc = getURL(crypto, currency);
 
-    $.getJSON(loc, function(candles) {
-        if (candles.Response != "Success") {
-            console.log("Chart API Call Failed: " + candles.Response);
-            return;
-        }
-
-        var SWidth = (100 * 85 / $(".main-panel").width());
-
-        var moneyFormatter = new Intl.NumberFormat("en-US", {
-            style: "currency",
-            currency: currency,
-            minimumFractionDigits: min_frac,
-            maximumFractionDigits: min_frac
-        });
-        console.log("Rendering " + crypto.toUpperCase() + "-" + currency.toUpperCase());
-
-        var chartCandles = [];
-        if (CHART_TYPE == "both") {
-            chartCandles[0] = ["Date", "Low", "Open", "Close", "High", "Tooltip", "Close"];
-        } else if (CHART_TYPE == "candle") {
-            chartCandles[0] = ["Date", "Low", "Open", "Close", "High", "Tooltip"];
-        } else if (CHART_TYPE == "line") {
-            chartCandles[0] = ["Date", "Close"];
-        }
-        var overallHigh, overallLow;
-        var periodVolume = 0;
-        overallLow = candles.Data[0].low;
-        overallHigh = candles.Data[0].high;
-
-        for (var i = 1; i < 1 + candles.Data.length; i++) {
-            var time = candles.Data[i - 1].time;
-            var low = candles.Data[i - 1].low;
-            overallLow = Math.min(overallLow, low);
-            var high = candles.Data[i - 1].high;
-            overallHigh = Math.max(overallHigh, high);
-            var open = candles.Data[i - 1].open;
-            var close = candles.Data[i - 1].close;
-            var volume = candles.Data[i - 1].volumeto;
-            periodVolume += Number(volume);
-            console.log(periodVolume);
-
-            if (CHART_TYPE == "both") {
-                chartCandles[i] = [0, 0, 0, 0, 0, 0, 0];
-            } else if (CHART_TYPE == "candle") {
-                chartCandles[i] = [0, 0, 0, 0, 0, 0];
-            } else if (CHART_TYPE == "line") {
-                chartCandles[i] = [0, 0];
-            }
-
-            chartCandles[i][0] = new Date(time * 1000);
-            if (CHART_TYPE == "both" || CHART_TYPE == "candle") {
-                chartCandles[i][1] = low;
-                chartCandles[i][2] = open;
-                chartCandles[i][3] = close;
-                chartCandles[i][4] = high;
-                chartCandles[i][5] = chartCandles[i][0].toLocaleString() + ": " + moneyFormatter.format(chartCandles[i][3]);
-                if (CHART_TYPE == "both") {
-                    chartCandles[i][6] = close;
-                }
-            } else if (CHART_TYPE == "line") {
-                chartCandles[i][1] = close;
-
-            }
-        }
-        $("#" + crypto + "high").html(moneyFormatter.format(overallHigh));
-        $("#" + crypto + "low").html(moneyFormatter.format(overallLow));
-        $("#" + crypto + "vol").html(moneyFormatter.format(periodVolume));
-        var formatter;
-        if (currency == "USD") {
-            formatter = "$" + '#,###.##';
-        } else if (currency == "EUR") {
-            formatter = "€" + '#,###.##';
-        } else if (currency == "GBP") {
-            formatter = "£" + '#,###.##';
-        } else if (currency == "BTC") {
-            formatter = "BTC" + '#,###.#######';
-        }
-        var data = google.visualization.arrayToDataTable(chartCandles, false); // DO NOT Treat first row as data as well.
-        if (CHART_TYPE == "both" || CHART_TYPE == "candle") {
-            data.setColumnProperty(5, 'role', 'tooltip');
-            var options = {
-                legend: 'none',
-                bar: {
-                    groupWidth: '100%'
-                }, // Remove space between bars.
-                colors: ['lightgrey', '#4c77b2'],
-                candlestick: {
-                    fallingColor: {
-                        stroke: 'black',
-                        strokeWidth: 0,
-                        fill: 'red'
-                    }, // red
-                    risingColor: {
-                        stroke: 'black',
-                        strokeWidth: 0,
-                        fill: 'green'
-                    }, // green
-                },
-                chartArea: {
-                    left: SWidth + '%',
-                    bottom: '10%',
-                    width: (100 - SWidth - 1) + '%',
-                    height: '85%',
-                },
-                vAxis: {
-                    titleTextStyle: {
-                        color: 'black'
-                    },
-                    gridlines: {
-                        color: 'lightgrey',
-
-                    },
-                    textStyle: {
-                        color: 'black'
-                    },
-                    titleTextStyle: {
-                        color: 'black'
-                    },
-                    format: formatter,
-                },
-
-                backgroundColor: 'white',
-                titleTextStyle: {
-                    color: 'black'
-                },
-                fontName: 'Consolas',
-                hAxis: {
-                    logscale: false,
-                    textStyle: {
-                        color: 'black'
-                    },
-                    titleTextStyle: {
-                        color: 'black'
-                    },
-                    gridlines: {
-                        color: 'lightgrey',
-                        count: 4,
-                    },
-                    showTextEvery: 1,
-                },
-                crosshair: {
-                    trigger: 'both',
-                },
-                seriesType: 'candlesticks',
-                series: {
-                    1: {
-                        type: 'area'
-                    }
-                }
-            };
-
-        } else if (CHART_TYPE == "line") {
-
-            var options = {
-                legend: 'none',
-                bar: {
-                    groupWidth: '100%'
-                }, // Remove space between bars.
-                colors: ['#4c77b2'],
-                candlestick: {
-                    fallingColor: {
-                        stroke: 'black',
-                        strokeWidth: 0,
-                        fill: 'red'
-                    }, // red
-                    risingColor: {
-                        stroke: 'black',
-                        strokeWidth: 0,
-                        fill: 'green'
-                    }, // green
-                },
-                chartArea: {
-                    left: SWidth + '%',
-                    bottom: '10%',
-                    width: (100 - SWidth - 1) + '%',
-                    height: '85%',
-                },
-                vAxis: {
-                    titleTextStyle: {
-                        color: 'black'
-                    },
-                    gridlines: {
-                        color: 'lightgrey',
-
-                    },
-                    textStyle: {
-                        color: 'black'
-                    },
-                    titleTextStyle: {
-                        color: 'black'
-                    },
-                    format: formatter,
-                },
-
-                backgroundColor: 'white',
-                titleTextStyle: {
-                    color: 'black'
-                },
-                fontName: 'Consolas',
-                hAxis: {
-                    logscale: false,
-                    textStyle: {
-                        color: 'black'
-                    },
-                    titleTextStyle: {
-                        color: 'black'
-                    },
-                    gridlines: {
-                        color: 'lightgrey',
-                        count: 4,
-                    },
-                    showTextEvery: 1,
-
-                },
-                crosshair: {
-                    trigger: 'both',
-                },
-                seriesType: 'area',
-            };
-
-        }
-        var chart = new google.visualization.ComboChart(document.getElementById(crypto + 'chart'));
-        chart.draw(data, options);
-        updatePChange(crypto, candles.Data[0].open);
+    $.getJSON(loc, function(candles){
+      if (candles.Response != "Success") {
+          console.log("Chart API Call Failed: " + candles.Response);
+          return;
+      }
+      cachedJSON[crypto] = candles;
+      completeChartDraw(crypto, currency, candles);
     }).fail(function() {
         console.log("CHART API Call Failure");
     });
+}
+
+function getURL(crypto, currency){
+  var loc;
+  if (GRANULARITY == GRAN_HOUR) {
+      loc = "https://min-api.cryptocompare.com/data/histominute?fsym=" + crypto.toUpperCase() + "&tsym=" + currency.toUpperCase() + "&limit=60&aggregate=1&e=GDAX";
+  } else if (GRANULARITY == GRAN_DAY) {
+      loc = "https://min-api.cryptocompare.com/data/histominute?fsym=" + crypto.toUpperCase() + "&tsym=" + currency.toUpperCase() + "&limit=72&aggregate=20&e=GDAX";
+  } else if (GRANULARITY == GRAN_WEEK) {
+      loc = "https://min-api.cryptocompare.com/data/histohour?fsym=" + crypto.toUpperCase() + "&tsym=" + currency.toUpperCase() + "&limit=84&aggregate=2&e=GDAX";
+  } else if (GRANULARITY == GRAN_MONTH) {
+      loc = "https://min-api.cryptocompare.com/data/histohour?fsym=" + crypto.toUpperCase() + "&tsym=" + currency.toUpperCase() + "&limit=72&aggregate=10&e=GDAX";
+  } else if (GRANULARITY == GRAN_YEAR) {
+      loc = "https://min-api.cryptocompare.com/data/histoday?fsym=" + crypto.toUpperCase() + "&tsym=" + currency.toUpperCase() + "&limit=73&aggregate=5&e=GDAX";
+  } else if (GRANULARITY == GRAN_ALL_TIME) {
+      loc = "https://min-api.cryptocompare.com/data/histoday?fsym=" + crypto.toUpperCase() + "&tsym=" + currency.toUpperCase() + "&limit=75&aggregate=16&e=GDAX";
+  }
+  return loc;
+}
+
+function completeChartDraw(crypto, currency, candles){
+
+      var min_frac = 2;
+      if ((crypto == "ltc" || crypto == "eth") && currency == "GBP") {
+          currency = "BTC"; //no GBP exchange for LTC/ETH
+          min_frac = 7;
+      }
+
+      var SWidth = (100 * 85 / $(".main-panel").width());
+
+      var moneyFormatter = new Intl.NumberFormat("en-US", {
+          style: "currency",
+          currency: currency,
+          minimumFractionDigits: min_frac,
+          maximumFractionDigits: min_frac
+      });
+
+      console.log("Rendering " + crypto.toUpperCase() + "-" + currency.toUpperCase());
+
+      var chartCandles = [];
+      if (CHART_TYPE == "both") {
+          chartCandles[0] = ["Date", "Low", "Open", "Close", "High", "Tooltip", "Close"];
+      } else if (CHART_TYPE == "candle") {
+          chartCandles[0] = ["Date", "Low", "Open", "Close", "High", "Tooltip"];
+      } else if (CHART_TYPE == "line") {
+          chartCandles[0] = ["Date", "Close"];
+      }
+      var overallHigh, overallLow;
+      var periodVolume = 0;
+      overallLow = candles.Data[0].low;
+      overallHigh = candles.Data[0].high;
+
+      for (var i = 1; i < 1 + candles.Data.length; i++) {
+          var time = candles.Data[i - 1].time;
+          var low = candles.Data[i - 1].low;
+          overallLow = Math.min(overallLow, low);
+          var high = candles.Data[i - 1].high;
+          overallHigh = Math.max(overallHigh, high);
+          var open = candles.Data[i - 1].open;
+          var close = candles.Data[i - 1].close;
+          var volume = candles.Data[i - 1].volumeto;
+          periodVolume += Number(volume);
+
+
+          if (CHART_TYPE == "both") {
+              chartCandles[i] = [0, 0, 0, 0, 0, 0, 0];
+          } else if (CHART_TYPE == "candle") {
+              chartCandles[i] = [0, 0, 0, 0, 0, 0];
+          } else if (CHART_TYPE == "line") {
+              chartCandles[i] = [0, 0];
+          }
+
+          chartCandles[i][0] = new Date(time * 1000);
+          if (CHART_TYPE == "both" || CHART_TYPE == "candle") {
+              chartCandles[i][1] = low;
+              chartCandles[i][2] = open;
+              chartCandles[i][3] = close;
+              chartCandles[i][4] = high;
+              chartCandles[i][5] = chartCandles[i][0].toLocaleString() + ": " + moneyFormatter.format(chartCandles[i][3]);
+              if (CHART_TYPE == "both") {
+                  chartCandles[i][6] = close;
+              }
+          } else if (CHART_TYPE == "line") {
+              chartCandles[i][1] = close;
+
+          }
+      }
+      $("#" + crypto + "high").html(moneyFormatter.format(overallHigh));
+      $("#" + crypto + "low").html(moneyFormatter.format(overallLow));
+      $("#" + crypto + "vol").html(moneyFormatter.format(periodVolume));
+      var formatter;
+      if (currency == "USD") {
+          formatter = "$" + '#,###.##';
+      } else if (currency == "EUR") {
+          formatter = "€" + '#,###.##';
+      } else if (currency == "GBP") {
+          formatter = "£" + '#,###.##';
+      } else if (currency == "BTC") {
+          formatter = "BTC" + '#,###.#######';
+      }
+      var data = google.visualization.arrayToDataTable(chartCandles, false); // DO NOT Treat first row as data as well.
+      if (CHART_TYPE == "both" || CHART_TYPE == "candle") {
+          data.setColumnProperty(5, 'role', 'tooltip');
+          var options = {
+              legend: 'none',
+              bar: {
+                  groupWidth: '100%'
+              }, // Remove space between bars.
+              colors: ['lightgrey', '#4c77b2'],
+              candlestick: {
+                  fallingColor: {
+                      stroke: 'black',
+                      strokeWidth: 0,
+                      fill: 'red'
+                  }, // red
+                  risingColor: {
+                      stroke: 'black',
+                      strokeWidth: 0,
+                      fill: 'green'
+                  }, // green
+              },
+              chartArea: {
+                  left: SWidth + '%',
+                  bottom: '10%',
+                  width: (100 - SWidth - 1) + '%',
+                  height: '85%',
+              },
+              vAxis: {
+                  titleTextStyle: {
+                      color: 'black'
+                  },
+                  gridlines: {
+                      color: 'lightgrey',
+
+                  },
+                  textStyle: {
+                      color: 'black'
+                  },
+                  titleTextStyle: {
+                      color: 'black'
+                  },
+                  format: formatter,
+              },
+
+              backgroundColor: 'white',
+              titleTextStyle: {
+                  color: 'black'
+              },
+              fontName: 'Consolas',
+              hAxis: {
+                  logscale: false,
+                  textStyle: {
+                      color: 'black'
+                  },
+                  titleTextStyle: {
+                      color: 'black'
+                  },
+                  gridlines: {
+                      color: 'lightgrey',
+                      count: 4,
+                  },
+                  showTextEvery: 1,
+              },
+              crosshair: {
+                  trigger: 'both',
+              },
+              seriesType: 'candlesticks',
+              series: {
+                  1: {
+                      type: 'area'
+                  }
+              }
+          };
+
+      } else if (CHART_TYPE == "line") {
+
+          var options = {
+              legend: 'none',
+              bar: {
+                  groupWidth: '100%'
+              }, // Remove space between bars.
+              colors: ['#4c77b2'],
+              candlestick: {
+                  fallingColor: {
+                      stroke: 'black',
+                      strokeWidth: 0,
+                      fill: 'red'
+                  }, // red
+                  risingColor: {
+                      stroke: 'black',
+                      strokeWidth: 0,
+                      fill: 'green'
+                  }, // green
+              },
+              chartArea: {
+                  left: SWidth + '%',
+                  bottom: '10%',
+                  width: (100 - SWidth - 1) + '%',
+                  height: '85%',
+              },
+              vAxis: {
+                  titleTextStyle: {
+                      color: 'black'
+                  },
+                  gridlines: {
+                      color: 'lightgrey',
+
+                  },
+                  textStyle: {
+                      color: 'black'
+                  },
+                  titleTextStyle: {
+                      color: 'black'
+                  },
+                  format: formatter,
+              },
+
+              backgroundColor: 'white',
+              titleTextStyle: {
+                  color: 'black'
+              },
+              fontName: 'Consolas',
+              hAxis: {
+                  logscale: false,
+                  textStyle: {
+                      color: 'black'
+                  },
+                  titleTextStyle: {
+                      color: 'black'
+                  },
+                  gridlines: {
+                      color: 'lightgrey',
+                      count: 4,
+                  },
+                  showTextEvery: 1,
+
+              },
+              crosshair: {
+                  trigger: 'both',
+              },
+              seriesType: 'area',
+          };
+
+      }
+      var chart = new google.visualization.ComboChart(document.getElementById(crypto + 'chart'));
+      chart.draw(data, options);
+      updatePChange(crypto, candles.Data[0].open);
 }
 
 
