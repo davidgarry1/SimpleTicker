@@ -163,7 +163,7 @@ function checkCookies() {
         } else {
           GRANULARITY = GRAN_HOUR;
           $("#activet").html("Interval: 1 Hour");
-          $("span.interval").html("1H");
+          $("span.interval").html("1 Hour Stats");
         }
     }
 
