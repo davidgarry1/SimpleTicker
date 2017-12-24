@@ -239,7 +239,7 @@ function updateCoin(crypto, currency) {
           document.title = moneyFormatter.format(ticker.price) + "-"+crypto.toUpperCase()+" | Simple Ticker";
         }
     }).fail(function() {
-        console.log("Too many requests to GDAX API");
+        console.error("Too many requests to GDAX API");
     });
 }
 
@@ -307,22 +307,20 @@ function hardResetData(crypto){
 
 var cachedJSON = [];
 
-
 function drawChart(crypto, currency, hardReset) {
     if (hardReset) {
         hardResetData(crypto);
     }
-    var loc = getURL(crypto, currency);
 
-    $.getJSON(loc, function(candles){
+    $.getJSON(getURL(crypto, currency), function(candles){
       if (candles.Response != "Success") {
-          console.log("Chart API Call Failed: " + candles.Response);
+          console.error("CHART API Call Returned: " + candles.Response);
           return;
       }
       cachedJSON[crypto] = candles;
       completeChartDraw(crypto, currency, candles);
     }).fail(function() {
-        console.log("CHART API Call Failure");
+        console.error("CHART API Call Failed to Return");
     });
 }
 
