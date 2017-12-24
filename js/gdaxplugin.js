@@ -144,22 +144,22 @@ function checkCookies() {
         GRANULARITY = getCookie("GRANULARITY");
         if (GRANULARITY == GRAN_HOUR) {
             $("#activet").html("Interval: 1 Hour");
-            $("span.interval").html("1H");
+            $("span.interval").html("1 Hour Stats");
         } else if (GRANULARITY == GRAN_DAY) {
             $("#activet").html("Interval: 1 Day");
-            $("span.interval").html("1D");
+            $("span.interval").html("1 Day Stats");
         } else if (GRANULARITY == GRAN_WEEK) {
             $("#activet").html("Interval: 1 Week");
-            $("span.interval").html("1W");
+            $("span.interval").html("1 Week Stats");
         } else if (GRANULARITY == GRAN_MONTH) {
             $("#activet").html("Interval: 1 Month");
-            $("span.interval").html("1M");
+            $("span.interval").html("1 Month Stats");
         } else if (GRANULARITY == GRAN_YEAR) {
             $("#activet").html("Interval: 1 Year");
-            $("span.interval").html("1Y");
+            $("span.interval").html("1 Year Stats");
         } else if (GRANULARITY == GRAN_ALL_TIME) {
             $("#activet").html("Interval: All Time");
-            $("span.interval").html("ALL");
+            $("span.interval").html("All Time Stats");
         } else {
           GRANULARITY = GRAN_HOUR;
           $("#activet").html("Interval: 1 Hour");
