@@ -1,3 +1,10 @@
+.currency-panel {
+  height: 33.3%;
+  background-color: white;
+  margin: 0;
+  padding: 0;
+  font-family: 'Consolas', monospace;
+}
 
 .currency-chart {
   margin-top: 0.5rem;
@@ -38,7 +45,7 @@
   overflow: hidden;
   display: block;
   overflow: hidden;
-  font-family: 'Roboto Condensed', sans-serif;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .currency-price {
