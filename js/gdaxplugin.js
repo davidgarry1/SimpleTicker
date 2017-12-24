@@ -44,19 +44,19 @@ function setHandlers() {
     $("#candle").click(function() {
         CHART_TYPE = "candle";
         $("#activechart").html("Chart: Candlestick");
-        resetIntervalsAndUpdateCharts();
+        updateChartsUsingCache();
         setCookie("CHART_TYPE", "candle");
     });
     $("#line").click(function() {
         CHART_TYPE = "line";
         $("#activechart").html("Chart: Line");
-        resetIntervalsAndUpdateCharts();
+        updateChartsUsingCache();
         setCookie("CHART_TYPE", "line");
     });
     $("#combo").click(function() {
         CHART_TYPE = "both";
         $("#activechart").html("Chart: Combo");
-        resetIntervalsAndUpdateCharts();
+        updateChartsUsingCache();
         setCookie("CHART_TYPE", "both");
     });
     $("#hour").click(function() {
