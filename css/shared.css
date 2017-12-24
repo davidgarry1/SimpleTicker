@@ -15,7 +15,6 @@ html, body {
 }
 
 .navbar {
-  font-family: 'Montserrat', sans-serif;
   width: 100%;
   background-color: #012661;
 }
@@ -44,7 +43,6 @@ html, body {
 .photo-bin {
   width: 100%;
   color: black;
-  font-family: 'Roboto Condensed', sans-serif;
   padding-top: 1rem;
   padding-bottom: 1rem;
   padding-left: 0.5rem;
@@ -99,7 +97,6 @@ html, body {
 }
 
 .logo-text {
-  font-family: 'Roboto Condensed', sans-serif;
   padding-top: 2rem;
   padding-bottom: 0rem;
   font-size: 4rem;
