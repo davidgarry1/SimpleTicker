@@ -485,6 +485,7 @@ function completeChartDraw(crypto, currency, candles){
                   },
                   showTextEvery: 1,
               },
+              cursor: 'crosshair',
               crosshair: {
                   trigger: 'both',
               },
@@ -560,7 +561,7 @@ function completeChartDraw(crypto, currency, candles){
 
               },
               crosshair: {
-                  trigger: 'both',
+                trigger: 'both',
               },
               seriesType: 'area',
           };
