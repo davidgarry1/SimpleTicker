@@ -329,15 +329,15 @@ function getURL(crypto, currency){
   if (GRANULARITY == GRAN_HOUR) {
       loc = "https://min-api.cryptocompare.com/data/histominute?fsym=" + crypto.toUpperCase() + "&tsym=" + currency.toUpperCase() + "&limit=60&aggregate=1&e=GDAX";
   } else if (GRANULARITY == GRAN_DAY) {
-      loc = "https://min-api.cryptocompare.com/data/histominute?fsym=" + crypto.toUpperCase() + "&tsym=" + currency.toUpperCase() + "&limit=72&aggregate=20&e=GDAX";
+      loc = "https://min-api.cryptocompare.com/data/histominute?fsym=" + crypto.toUpperCase() + "&tsym=" + currency.toUpperCase() + "&limit=96&aggregate=15&e=GDAX";
   } else if (GRANULARITY == GRAN_WEEK) {
       loc = "https://min-api.cryptocompare.com/data/histohour?fsym=" + crypto.toUpperCase() + "&tsym=" + currency.toUpperCase() + "&limit=84&aggregate=2&e=GDAX";
   } else if (GRANULARITY == GRAN_MONTH) {
-      loc = "https://min-api.cryptocompare.com/data/histohour?fsym=" + crypto.toUpperCase() + "&tsym=" + currency.toUpperCase() + "&limit=72&aggregate=10&e=GDAX";
+      loc = "https://min-api.cryptocompare.com/data/histohour?fsym=" + crypto.toUpperCase() + "&tsym=" + currency.toUpperCase() + "&limit=90&aggregate=8&e=GDAX";
   } else if (GRANULARITY == GRAN_YEAR) {
       loc = "https://min-api.cryptocompare.com/data/histoday?fsym=" + crypto.toUpperCase() + "&tsym=" + currency.toUpperCase() + "&limit=73&aggregate=5&e=GDAX";
   } else if (GRANULARITY == GRAN_ALL_TIME) {
-      loc = "https://min-api.cryptocompare.com/data/histoday?fsym=" + crypto.toUpperCase() + "&tsym=" + currency.toUpperCase() + "&limit=75&aggregate=16&e=GDAX";
+      loc = "https://min-api.cryptocompare.com/data/histoday?fsym=" + crypto.toUpperCase() + "&tsym=" + currency.toUpperCase() + "&limit=100&aggregate=12&e=GDAX";
   }
   return loc;
 }
