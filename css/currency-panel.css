@@ -79,7 +79,7 @@
 
 @media screen and (max-width: 749px) {
   .currency-deltas {
-    line-height: 0.9em;
+    line-height: 1em;
     font-size: 0.9em;
   }
   .currency-chart {
@@ -89,8 +89,8 @@
     width: calc(45% - 1.25rem);
   }
   .currency-price {
-    height: 1.6em;
-    line-height: 1.6em;
+    height: 1.4em;
+    line-height: 1.4em;
     font-size: 1.6em;
   }
 }
