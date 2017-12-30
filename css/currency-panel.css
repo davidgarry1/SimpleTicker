@@ -88,4 +88,9 @@
     line-height: 1.1em;
     font-size: 1em;
   }
+  .currency-price {
+    height: 1.65em;
+    line-height: 1.65em;
+    font-size: 1.6em;
+  }
 }
