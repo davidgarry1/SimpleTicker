@@ -13,6 +13,7 @@ var GRAN_MONTH = 4;
 var GRAN_YEAR = 5;
 var GRAN_ALL_TIME = 6;
 var GRANULARITY = GRAN_HOUR;
+var CRYPTOS = ["btc", "bch", "eth", "ltc"];
 var percentFormatter = new Intl.NumberFormat("percent", {
     style: "percent",
     minimumFractionDigits: 3,
@@ -20,9 +21,12 @@ var percentFormatter = new Intl.NumberFormat("percent", {
 });
 var pageInt, chartInt;
 var callback = JSON.parse("{}");
-callback["btc"] = true;
-callback["ltc"] = true;
-callback["eth"] = true;
+
+$.each(CRYPTOS, function(i, v){
+  callback[v] = true;
+});
+
+var cachedJSON = [];
 
 google.charts.setOnLoadCallback(function() {
   checkCookies();
@@ -33,13 +37,13 @@ google.charts.setOnLoadCallback(function() {
 function setHandlers() {
     var timeHelper;
     window.onresize = function(){
-      hardResetData("btc");
-      hardResetData("eth");
-      hardResetData("ltc");
+      $.each(CRYPTOS, function(i, v){
+        hardResetData(v);
+      });
       clearTimeout(timeHelper);
       timeHelper = setTimeout(function(){
         updateChartsUsingCache();
-      },100);
+      },150);
     };
     $("#candle").click(function() {
         CHART_TYPE = "candle";
@@ -119,23 +123,14 @@ function setHandlers() {
         resetIntervalsAndUpdateBoth();
         setCookie("HOME_CURRENCY", "GBP");
     });
-    $("#tabbtc").click(function() {
-        ACTIVE_TAB = "BTC";
-        $("#activetab").html("Tab: "+ACTIVE_TAB);
-        document.title = $("#" + ACTIVE_TAB.toLowerCase() + "price").html() + "-"+ACTIVE_TAB+" | Simple Ticker";
-        setCookie("ACTIVE_TAB", "BTC");
-    });
-    $("#tabeth").click(function() {
-        ACTIVE_TAB = "ETH";
-        $("#activetab").html("Tab: "+ACTIVE_TAB);
-        document.title = $("#" + ACTIVE_TAB.toLowerCase() + "price").html() + "-"+ACTIVE_TAB+" | Simple Ticker";
-        setCookie("ACTIVE_TAB", "ETH");
-    });
-    $("#tabltc").click(function() {
-        ACTIVE_TAB = "LTC";
-        $("#activetab").html("Tab: "+ACTIVE_TAB);
-        document.title = $("#" + ACTIVE_TAB.toLowerCase() + "price").html() + "-"+ACTIVE_TAB+" | Simple Ticker";
-        setCookie("ACTIVE_TAB", "LTC");
+
+    $.each(CRYPTOS, function(i, v){
+      $("#tab"+v).click(function() {
+          ACTIVE_TAB = v.toUpperCase();
+          $("#activetab").html("Tab: "+ACTIVE_TAB);
+          document.title = $("#" + ACTIVE_TAB.toLowerCase() + "price").html() + "-"+ACTIVE_TAB+" | Simple Ticker";
+          setCookie("ACTIVE_TAB", v.toUpperCase());
+      });
     });
 }
 
@@ -214,27 +209,28 @@ function resetIntervalsAndUpdateCharts() {
 }
 
 function updateChartsUsingCache() {
-    console.log("NEXT 3 CHART LOADS FROM LOCAL CACHE");
-    completeChartDraw("btc", HOME_CURRENCY, cachedJSON["btc"]);
-    completeChartDraw("eth", HOME_CURRENCY, cachedJSON["eth"]);
-    completeChartDraw("ltc", HOME_CURRENCY, cachedJSON["ltc"]);
+    console.log("NEXT CHART LOAD SET FROM LOCAL CACHE");
+    $.each(CRYPTOS, function(i, v){
+      completeChartDraw(v, HOME_CURRENCY, cachedJSON[v]);
+    });
 }
 
 
 function updateCoin(crypto, currency) {
     var min_frac = 2;
-    if ((crypto == "ltc" || crypto == "eth") && currency == "GBP") {
-        currency = "BTC"; //no GBP exchange for LTC/ETH
+    if (crypto.toLowerCase() != "btc" && currency == "GBP") {
+        currency = "BTC"; //no GBP exchange for LTC/ETH/BCH
         min_frac = 7;
     }
-    $.getJSON("https://api.gdax.com/products/" + crypto + "-" + currency + "/ticker", function(ticker) {
+    $.getJSON("https://api.gdax.com/products/" + crypto.toUpperCase() + "-" + currency.toUpperCase() + "/ticker", function(ticker) {
+        console.log("PRICE UPDATE: "+crypto.toUpperCase() + "-" + currency.toUpperCase());
         var moneyFormatter = new Intl.NumberFormat("en-US", {
             style: "currency",
             currency: currency,
             minimumFractionDigits: min_frac,
             maximumFractionDigits: min_frac
         });
-        $("#" + crypto + "price").html(moneyFormatter.format(ticker.price));
+        $("#" + crypto.toLowerCase() + "price").html(moneyFormatter.format(ticker.price));
         if (crypto.toUpperCase() == ACTIVE_TAB){
           document.title = moneyFormatter.format(ticker.price) + "-"+crypto.toUpperCase()+" | Simple Ticker";
         }
@@ -244,8 +240,7 @@ function updateCoin(crypto, currency) {
 }
 
 function changeColor(elemID, num) {
-    $("#" + elemID).removeClass("red");
-    $("#" + elemID).removeClass("green");
+    $("#" + elemID).removeClass("red").removeClass("green");
     if (num >= 0) {
         $("#" + elemID).addClass("green");
     } else {
@@ -254,29 +249,22 @@ function changeColor(elemID, num) {
 }
 
 function updatePage(all) {
-    times = 1;
     if (all) {
-        times = 3;
-    }
-    for (var i = 0; i < times; i++) {
-        if (++CURRENT_COIN_NUM > 3) {
+        $.each(CRYPTOS, function(i, v){
+           updateCoin(v, HOME_CURRENCY);
+        });
+    } else {
+        if (++CURRENT_COIN_NUM > CRYPTOS.length) {
             CURRENT_COIN_NUM = 1;
         }
-        if (CURRENT_COIN_NUM == 1) {
-            updateCoin("btc", HOME_CURRENCY);
-        } else if (CURRENT_COIN_NUM == 2) {
-            updateCoin("eth", HOME_CURRENCY);
-        } else {
-            updateCoin("ltc", HOME_CURRENCY);
-        }
+        updateCoin(CRYPTOS[CURRENT_COIN_NUM-1], HOME_CURRENCY);
     }
 }
 
-
 function updateCharts(hardReset) {
-    drawChart("btc", HOME_CURRENCY, hardReset);
-    drawChart("eth", HOME_CURRENCY, hardReset);
-    drawChart("ltc", HOME_CURRENCY, hardReset);
+    $.each(CRYPTOS, function(i, v){
+      drawChart(v, HOME_CURRENCY, hardReset);
+    });
 }
 
 function updatePChange(crypto, open) {
@@ -305,14 +293,13 @@ function hardResetData(crypto){
   $("#" + crypto + "open").removeClass("green");
 }
 
-var cachedJSON = [];
-
 function drawChart(crypto, currency, hardReset) {
     if (hardReset) {
         hardResetData(crypto);
     }
 
     $.getJSON(getURL(crypto, currency), function(candles){
+      console.log("CHART UPDATE: "+crypto.toUpperCase() + "-" + currency.toUpperCase());
       if (candles.Response != "Success") {
           console.error("CHART API Call Returned: " + candles.Response);
           return;
@@ -339,14 +326,15 @@ function getURL(crypto, currency){
   } else if (GRANULARITY == GRAN_ALL_TIME) {
       loc = "https://min-api.cryptocompare.com/data/histoday?fsym=" + crypto.toUpperCase() + "&tsym=" + currency.toUpperCase() + "&limit=100&aggregate=12&e=GDAX";
   }
+  console.log(loc);
   return loc;
 }
 
 function completeChartDraw(crypto, currency, candles){
 
       var min_frac = 2;
-      if ((crypto == "ltc" || crypto == "eth") && currency == "GBP") {
-          currency = "BTC"; //no GBP exchange for LTC/ETH
+      if (crypto != "BTC" && currency == "GBP") {
+          currency = "BTC"; //no GBP exchange for LTC/ETH/BCH
           min_frac = 7;
       }
 
@@ -359,7 +347,7 @@ function completeChartDraw(crypto, currency, candles){
           maximumFractionDigits: min_frac
       });
 
-      console.log("Rendering " + crypto.toUpperCase() + "-" + currency.toUpperCase());
+      console.log("\t\trendering " + crypto.toUpperCase() + "-" + currency.toUpperCase());
 
       var chartCandles = [];
       if (CHART_TYPE == "both") {
@@ -419,8 +407,8 @@ function completeChartDraw(crypto, currency, candles){
           formatter = "€" + '#,###.##';
       } else if (currency == "GBP") {
           formatter = "£" + '#,###.##';
-      } else if (currency == "BTC") {
-          formatter = "BTC" + '#,###.#######';
+      } else {
+        formatter = currency + '#,###.#######';
       }
       var data = google.visualization.arrayToDataTable(chartCandles, false); // DO NOT Treat first row as data as well.
       if (CHART_TYPE == "both" || CHART_TYPE == "candle") {
