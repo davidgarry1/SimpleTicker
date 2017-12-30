@@ -222,6 +222,10 @@ function updateCoin(crypto, currency) {
         currency = "BTC"; //no GBP exchange for LTC/ETH/BCH
         min_frac = 7;
     }
+    if(crypto.toLowerCase() == "bch"){
+        currency = "USD";
+        min_frac = 2;
+    }
     $.getJSON("https://api.gdax.com/products/" + crypto.toUpperCase() + "-" + currency.toUpperCase() + "/ticker", function(ticker) {
         console.log("PRICE UPDATE: "+crypto.toUpperCase() + "-" + currency.toUpperCase());
         var moneyFormatter = new Intl.NumberFormat("en-US", {
@@ -313,6 +317,12 @@ function drawChart(crypto, currency, hardReset) {
 
 function getURL(crypto, currency){
   var loc;
+  if (crypto.toLowerCase() != "btc" && currency == "GBP") {
+      currency = "BTC"; //no GBP exchange for LTC/ETH/BCH
+  }
+  if(crypto.toLowerCase() == "bch"){
+      currency = "USD";
+  }
   if (GRANULARITY == GRAN_HOUR) {
       loc = "https://min-api.cryptocompare.com/data/histominute?fsym=" + crypto.toUpperCase() + "&tsym=" + currency.toUpperCase() + "&limit=60&aggregate=1&e=GDAX";
   } else if (GRANULARITY == GRAN_DAY) {
@@ -333,9 +343,13 @@ function getURL(crypto, currency){
 function completeChartDraw(crypto, currency, candles){
 
       var min_frac = 2;
-      if (crypto != "BTC" && currency == "GBP") {
+      if (crypto.toLowerCase() != "btc" && currency == "GBP") {
           currency = "BTC"; //no GBP exchange for LTC/ETH/BCH
           min_frac = 7;
+      }
+      if(crypto.toLowerCase() == "bch"){
+          currency = "USD";
+          min_frac = 2;
       }
 
       var SWidth = (100 * 85 / $(".main-panel").width());
