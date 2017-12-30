@@ -106,22 +106,37 @@ function setHandlers() {
         setCookie("GRANULARITY", GRAN_ALL_TIME);
     });
     $("#cusd").click(function() {
-        HOME_CURRENCY = "USD";
-        $("#activec").html(HOME_CURRENCY);
-        resetIntervalsAndUpdateBoth();
-        setCookie("HOME_CURRENCY", "USD");
+        if(HOME_CURRENCY != "USD"){
+          $.each(CRYPTOS, function(i, v){
+            hardResetData(v);
+          });
+          HOME_CURRENCY = "USD";
+          $("#activec").html(HOME_CURRENCY);
+          resetIntervalsAndUpdateBoth();
+          setCookie("HOME_CURRENCY", "USD");
+        }
     });
     $("#ceur").click(function() {
+      if(HOME_CURRENCY != "EUR"){
+        $.each(CRYPTOS, function(i, v){
+          hardResetData(v);
+        });
         HOME_CURRENCY = "EUR";
         $("#activec").html(HOME_CURRENCY);
         resetIntervalsAndUpdateBoth();
         setCookie("HOME_CURRENCY", "EUR");
+      }
     });
     $("#cgbp").click(function() {
+      if(HOME_CURRENCY != "GBP"){
+        $.each(CRYPTOS, function(i, v){
+          hardResetData(v);
+        });
         HOME_CURRENCY = "GBP";
         $("#activec").html(HOME_CURRENCY);
         resetIntervalsAndUpdateBoth();
         setCookie("HOME_CURRENCY", "GBP");
+      }
     });
 
     $.each(CRYPTOS, function(i, v){
