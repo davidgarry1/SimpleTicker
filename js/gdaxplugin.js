@@ -179,6 +179,8 @@ function checkCookies() {
 
     if (hasCookie("ACTIVE_TAB")) {
         ACTIVE_TAB = getCookie("ACTIVE_TAB");
+        $("#activetab").html("Tab: "+ACTIVE_TAB);
+        document.title = $("#" + ACTIVE_TAB.toLowerCase() + "price").html() + "-"+ACTIVE_TAB+" | Simple Ticker";
     }
 
     if (hasCookie("HOME_CURRENCY")) {
