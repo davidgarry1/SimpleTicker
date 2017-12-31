@@ -351,7 +351,6 @@ function getURL(crypto, currency){
   } else if (GRANULARITY == GRAN_ALL_TIME) {
       loc = "https://min-api.cryptocompare.com/data/histoday?fsym=" + crypto.toUpperCase() + "&tsym=" + currency.toUpperCase() + "&limit=100&aggregate=12&e=GDAX";
   }
-  console.log(loc);
   return loc;
 }
 
